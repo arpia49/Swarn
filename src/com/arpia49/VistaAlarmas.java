@@ -9,8 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class VistaAlarmas extends Activity {
 
@@ -24,6 +26,7 @@ public class VistaAlarmas extends Activity {
 
 		final CheckBox checkbox = (CheckBox) findViewById(1);
 		final CheckBox checkbox2 = (CheckBox) findViewById(2);
+
 		checkbox.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
 				showDialog(1);
@@ -37,16 +40,18 @@ public class VistaAlarmas extends Activity {
 				return true;
 			}
 		});
-		
+
 		checkbox.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (((CheckBox) v).isChecked()) {
-					SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+					SharedPreferences settings = getSharedPreferences(
+							PREFS_NAME, 0);
 					SharedPreferences.Editor editor = settings.edit();
 					editor.putBoolean("estadoAlarma1", true);
 					editor.commit();
 				} else {
-					SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+					SharedPreferences settings = getSharedPreferences(
+							PREFS_NAME, 0);
 					SharedPreferences.Editor editor = settings.edit();
 					editor.putBoolean("estadoAlarma1", false);
 					editor.commit();
@@ -57,19 +62,21 @@ public class VistaAlarmas extends Activity {
 		checkbox2.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (((CheckBox) v).isChecked()) {
-					SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+					SharedPreferences settings = getSharedPreferences(
+							PREFS_NAME, 0);
 					SharedPreferences.Editor editor = settings.edit();
 					editor.putBoolean("estadoAlarma2", true);
 					editor.commit();
 				} else {
-					SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+					SharedPreferences settings = getSharedPreferences(
+							PREFS_NAME, 0);
 					SharedPreferences.Editor editor = settings.edit();
 					editor.putBoolean("estadoAlarma2", false);
 					editor.commit();
 				}
 			}
 		});
-		
+
 	}
 
 	@Override
@@ -85,6 +92,32 @@ public class VistaAlarmas extends Activity {
 		}
 	}
 
+	@Override
+	public void onPrepareDialog(int id, Dialog dialog) {
+		switch (id) {
+		default:
+			final AlertDialog alarmasDialog = (AlertDialog) dialog;
+			alarmasDialog.setTitle("Opciones sobre la alarma");
+			Button bt = (Button) alarmasDialog.findViewById(R.id.botonEditar);
+			bt.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					Toast.makeText(getApplicationContext(),
+							"Editado! (mentirita)", Toast.LENGTH_SHORT).show();
+					alarmasDialog.dismiss();
+				}
+			});
+			Button bt2 = (Button) alarmasDialog
+					.findViewById(R.id.botonEliminar);
+			bt2.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					Toast.makeText(getApplicationContext(),
+							"Borrado! (mentirita)", Toast.LENGTH_SHORT).show();
+					alarmasDialog.dismiss();
+				}
+			});
+			break;
+		}
+	}
 
 	private void meterBasuras() {
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
