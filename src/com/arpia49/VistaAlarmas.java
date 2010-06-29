@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.Button;
@@ -151,5 +152,37 @@ public class VistaAlarmas extends Activity {
 		editor.putBoolean("estadoAlarma" + numAlarmas, false);
 		editor.putBoolean("configuradaAlarma" + numAlarmas, false);
 		editor.commit();
+		
+		CheckBox cb = new CheckBox(this);
+		cb.setId(numAlarmas);
+		String nombre = settings
+				.getString("nombreAlarma" + numAlarmas, "sin nombre");
+		if (settings.getBoolean("configuradaAlarma" + numAlarmas, false) == false) {
+			nombre = nombre + " (sin configurar)";
+		}
+		cb.setText(nombre);
+		cb.setChecked(settings.getBoolean("estadoAlarma" + numAlarmas, false));
+		cb.setOnLongClickListener(new OnLongClickListener() {
+			public boolean onLongClick(View v) {
+				showDialog(v.getId());
+				return true;
+			}
+		});
+
+		cb.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				SharedPreferences settings = getSharedPreferences(
+						PREFS_NAME, 0);
+				SharedPreferences.Editor editor = settings.edit();
+				if (((CheckBox) v).isChecked()) {
+					editor.putBoolean("estadoAlarma" + v.getId(), true);
+					editor.commit();
+				} else {
+					editor.putBoolean("estadoAlarma" + v.getId(), false);
+					editor.commit();
+				}
+			}
+		});
+		((ViewGroup) findViewById(R.id.mainLay)).addView(cb);
 	}
 }
