@@ -48,7 +48,7 @@ public class VistaAlarmas extends Activity {
 		super.onOptionsItemSelected(item);
 		switch (item.getItemId()) {
 		case (ADD_ALARMA): {
-			addAlarma();
+			crearAlarma();
 			Toast.makeText(getApplicationContext(), "Alarma añadida!",
 					Toast.LENGTH_SHORT).show();
 			return true;
@@ -95,6 +95,8 @@ public class VistaAlarmas extends Activity {
 				public void onClick(View v) {
 					Toast.makeText(getApplicationContext(),
 							"Borrado! (mentirita)", Toast.LENGTH_SHORT).show();
+					LinearLayout lx = (LinearLayout) findViewById(R.id.mainLay);
+					lx.removeView(findViewById(1));
 					alarmasDialog.dismiss();
 				}
 			});
@@ -108,71 +110,49 @@ public class VistaAlarmas extends Activity {
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 		int numAlarmas = settings.getInt("numAlarmas", 0);
 		for (int i = 1; i <= numAlarmas; i++) {
-
-			CheckBox cb = new CheckBox(this);
-			cb.setId(i);
-			String nombre = settings
-					.getString("nombreAlarma" + i, "sin nombre");
-			if (settings.getBoolean("configuradaAlarma" + i, false) == false) {
-				nombre = nombre + " (sin configurar)";
-			}
-			cb.setText(nombre);
-			cb.setChecked(settings.getBoolean("estadoAlarma" + i, false));
-			cb.setOnLongClickListener(new OnLongClickListener() {
-				public boolean onLongClick(View v) {
-					showDialog(v.getId());
-					return true;
-				}
-			});
-
-			cb.setOnClickListener(new OnClickListener() {
-				public void onClick(View v) {
-					SharedPreferences settings = getSharedPreferences(
-							PREFS_NAME, 0);
-					SharedPreferences.Editor editor = settings.edit();
-					if (((CheckBox) v).isChecked()) {
-						editor.putBoolean("estadoAlarma" + v.getId(), true);
-						editor.commit();
-					} else {
-						editor.putBoolean("estadoAlarma" + v.getId(), false);
-						editor.commit();
-					}
-				}
-			});
-			lx.addView(cb);
+			addAlarma(i, settings.getBoolean("estadoAlarma" + i, false),
+					settings.getBoolean("configuradaAlarma" + i, false));
 		}
 	}
 
-	private void addAlarma() {
+	private void crearAlarma() {
+
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 		SharedPreferences.Editor editor = settings.edit();
 		int numAlarmas = settings.getInt("numAlarmas", 0) + 1;
+
+		// Añadimos los datos de la alarma al registro
 		editor.putInt("numAlarmas", numAlarmas);
 		editor.putString("nombreAlarma" + numAlarmas, "alarma " + numAlarmas);
 		editor.putBoolean("estadoAlarma" + numAlarmas, false);
 		editor.putBoolean("configuradaAlarma" + numAlarmas, false);
 		editor.commit();
-		
+
+		addAlarma(numAlarmas, false, false);
+
+	}
+
+	private void addAlarma(int numAlarmas, boolean estado, boolean configurada) {
+
+		LinearLayout lx = (LinearLayout) findViewById(R.id.mainLay);
+
+		// Creamos la alarma en la vista
 		CheckBox cb = new CheckBox(this);
 		cb.setId(numAlarmas);
-		String nombre = settings
-				.getString("nombreAlarma" + numAlarmas, "sin nombre");
-		if (settings.getBoolean("configuradaAlarma" + numAlarmas, false) == false) {
-			nombre = nombre + " (sin configurar)";
-		}
+		String nombre = "nombreAlarma" + numAlarmas;
+		if (!configurada)
+			nombre += " (sin configurar)";
 		cb.setText(nombre);
-		cb.setChecked(settings.getBoolean("estadoAlarma" + numAlarmas, false));
+		cb.setChecked(estado);
 		cb.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
 				showDialog(v.getId());
 				return true;
 			}
 		});
-
 		cb.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				SharedPreferences settings = getSharedPreferences(
-						PREFS_NAME, 0);
+				SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 				SharedPreferences.Editor editor = settings.edit();
 				if (((CheckBox) v).isChecked()) {
 					editor.putBoolean("estadoAlarma" + v.getId(), true);
@@ -183,6 +163,6 @@ public class VistaAlarmas extends Activity {
 				}
 			}
 		});
-		((ViewGroup) findViewById(R.id.mainLay)).addView(cb);
+		lx.addView(cb);
 	}
 }
