@@ -15,6 +15,13 @@
 				<category android:name="android.intent.category.ALARMAS" />
 			</intent-filter>
 		</activity>
+		
+		<activity android:name=".DelAlarma" android:label="@string/menu_del_alarma">
+			<intent-filter>
+				<action android:name="android.intent.action.DEL_ALARMA" />
+				<category android:name="android.intent.category.ALARMAS" />
+			</intent-filter>
+		</activity>
 	</application>
 	<uses-sdk android:minSdkVersion="4" />
 

@@ -1,18 +1,13 @@
 package com.arpia49;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -87,47 +82,16 @@ public class VistaAlarmas extends Activity {
 			}
 		}
 			break;
+		case (ACT_DEL_ALARMA): {
+			if (resCode == Activity.RESULT_OK) {
+				delAlarma(Integer.parseInt(data.getStringExtra("idAlarma")) + 1);
+				Toast.makeText(getApplicationContext(), "Alarma  eliminada!",
+						Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(getApplicationContext(),
+						"No se han borrado alarmas", Toast.LENGTH_SHORT).show();
+			}
 		}
-	}
-
-	@Override
-	public Dialog onCreateDialog(int id) {
-		switch (id) {
-		default:
-			LayoutInflater li = LayoutInflater.from(this);
-			View opcionesAlarmas = li.inflate(R.layout.detalle_alarmas, null);
-			AlertDialog.Builder dialogoAlarmas = new AlertDialog.Builder(this);
-			dialogoAlarmas.setTitle("Opciones sobre la alarma");
-			dialogoAlarmas.setView(opcionesAlarmas);
-			return dialogoAlarmas.create();
-		}
-	}
-
-	@Override
-	public void onPrepareDialog(int id, Dialog dialog) {
-		switch (id) {
-		default:
-			final AlertDialog alarmasDialog = (AlertDialog) dialog;
-			alarmasDialog.setTitle("Opciones sobre la alarma");
-			Button bt = (Button) alarmasDialog.findViewById(R.id.botonEditar);
-			bt.setOnClickListener(new OnClickListener() {
-				public void onClick(View v) {
-					Toast.makeText(getApplicationContext(),
-							"Editado! (mentirita)", Toast.LENGTH_SHORT).show();
-					alarmasDialog.dismiss();
-				}
-			});
-			Button bt2 = (Button) alarmasDialog
-					.findViewById(R.id.botonEliminar);
-			bt2.setOnClickListener(new OnClickListener() {
-				public void onClick(View v) {
-					Toast.makeText(getApplicationContext(),
-							"Borrado! (mentirita)", Toast.LENGTH_SHORT).show();
-					LinearLayout lx = (LinearLayout) findViewById(R.id.mainLay);
-					lx.removeView(findViewById(1));
-					alarmasDialog.dismiss();
-				}
-			});
 			break;
 		}
 	}
@@ -152,9 +116,7 @@ public class VistaAlarmas extends Activity {
 
 		// Añadimos los datos de la alarma al registro
 		editor.putInt("numAlarmas", numAlarmas);
-		editor
-				.putString("nombreAlarma" + numAlarmas, nombre + " "
-						+ numAlarmas);
+		editor.putString("nombreAlarma" + numAlarmas, nombre);
 		editor.putBoolean("estadoAlarma" + numAlarmas, false);
 		editor.putBoolean("configuradaAlarma" + numAlarmas, false);
 		editor.commit();
@@ -163,24 +125,19 @@ public class VistaAlarmas extends Activity {
 
 	}
 
-	private void addAlarma(int numAlarmas, boolean estado, boolean configurada,
+	private void addAlarma(int id, boolean estado, boolean configurada,
 			String nombre) {
 
 		LinearLayout lx = (LinearLayout) findViewById(R.id.mainLay);
 
 		// Creamos la alarma en la vista
 		CheckBox cb = new CheckBox(this);
-		cb.setId(numAlarmas);
+		cb.setId(id);
 		if (!configurada)
 			nombre += " (sin configurar)";
 		cb.setText(nombre);
 		cb.setChecked(estado);
-		cb.setOnLongClickListener(new OnLongClickListener() {
-			public boolean onLongClick(View v) {
-				showDialog(v.getId());
-				return true;
-			}
-		});
+		
 		cb.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
@@ -196,5 +153,32 @@ public class VistaAlarmas extends Activity {
 		});
 		lx.addView(cb);
 
+	}
+
+	private void delAlarma(int id) {
+
+		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+		SharedPreferences.Editor editor = settings.edit();
+		int numAlarmas = settings.getInt("numAlarmas", 0);
+		CheckBox cb = (CheckBox) findViewById(id);
+		cb.setId(numAlarmas + 1);
+		editor.putBoolean("estadoAlarma" + numAlarmas + 1, settings.getBoolean(
+				"estadoAlarma" + id, false));
+		editor.putBoolean("configuradaAlarma" + numAlarmas + 1, settings.getBoolean(
+				"configuradaAlarma" + id, false));
+		editor.putString("nombreAlarma" + numAlarmas + 1, settings.getString(
+				"nombreAlarma" + id, "sin_nombre"));
+		for (int i = id; i < numAlarmas; i++) {
+			editor.putBoolean("estadoAlarma" + i, settings.getBoolean(
+					"estadoAlarma" + (i+1), false));
+			editor.putBoolean("configuradaAlarma" + i, settings.getBoolean(
+					"configuradaAlarma" + (i+1), false));
+			editor.putString("nombreAlarma" + i, settings.getString(
+					"nombreAlarma" + (i+1), "sin_nombre"));
+		}
+		editor.putInt("numAlarmas", numAlarmas - 1);
+		editor.commit();
+		LinearLayout lx = (LinearLayout) findViewById(R.id.mainLay);
+		lx.removeView(cb);
 	}
 }

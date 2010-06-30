@@ -1,37 +1,38 @@
 package com.arpia49;
 
 import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
-public class DelAlarma extends Activity {
+public class DelAlarma extends ListActivity {
 
+	public static final String PREFS_NAME = "PrefTimbre";
+
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.add_alarma);
-
-		Button bt = (Button) findViewById(R.id.botonAceptar);
-		bt.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				Intent outData = new Intent();
-				final String kk = ((TextView) findViewById(R.id.nombreAlarma))
-						.getText().toString();
-				outData.putExtra("nombreAlarma", kk);
-				setResult(Activity.RESULT_OK, outData);
-				finish();
-
-			}
-		});
-		Button bt2 = (Button) findViewById(R.id.botonCancelar);
-		bt2.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				setResult(Activity.RESULT_CANCELED, null);
-				finish();
-			}
-		});
+		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+		int numAlarmas = settings.getInt("numAlarmas", 0);
+		String[] alarmas = new String[numAlarmas];
+		for (int i = 1; i <= numAlarmas; i++) {
+			alarmas[i - 1] = settings.getString("nombreAlarma" + i,
+					"sin nombre");
+		}
+		setListAdapter(new ArrayAdapter<String>(this, R.layout.del_alarma,
+				alarmas));
 	}
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id){
+        super.onListItemClick(l, v, position, id);
+
+		Intent outData = new Intent();
+		outData.putExtra("idAlarma", Long.toString(id));
+		setResult(Activity.RESULT_OK, outData);
+		finish();
+    }
 }
