@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/addAlarma"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<TextView android:text="Nombre de la alarma:" android:id="@+id/TextView01"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+	<EditText android:text="nombre alarma" android:id="@+id/nombreAlarma"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"></EditText>
+	<TextView android:text="Otros datos por especificar"
+		android:id="@+id/TextView02" android:layout_width="wrap_content"
+		android:layout_height="wrap_content"></TextView>
+	<TableLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_alignParentBottom="true"
+		android:stretchColumns="0,1">
+		<TableRow android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+			<Button android:id="@+id/botonAceptar" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:text="@string/aceptar" />
+			<Button android:id="@+id/botonCancelar" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:text="@string/cancelar" />
+		</TableRow>
+	</TableLayout>
+</LinearLayout>

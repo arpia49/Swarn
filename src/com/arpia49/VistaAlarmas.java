@@ -3,13 +3,13 @@ package com.arpia49;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.Button;
@@ -20,8 +20,11 @@ import android.widget.Toast;
 public class VistaAlarmas extends Activity {
 
 	public static final String PREFS_NAME = "PrefTimbre";
+	public static final int ACT_ADD_ALARMA = 1;
+	public static final int ACT_DEL_ALARMA = 2;
 	static final private int ADD_ALARMA = Menu.FIRST;
-	static final private int INFO = Menu.FIRST + 1;
+	static final private int DEL_ALARMA = Menu.FIRST + 1;
+	static final private int INFO = Menu.FIRST + 2;
 	int usando;
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -37,9 +40,12 @@ public class VistaAlarmas extends Activity {
 		// Create and add new menu items.
 		MenuItem itemAdd = menu.add(0, ADD_ALARMA, Menu.NONE,
 				R.string.menu_add_alarma);
+		MenuItem itemDel = menu.add(0, DEL_ALARMA, Menu.NONE,
+				R.string.menu_del_alarma);
 		MenuItem itemInfo = menu.add(0, INFO, Menu.NONE, R.string.menu_info);
 		// Assign icons
 		itemAdd.setIcon(R.drawable.add);
+		itemDel.setIcon(R.drawable.del);
 		itemInfo.setIcon(R.drawable.help);
 		return true;
 	}
@@ -48,9 +54,13 @@ public class VistaAlarmas extends Activity {
 		super.onOptionsItemSelected(item);
 		switch (item.getItemId()) {
 		case (ADD_ALARMA): {
-			crearAlarma();
-			Toast.makeText(getApplicationContext(), "Alarma añadida!",
-					Toast.LENGTH_SHORT).show();
+			Intent intent = new Intent(this, AddAlarma.class);
+			startActivityForResult(intent, ACT_ADD_ALARMA);
+			return true;
+		}
+		case (DEL_ALARMA): {
+			Intent intent = new Intent(this, DelAlarma.class);
+			startActivityForResult(intent, ACT_DEL_ALARMA);
 			return true;
 		}
 		case (INFO): {
@@ -60,6 +70,24 @@ public class VistaAlarmas extends Activity {
 		}
 		}
 		return false;
+	}
+
+	@Override
+	public void onActivityResult(int reqCode, int resCode, Intent data) {
+		super.onActivityResult(reqCode, resCode, data);
+		switch (reqCode) {
+		case (ACT_ADD_ALARMA): {
+			if (resCode == Activity.RESULT_OK) {
+				crearAlarma(data.getStringExtra("nombreAlarma"));
+				Toast.makeText(getApplicationContext(), "Alarma añadida!",
+						Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(getApplicationContext(),
+						"La alarma no se ha creado", Toast.LENGTH_SHORT).show();
+			}
+		}
+			break;
+		}
 	}
 
 	@Override
@@ -111,11 +139,12 @@ public class VistaAlarmas extends Activity {
 		int numAlarmas = settings.getInt("numAlarmas", 0);
 		for (int i = 1; i <= numAlarmas; i++) {
 			addAlarma(i, settings.getBoolean("estadoAlarma" + i, false),
-					settings.getBoolean("configuradaAlarma" + i, false));
+					settings.getBoolean("configuradaAlarma" + i, false),
+					settings.getString("nombreAlarma" + i, "sin nombre"));
 		}
 	}
 
-	private void crearAlarma() {
+	private void crearAlarma(String nombre) {
 
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 		SharedPreferences.Editor editor = settings.edit();
@@ -123,23 +152,25 @@ public class VistaAlarmas extends Activity {
 
 		// Añadimos los datos de la alarma al registro
 		editor.putInt("numAlarmas", numAlarmas);
-		editor.putString("nombreAlarma" + numAlarmas, "alarma " + numAlarmas);
+		editor
+				.putString("nombreAlarma" + numAlarmas, nombre + " "
+						+ numAlarmas);
 		editor.putBoolean("estadoAlarma" + numAlarmas, false);
 		editor.putBoolean("configuradaAlarma" + numAlarmas, false);
 		editor.commit();
 
-		addAlarma(numAlarmas, false, false);
+		addAlarma(numAlarmas, false, false, nombre);
 
 	}
 
-	private void addAlarma(int numAlarmas, boolean estado, boolean configurada) {
+	private void addAlarma(int numAlarmas, boolean estado, boolean configurada,
+			String nombre) {
 
 		LinearLayout lx = (LinearLayout) findViewById(R.id.mainLay);
 
 		// Creamos la alarma en la vista
 		CheckBox cb = new CheckBox(this);
 		cb.setId(numAlarmas);
-		String nombre = "nombreAlarma" + numAlarmas;
 		if (!configurada)
 			nombre += " (sin configurar)";
 		cb.setText(nombre);
@@ -164,5 +195,6 @@ public class VistaAlarmas extends Activity {
 			}
 		});
 		lx.addView(cb);
+
 	}
 }

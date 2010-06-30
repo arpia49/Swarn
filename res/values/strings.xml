@@ -4,5 +4,8 @@
     <string name="Button01">Editar alarma</string>
     <string name="Button02">Borrar alarma</string>
     <string name="menu_add_alarma">Añadir alarma</string>
+    <string name="menu_del_alarma">Borrar alarma</string>
     <string name="menu_info">Mostrar ayuda</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="cancelar">Cancelar</string>
 </resources>
