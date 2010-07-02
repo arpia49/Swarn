@@ -137,7 +137,7 @@ public class VistaAlarmas extends Activity {
 			nombre += " (sin configurar)";
 		cb.setText(nombre);
 		cb.setChecked(estado);
-		
+
 		cb.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
@@ -164,18 +164,18 @@ public class VistaAlarmas extends Activity {
 		cb.setId(numAlarmas + 1);
 		editor.putBoolean("estadoAlarma" + numAlarmas + 1, settings.getBoolean(
 				"estadoAlarma" + id, false));
-		editor.putBoolean("configuradaAlarma" + numAlarmas + 1, settings.getBoolean(
-				"configuradaAlarma" + id, false));
+		editor.putBoolean("configuradaAlarma" + numAlarmas + 1, settings
+				.getBoolean("configuradaAlarma" + id, false));
 		editor.putString("nombreAlarma" + numAlarmas + 1, settings.getString(
 				"nombreAlarma" + id, "sin_nombre"));
 		for (int i = id; i < numAlarmas; i++) {
 			editor.putBoolean("estadoAlarma" + i, settings.getBoolean(
-					"estadoAlarma" + (i+1), false));
+					"estadoAlarma" + (i + 1), false));
 			editor.putBoolean("configuradaAlarma" + i, settings.getBoolean(
-					"configuradaAlarma" + (i+1), false));
+					"configuradaAlarma" + (i + 1), false));
 			editor.putString("nombreAlarma" + i, settings.getString(
-					"nombreAlarma" + (i+1), "sin_nombre"));
-			CheckBox cb2 = (CheckBox) findViewById(i+1);
+					"nombreAlarma" + (i + 1), "sin_nombre"));
+			CheckBox cb2 = (CheckBox) findViewById(i + 1);
 			cb2.setId(i);
 		}
 		editor.putInt("numAlarmas", numAlarmas - 1);

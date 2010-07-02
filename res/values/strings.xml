@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Lista de alarmas</string>
-    <string name="Button01">Editar alarma</string>
-    <string name="Button02">Borrar alarma</string>
-    <string name="menu_add_alarma">Añadir alarma</string>
-    <string name="menu_del_alarma">Borrar alarma</string>
-    <string name="menu_info">Mostrar ayuda</string>
-    <string name="aceptar">Aceptar</string>
-    <string name="cancelar">Cancelar</string>
-    <string name="ayuda">Menú para añadir, borrar y ayuda</string>
-    <string name="desc_alarma">Descripción de la alarma</string>
-    <string name="desc_locale">Detalles de la localización</string>
-    <string name="cb_locale">Especificar localización</string>
-    <string name="ev_lugar">Lugar para la alarma</string>
-    <string name="cb_sonora">Activar sonidos</string>
-    <string name="desc_sonora">Opciones de la notificación</string>
-    
+	<string name="app_name">Lista de alarmas</string>
+	<string name="Button01">Editar alarma</string>
+	<string name="Button02">Borrar alarma</string>
+	<string name="menu_add_alarma">Añadir alarma</string>
+	<string name="menu_del_alarma">Borrar alarma</string>
+	<string name="menu_info">Mostrar ayuda</string>
+	<string name="aceptar">Aceptar</string>
+	<string name="cancelar">Cancelar</string>
+	<string name="ayuda">Menú para añadir, borrar y ayuda</string>
+	<string name="et_descAlarma">Descripción de la alarma</string>
+	<string name="desc_locale">Detalles de la localización</string>
+	<string name="cb_locale">Especificar localización</string>
+	<string name="et_lugar">Lugar para la alarma</string>
+	<string name="cb_sonora">Activar sonidos</string>
+	<string name="desc_sonora">Opciones de la notificación</string>
+	<string name="tv_latlng">lat: long:</string>
+	<string name="verify">Comprobar</string>
 </resources>
