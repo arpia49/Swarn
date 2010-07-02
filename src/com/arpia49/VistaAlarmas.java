@@ -175,6 +175,8 @@ public class VistaAlarmas extends Activity {
 					"configuradaAlarma" + (i+1), false));
 			editor.putString("nombreAlarma" + i, settings.getString(
 					"nombreAlarma" + (i+1), "sin_nombre"));
+			CheckBox cb2 = (CheckBox) findViewById(i+1);
+			cb2.setId(i);
 		}
 		editor.putInt("numAlarmas", numAlarmas - 1);
 		editor.commit();
