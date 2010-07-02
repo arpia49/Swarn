@@ -7,9 +7,35 @@
 		android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 	<EditText android:text="nombre alarma" android:id="@+id/nombreAlarma"
 		android:layout_width="fill_parent" android:layout_height="wrap_content"></EditText>
-	<TextView android:text="Otros datos por especificar"
-		android:id="@+id/TextView02" android:layout_width="wrap_content"
-		android:layout_height="wrap_content"></TextView>
+	<TextView android:text="@string/desc_alarma" android:id="@+id/desc_alarmaTV"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+	<EditText android:text="@string/desc_alarma" android:id="@+id/desc_AlarmaEV"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"></EditText>
+<ImageView
+  android:src="@drawable/borde"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content"
+  android:scaleType="fitXY"/>
+	<TextView android:text="@string/desc_locale" android:id="@+id/desc_localeTV"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+	<CheckBox android:text="@string/cb_locale" android:id="@+id/desc_localeTV"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></CheckBox>
+	<EditText android:text="@string/ev_lugar" android:id="@+id/lugarEV"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"></EditText>
+<ImageView
+  android:src="@drawable/borde"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content"
+  android:scaleType="fitXY"/>
+	<TextView android:text="@string/desc_sonora" android:id="@+id/desc_sonoraTV"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+	<CheckBox android:text="@string/cb_sonora" android:id="@+id/desc_sonoraCB"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></CheckBox>
+<ImageView
+  android:src="@drawable/borde"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content"
+  android:scaleType="fitXY"/>
 	<TableLayout android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:layout_alignParentBottom="true"
 		android:stretchColumns="0,1">

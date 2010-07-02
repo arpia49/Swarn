@@ -9,4 +9,11 @@
     <string name="aceptar">Aceptar</string>
     <string name="cancelar">Cancelar</string>
     <string name="ayuda">Menú para añadir, borrar y ayuda</string>
+    <string name="desc_alarma">Descripción de la alarma</string>
+    <string name="desc_locale">Detalles de la localización</string>
+    <string name="cb_locale">Especificar localización</string>
+    <string name="ev_lugar">Lugar para la alarma</string>
+    <string name="cb_sonora">Activar sonidos</string>
+    <string name="desc_sonora">Opciones de la notificación</string>
+    
 </resources>
