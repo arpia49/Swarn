@@ -23,6 +23,17 @@ public class AddAlarma extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.add_alarma);
 
+
+		final EditText et3 = (EditText) findViewById(R.id.et_lugar);
+		et3.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus)
+					et3.setText("");
+			}
+		});
+		et3.setEnabled(false);
+		
 		Button bt = (Button) findViewById(R.id.botonAceptar);
 		bt.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -49,7 +60,7 @@ public class AddAlarma extends Activity {
 			public void onClick(View v) {
 				Geocoder fwdGeocoder = new Geocoder(getApplicationContext(),
 						Locale.getDefault());
-				String streetAddress = "160 Riverside Drive, New York, New York";
+				String streetAddress = et3.getText().toString();
 				List<Address> locations = null;
 				try {
 					locations = fwdGeocoder.getFromLocationName(streetAddress,
@@ -83,16 +94,6 @@ public class AddAlarma extends Activity {
 					et2.setText("");
 			}
 		});
-
-		final EditText et3 = (EditText) findViewById(R.id.et_lugar);
-		et3.setOnFocusChangeListener(new OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus)
-					et3.setText("");
-			}
-		});
-		et3.setEnabled(false);
 
 		CheckBox cb = (CheckBox) findViewById(R.id.cb_locale);
 		cb.setOnClickListener(new OnClickListener() {
