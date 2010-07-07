@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class VistaAlarmas extends Activity {
@@ -73,7 +74,7 @@ public class VistaAlarmas extends Activity {
 		switch (reqCode) {
 		case (ACT_ADD_ALARMA): {
 			if (resCode == Activity.RESULT_OK) {
-				crearAlarma(data.getStringExtra("nombreAlarma"));
+				crearAlarma(data.getStringExtra("nombreAlarma"),data.getStringExtra("descAlarma"));
 				Toast.makeText(getApplicationContext(), "Alarma añadida!",
 						Toast.LENGTH_SHORT).show();
 			} else {
@@ -104,11 +105,12 @@ public class VistaAlarmas extends Activity {
 		for (int i = 1; i <= numAlarmas; i++) {
 			addAlarma(i, settings.getBoolean("estadoAlarma" + i, false),
 					settings.getBoolean("configuradaAlarma" + i, false),
-					settings.getString("nombreAlarma" + i, "sin nombre"));
+					settings.getString("nombreAlarma" + i, "sin nombre"),
+					settings.getString("descAlarma" + i, "sin descripción"));
 		}
 	}
 
-	private void crearAlarma(String nombre) {
+	private void crearAlarma(String nombre, String desc) {
 
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 		SharedPreferences.Editor editor = settings.edit();
@@ -117,26 +119,33 @@ public class VistaAlarmas extends Activity {
 		// Añadimos los datos de la alarma al registro
 		editor.putInt("numAlarmas", numAlarmas);
 		editor.putString("nombreAlarma" + numAlarmas, nombre);
+		editor.putString("descAlarma" + numAlarmas, desc);
 		editor.putBoolean("estadoAlarma" + numAlarmas, false);
 		editor.putBoolean("configuradaAlarma" + numAlarmas, false);
 		editor.commit();
 
-		addAlarma(numAlarmas, false, false, nombre);
+		addAlarma(numAlarmas, false, false, nombre, desc);
 
 	}
 
 	private void addAlarma(int id, boolean estado, boolean configurada,
-			String nombre) {
+			String nombre, String desc) {
 
 		LinearLayout lx = (LinearLayout) findViewById(R.id.mainLay);
+		LinearLayout la = new LinearLayout(this);
+		la.setId(id);
+		la.setOrientation(1);
 
 		// Creamos la alarma en la vista
 		CheckBox cb = new CheckBox(this);
+		TextView tbdesc = new TextView(this);
 		cb.setId(id);
+		tbdesc.setId(id);
 		if (!configurada)
 			nombre += " (sin configurar)";
 		cb.setText(nombre);
 		cb.setChecked(estado);
+		tbdesc.setText(desc);
 
 		cb.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -151,7 +160,9 @@ public class VistaAlarmas extends Activity {
 				}
 			}
 		});
-		lx.addView(cb);
+		la.addView(cb);
+		la.addView(tbdesc);
+		lx.addView(la);
 
 	}
 
@@ -160,27 +171,31 @@ public class VistaAlarmas extends Activity {
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 		SharedPreferences.Editor editor = settings.edit();
 		int numAlarmas = settings.getInt("numAlarmas", 0);
-		CheckBox cb = (CheckBox) findViewById(id);
-		cb.setId(numAlarmas + 1);
+		LinearLayout ll = (LinearLayout) findViewById(id);
+		ll.setId(numAlarmas + 1);
 		editor.putBoolean("estadoAlarma" + numAlarmas + 1, settings.getBoolean(
 				"estadoAlarma" + id, false));
 		editor.putBoolean("configuradaAlarma" + numAlarmas + 1, settings
 				.getBoolean("configuradaAlarma" + id, false));
 		editor.putString("nombreAlarma" + numAlarmas + 1, settings.getString(
-				"nombreAlarma" + id, "sin_nombre"));
+				"nombreAlarma" + id, "sin nombre"));
+		editor.putString("descAlarma" + numAlarmas + 1, settings.getString(
+				"descAlarma" + id, "sin descripción"));
 		for (int i = id; i < numAlarmas; i++) {
 			editor.putBoolean("estadoAlarma" + i, settings.getBoolean(
 					"estadoAlarma" + (i + 1), false));
 			editor.putBoolean("configuradaAlarma" + i, settings.getBoolean(
 					"configuradaAlarma" + (i + 1), false));
 			editor.putString("nombreAlarma" + i, settings.getString(
-					"nombreAlarma" + (i + 1), "sin_nombre"));
-			CheckBox cb2 = (CheckBox) findViewById(i + 1);
-			cb2.setId(i);
+					"nombreAlarma" + (i + 1), "sin nombre"));
+			editor.putString("descAlarma" + i, settings.getString(
+					"descAlarma" + (i + 1), "sin descripción"));
+			LinearLayout ll2 = (LinearLayout) findViewById(i+1);
+			ll2.setId(i);
 		}
 		editor.putInt("numAlarmas", numAlarmas - 1);
 		editor.commit();
 		LinearLayout lx = (LinearLayout) findViewById(R.id.mainLay);
-		lx.removeView(cb);
+		lx.removeView(ll);
 	}
 }

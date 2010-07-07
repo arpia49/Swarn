@@ -22,7 +22,8 @@ public class AddAlarma extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.add_alarma);
-
+		final EditText et = (EditText) findViewById(R.id.et_nombreAlarma);
+		final EditText et2 = (EditText) findViewById(R.id.et_descAlarma);
 
 		final EditText et3 = (EditText) findViewById(R.id.et_lugar);
 		et3.setOnFocusChangeListener(new OnFocusChangeListener() {
@@ -38,9 +39,10 @@ public class AddAlarma extends Activity {
 		bt.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Intent outData = new Intent();
-				final String kk = ((TextView) findViewById(R.id.et_nombreAlarma))
-						.getText().toString();
-				outData.putExtra("nombreAlarma", kk);
+				final String nombre_alarma = et.getText().toString();
+				outData.putExtra("nombreAlarma", nombre_alarma);
+				final String desc_alarma = et2.getText().toString();
+				outData.putExtra("descAlarma", desc_alarma);
 				setResult(Activity.RESULT_OK, outData);
 				finish();
 
@@ -77,7 +79,7 @@ public class AddAlarma extends Activity {
 		});
 		bt3.setEnabled(false);
 
-		final EditText et = (EditText) findViewById(R.id.et_nombreAlarma);
+		
 		et.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
@@ -86,7 +88,6 @@ public class AddAlarma extends Activity {
 			}
 		});
 
-		final EditText et2 = (EditText) findViewById(R.id.et_descAlarma);
 		et2.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
