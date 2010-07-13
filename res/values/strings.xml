@@ -16,4 +16,5 @@
 	<string name="desc_sonora">Opciones de la notificación</string>
 	<string name="tv_latlng">lat: long:</string>
 	<string name="verify">Comprobar</string>
+	<string name="sp_radio">Radio para la alarma en metros</string>
 </resources>

@@ -17,9 +17,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 public class AddAlarma extends Activity {
 
@@ -54,18 +57,29 @@ public class AddAlarma extends Activity {
 		final CheckBox cb = (CheckBox) findViewById(R.id.cb_posicion);
 		Button bt = (Button) findViewById(R.id.botonAceptar);
 		Button bt2 = (Button) findViewById(R.id.botonCancelar);
-		et3.requestFocus();
+		final Spinner sp = (Spinner) findViewById(R.id.sp_radio);
+	    ArrayAdapter adapter = ArrayAdapter.createFromResource(
+	            this, R.array.radios, android.R.layout.simple_spinner_item);
+	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+		sp.setEnabled(false);
 		et3.setEnabled(false);
-
+	    sp.setAdapter(adapter);
+	    
 		bt.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Intent outData = new Intent();
 				if (cb.isChecked() && addresses.size() > 0) {
 					Address address = addresses.get(0);
+					int metros = 100;
+					if (sp.getSelectedItemPosition()==1){
+						metros = 500;
+					}
 					outData.putExtra("ubicAlarma", address.getAddressLine(0));
+					outData.putExtra("radioAlarma", metros);
 				} else {
 					outData.putExtra("ubicAlarma", "");
+					outData.putExtra("radioAlarma", "");
 				}
 
 				final String nombre_alarma = et.getText().toString();
@@ -104,9 +118,11 @@ public class AddAlarma extends Activity {
 			public void onClick(View v) {
 				if (((CheckBox) v).isChecked()) {
 					et3.setEnabled(true);
+					sp.setEnabled(true);
 					updateWithLocation(location);
 				} else {
 					et3.setEnabled(false);
+					sp.setEnabled(false);
 				}
 			}
 		});
@@ -134,6 +150,15 @@ public class AddAlarma extends Activity {
 						sb.append(address.getAddressLine(i));
 				}
 			} catch (IOException e) {
+				final EditText et3 = (EditText) findViewById(R.id.et_lugar);
+				final Spinner sp = (Spinner) findViewById(R.id.sp_radio);
+				final CheckBox cb = (CheckBox) findViewById(R.id.cb_posicion);
+
+				sp.setEnabled(false);
+				et3.setEnabled(false);
+				cb.setChecked(false);
+				Toast.makeText(getApplicationContext(),
+						"Ubicación no disponible", Toast.LENGTH_SHORT).show();
 			}
 
 		} else {
@@ -144,6 +169,7 @@ public class AddAlarma extends Activity {
 
 	private final LocationListener locationListener = new LocationListener() {
 		public void onLocationChanged(Location location) {
+			updateWithLocation(location);
 		}
 
 		public void onProviderDisabled(String provider) {
