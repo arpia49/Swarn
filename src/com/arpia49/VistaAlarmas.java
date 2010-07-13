@@ -74,7 +74,9 @@ public class VistaAlarmas extends Activity {
 		switch (reqCode) {
 		case (ACT_ADD_ALARMA): {
 			if (resCode == Activity.RESULT_OK) {
-				crearAlarma(data.getStringExtra("nombreAlarma"),data.getStringExtra("descAlarma"));
+				crearAlarma(data.getStringExtra("nombreAlarma"), data
+						.getStringExtra("descAlarma"), data
+						.getStringExtra("ubicAlarma"));
 				Toast.makeText(getApplicationContext(), "Alarma añadida!",
 						Toast.LENGTH_SHORT).show();
 			} else {
@@ -106,11 +108,12 @@ public class VistaAlarmas extends Activity {
 			addAlarma(i, settings.getBoolean("estadoAlarma" + i, false),
 					settings.getBoolean("configuradaAlarma" + i, false),
 					settings.getString("nombreAlarma" + i, "sin nombre"),
-					settings.getString("descAlarma" + i, "sin descripción"));
+					settings.getString("descAlarma" + i, "sin descripción"),
+					settings.getString("ubicAlarma" + i, "sin ubicación"));
 		}
 	}
 
-	private void crearAlarma(String nombre, String desc) {
+	private void crearAlarma(String nombre, String desc, String ubic) {
 
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 		SharedPreferences.Editor editor = settings.edit();
@@ -122,14 +125,17 @@ public class VistaAlarmas extends Activity {
 		editor.putString("descAlarma" + numAlarmas, desc);
 		editor.putBoolean("estadoAlarma" + numAlarmas, false);
 		editor.putBoolean("configuradaAlarma" + numAlarmas, false);
+		if (!ubic.equals("")) {
+			editor.putString("ubicAlarma" + numAlarmas, ubic);
+		}
 		editor.commit();
 
-		addAlarma(numAlarmas, false, false, nombre, desc);
+		addAlarma(numAlarmas, false, false, nombre, desc, ubic);
 
 	}
 
 	private void addAlarma(int id, boolean estado, boolean configurada,
-			String nombre, String desc) {
+			String nombre, String desc, String ubic) {
 
 		LinearLayout lx = (LinearLayout) findViewById(R.id.mainLay);
 		LinearLayout la = new LinearLayout(this);
@@ -145,7 +151,12 @@ public class VistaAlarmas extends Activity {
 			nombre += " (sin configurar)";
 		cb.setText(nombre);
 		cb.setChecked(estado);
-		tbdesc.setText(desc);
+		if (!ubic.equals("")) {
+			tbdesc.setText(desc + " - " + ubic);
+		}else{
+			tbdesc.setText(desc);
+		}
+
 
 		cb.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -188,9 +199,9 @@ public class VistaAlarmas extends Activity {
 					"configuradaAlarma" + (i + 1), false));
 			editor.putString("nombreAlarma" + i, settings.getString(
 					"nombreAlarma" + (i + 1), "sin nombre"));
-			editor.putString("descAlarma" + i, settings.getString(
-					"descAlarma" + (i + 1), "sin descripción"));
-			LinearLayout ll2 = (LinearLayout) findViewById(i+1);
+			editor.putString("descAlarma" + i, settings.getString("descAlarma"
+					+ (i + 1), "sin descripción"));
+			LinearLayout ll2 = (LinearLayout) findViewById(i + 1);
 			ll2.setId(i);
 		}
 		editor.putInt("numAlarmas", numAlarmas - 1);
