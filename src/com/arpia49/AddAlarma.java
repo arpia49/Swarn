@@ -50,27 +50,21 @@ public class AddAlarma extends Activity {
 				locationListener);
 		final EditText et = (EditText) findViewById(R.id.et_nombreAlarma);
 		final EditText et2 = (EditText) findViewById(R.id.et_descAlarma);
-
 		final EditText et3 = (EditText) findViewById(R.id.et_lugar);
-		et3.setOnFocusChangeListener(new OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus)
-					et3.setText("");
-			}
-		});
+		final CheckBox cb = (CheckBox) findViewById(R.id.cb_posicion);
+		Button bt = (Button) findViewById(R.id.botonAceptar);
+		Button bt2 = (Button) findViewById(R.id.botonCancelar);
+		et3.requestFocus();
+
 		et3.setEnabled(false);
 
-		Button bt = (Button) findViewById(R.id.botonAceptar);
-		final CheckBox cb = (CheckBox) findViewById(R.id.cb_posicion);
 		bt.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Intent outData = new Intent();
 				if (cb.isChecked() && addresses.size() > 0) {
 					Address address = addresses.get(0);
 					outData.putExtra("ubicAlarma", address.getAddressLine(0));
-				}
-				else{
+				} else {
 					outData.putExtra("ubicAlarma", "");
 				}
 
@@ -83,7 +77,6 @@ public class AddAlarma extends Activity {
 			}
 		});
 
-		Button bt2 = (Button) findViewById(R.id.botonCancelar);
 		bt2.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				setResult(Activity.RESULT_CANCELED, null);
@@ -111,13 +104,12 @@ public class AddAlarma extends Activity {
 			public void onClick(View v) {
 				if (((CheckBox) v).isChecked()) {
 					et3.setEnabled(true);
+					updateWithLocation(location);
 				} else {
 					et3.setEnabled(false);
 				}
 			}
 		});
-
-		updateWithLocation(location);
 
 	}
 

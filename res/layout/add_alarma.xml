@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <LinearLayout android:id="@+id/mainLay"
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
@@ -28,9 +26,6 @@
 			</CheckBox>
 			<EditText android:text="@string/et_lugar" android:id="@+id/et_lugar"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"></EditText>
-			<ImageView android:src="@drawable/borde"
-				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:scaleType="fitXY" />
 			<TableLayout android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:layout_alignParentBottom="true" android:stretchColumns="0,1">
@@ -43,7 +38,6 @@
 						android:text="@string/cancelar" />
 				</TableRow>
 			</TableLayout>
-
-		</LinearLayout>
+</LinearLayout>
 	</ScrollView>
 </LinearLayout>
