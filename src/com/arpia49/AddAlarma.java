@@ -32,6 +32,8 @@ public class AddAlarma extends Activity {
 	String provider = null;
 	Location location = null;
 	public List<Address> addresses;
+	float lat = 0;
+	float lng = 0;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,28 +60,33 @@ public class AddAlarma extends Activity {
 		Button bt = (Button) findViewById(R.id.botonAceptar);
 		Button bt2 = (Button) findViewById(R.id.botonCancelar);
 		final Spinner sp = (Spinner) findViewById(R.id.sp_radio);
-	    ArrayAdapter adapter = ArrayAdapter.createFromResource(
-	            this, R.array.radios, android.R.layout.simple_spinner_item);
-	    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+				R.array.radios, android.R.layout.simple_spinner_item);
+		adapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		sp.setEnabled(false);
 		et3.setEnabled(false);
-	    sp.setAdapter(adapter);
-	    
+		sp.setAdapter(adapter);
+
 		bt.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Intent outData = new Intent();
 				if (cb.isChecked() && addresses.size() > 0) {
 					Address address = addresses.get(0);
 					int metros = 100;
-					if (sp.getSelectedItemPosition()==1){
+					if (sp.getSelectedItemPosition() == 1) {
 						metros = 500;
 					}
 					outData.putExtra("ubicAlarma", address.getAddressLine(0));
 					outData.putExtra("radioAlarma", metros);
+					outData.putExtra("latAlarma", lat);
+					outData.putExtra("lngAlarma", lng);
 				} else {
 					outData.putExtra("ubicAlarma", "");
 					outData.putExtra("radioAlarma", "");
+					outData.putExtra("latAlarma", 0);
+					outData.putExtra("lngAlarma", 0);
 				}
 
 				final String nombre_alarma = et.getText().toString();
@@ -134,12 +141,10 @@ public class AddAlarma extends Activity {
 		location = locationManager.getLastKnownLocation(provider);
 		EditText tv_lugar;
 		tv_lugar = (EditText) findViewById(R.id.et_lugar);
-		double lat = 0;
-		double lng = 0;
 		StringBuilder sb = new StringBuilder();
 		if (location != null) {
-			lat = location.getLatitude();
-			lng = location.getLongitude();
+			lat = (float) location.getLatitude();
+			lng = (float) location.getLongitude();
 			gc = new Geocoder(this, Locale.getDefault());
 			addresses = null;
 			try {
@@ -162,6 +167,8 @@ public class AddAlarma extends Activity {
 			}
 
 		} else {
+			lat = 0;
+			lng = 0;
 		}
 		tv_lugar.setText(sb.toString());
 
