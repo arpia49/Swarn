@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,9 +23,11 @@ public class VistaAlarmas extends Activity {
 	public static final String PREFS_NAME = "PrefTimbre";
 	public static final int ACT_ADD_ALARMA = 1;
 	public static final int ACT_DEL_ALARMA = 2;
+	public static final int ACT_LISTA_ALERTAS = 3;
 	static final private int ADD_ALARMA = Menu.FIRST;
 	static final private int DEL_ALARMA = Menu.FIRST + 1;
-	static final private int INFO = Menu.FIRST + 2;
+	static final private int LISTA_ALERTAS = Menu.FIRST + 2;
+	static final private int INFO = Menu.FIRST + 3;
 	int usando;
 	private static String PROXIMITY_ALERT = "com.arpia49.action.proximityalert";
 
@@ -43,10 +46,13 @@ public class VistaAlarmas extends Activity {
 				R.string.menu_add_alarma);
 		MenuItem itemDel = menu.add(0, DEL_ALARMA, Menu.NONE,
 				R.string.menu_del_alarma);
+		MenuItem itemLista = menu.add(0, LISTA_ALERTAS, Menu.NONE,
+				R.string.menu_lista_alertas);
 		MenuItem itemInfo = menu.add(0, INFO, Menu.NONE, R.string.menu_info);
 		// Assign icons
 		itemAdd.setIcon(R.drawable.add);
 		itemDel.setIcon(R.drawable.del);
+		itemLista.setIcon(R.drawable.list);
 		itemInfo.setIcon(R.drawable.help);
 		return true;
 	}
@@ -60,8 +66,13 @@ public class VistaAlarmas extends Activity {
 			return true;
 		}
 		case (DEL_ALARMA): {
-			Intent intent = new Intent(this, DelAlarma.class);
+			Intent intent = new Intent(this, DelAlarmas.class);
 			startActivityForResult(intent, ACT_DEL_ALARMA);
+			return true;
+		}
+		case (LISTA_ALERTAS): {
+			Intent intent = new Intent(this, ListarAlertas.class);
+			startActivityForResult(intent, ACT_LISTA_ALERTAS);
 			return true;
 		}
 		case (INFO): {
@@ -79,11 +90,10 @@ public class VistaAlarmas extends Activity {
 		switch (reqCode) {
 		case (ACT_ADD_ALARMA): {
 			if (resCode == Activity.RESULT_OK) {
-				crearAlarma(data.getStringExtra("nombreAlarma"), 
-						data.getStringExtra("descAlarma"), 
-						data.getStringExtra("ubicAlarma"), 
-						data.getIntExtra("radioAlarma", 0), 
-						data.getFloatExtra("latAlarma", 0),
+				crearAlarma(data.getStringExtra("nombreAlarma"), data
+						.getStringExtra("descAlarma"), data
+						.getStringExtra("ubicAlarma"), data.getIntExtra(
+						"radioAlarma", 0), data.getFloatExtra("latAlarma", 0),
 						data.getFloatExtra("lngAlarma", 0));
 				Toast.makeText(getApplicationContext(), "Alarma añadida!",
 						Toast.LENGTH_SHORT).show();
@@ -118,9 +128,9 @@ public class VistaAlarmas extends Activity {
 					settings.getString("nombreAlarma" + i, "sin nombre"),
 					settings.getString("descAlarma" + i, "sin descripción"),
 					settings.getString("ubicAlarma" + i, "sin ubicación"),
-					settings.getInt("radioAlarma" + i, 0),
-					settings.getFloat("latAlarma" + i, 0), 
-					settings.getFloat("lngAlarma" + i, 0));
+					settings.getInt("radioAlarma" + i, 0), settings.getFloat(
+							"latAlarma" + i, 0), settings.getFloat("lngAlarma"
+							+ i, 0));
 		}
 	}
 
@@ -170,7 +180,7 @@ public class VistaAlarmas extends Activity {
 		tbdesc.setId(id);
 		tbdesc.setSingleLine(false);
 		cb.setText(nombre);
-		if(estado){
+		if (estado) {
 			setProximityAlert(id, lat, lng, radio);
 		}
 		cb.setChecked(estado);
@@ -261,7 +271,8 @@ public class VistaAlarmas extends Activity {
 
 		long expiration = -1; // do not expire
 		Intent intent = new Intent(PROXIMITY_ALERT);
-//		intent.putExtra("id", "aaal");
+		intent.putExtra("id", Integer.toString(id));
+		intent.setData((Uri.parse(id + "://" + id)));
 
 		PendingIntent proximityIntent = PendingIntent.getBroadcast(
 				getApplicationContext(), id, intent, 0);
@@ -269,13 +280,14 @@ public class VistaAlarmas extends Activity {
 				proximityIntent);
 
 		IntentFilter filter = new IntentFilter(PROXIMITY_ALERT);
+		filter.addDataScheme(Integer.toString(id));
 		registerReceiver(new AlertaEntrante(), filter);
 
 		// guardamos las preferencias
-		Toast.makeText(getApplicationContext(), "Añadida alerta"+id,
+		Toast.makeText(getApplicationContext(), "Añadida alerta" + id,
 				Toast.LENGTH_SHORT).show();
 	}
-	
+
 	private void removeProximityAlert(int id) {
 		String locService = Context.LOCATION_SERVICE;
 		LocationManager locationManager;
@@ -284,7 +296,7 @@ public class VistaAlarmas extends Activity {
 		PendingIntent proximityIntent = PendingIntent.getBroadcast(
 				getApplicationContext(), id, intent, 0);
 		locationManager.removeProximityAlert(proximityIntent);
-		Toast.makeText(getApplicationContext(), "Borrada alerta"+id,
+		Toast.makeText(getApplicationContext(), "Borrada alerta" + id,
 				Toast.LENGTH_SHORT).show();
 	}
 }

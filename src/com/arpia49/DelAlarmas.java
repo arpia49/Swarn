@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class DelAlarma extends ListActivity {
+public class DelAlarmas extends ListActivity {
 
 	public static final String PREFS_NAME = "PrefTimbre";
 
