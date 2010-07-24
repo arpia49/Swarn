@@ -128,9 +128,9 @@ public class VistaAlarmas extends Activity {
 					settings.getString("nombreAlarma" + i, "sin nombre"),
 					settings.getString("descAlarma" + i, "sin descripción"),
 					settings.getString("ubicAlarma" + i, "sin ubicación"),
-					settings.getInt("radioAlarma" + i, 0), settings.getFloat(
-							"latAlarma" + i, 0), settings.getFloat("lngAlarma"
-							+ i, 0));
+					settings.getInt("radioAlarma" + i, 0),
+					settings.getFloat("latAlarma" + i, 0),
+					settings.getFloat("lngAlarma"+ i, 0));
 		}
 	}
 
@@ -147,6 +147,7 @@ public class VistaAlarmas extends Activity {
 		editor.putString("descAlarma" + numAlarmas, desc);
 		editor.putBoolean("estadoAlarma" + numAlarmas, false);
 		editor.putBoolean("configuradaAlarma" + numAlarmas, false);
+		editor.putBoolean("activada" + numAlarmas, false);
 		if (!ubic.equals("")) {
 			editor.putString("ubicAlarma" + numAlarmas, ubic);
 			editor.putInt("radioAlarma" + numAlarmas, radio);
@@ -237,6 +238,8 @@ public class VistaAlarmas extends Activity {
 				"latAlarma" + id, 0));
 		editor.putFloat("lngAlarma" + numAlarmas + 1, settings.getFloat(
 				"lngAlarma" + id, 0));
+		editor.putBoolean("activada" + numAlarmas + 1, settings.getBoolean(
+				"activada" + id, false));
 		for (int i = id; i < numAlarmas; i++) {
 			editor.putBoolean("estadoAlarma" + i, settings.getBoolean(
 					"estadoAlarma" + (i + 1), false));
@@ -254,6 +257,8 @@ public class VistaAlarmas extends Activity {
 					+ (i + 1), 0));
 			editor.putFloat("lngAlarma" + i, settings.getFloat("lngAlarma"
 					+ (i + 1), 0));
+			editor.putBoolean("activada" + i, settings.getBoolean(
+					"activada" + (i + 1), false));
 			LinearLayout ll2 = (LinearLayout) findViewById(i + 1);
 			ll2.setId(i);
 		}
