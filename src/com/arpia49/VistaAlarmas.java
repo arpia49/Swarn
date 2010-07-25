@@ -241,12 +241,12 @@ public class VistaAlarmas extends Activity {
 		editor.putBoolean("activada" + numAlarmas + 1, settings.getBoolean(
 				"activada" + id, false));
 		for (int i = id; i < numAlarmas; i++) {
-			editor.putBoolean("estadoAlarma" + i, settings.getBoolean(
-					"estadoAlarma" + (i + 1), false));
-			editor.putBoolean("configuradaAlarma" + i, settings.getBoolean(
-					"configuradaAlarma" + (i + 1), false));
-			editor.putString("nombreAlarma" + i, settings.getString(
-					"nombreAlarma" + (i + 1), "sin nombre"));
+			editor.putBoolean("estadoAlarma" + i, settings.getBoolean("estadoAlarma" 
+					+ (i + 1), false));
+			editor.putBoolean("configuradaAlarma" + i, settings.getBoolean("configuradaAlarma" 
+					+ (i + 1), false));
+			editor.putString("nombreAlarma" + i, settings.getString("nombreAlarma" 
+					+ (i + 1), "sin nombre"));
 			editor.putString("descAlarma" + i, settings.getString("descAlarma"
 					+ (i + 1), "sin descripción"));
 			editor.putString("ubicAlarma" + i, settings.getString("ubicAlarma"
@@ -257,16 +257,15 @@ public class VistaAlarmas extends Activity {
 					+ (i + 1), 0));
 			editor.putFloat("lngAlarma" + i, settings.getFloat("lngAlarma"
 					+ (i + 1), 0));
-			editor.putBoolean("activada" + i, settings.getBoolean(
-					"activada" + (i + 1), false));
+			editor.putBoolean("activada" + i, settings.getBoolean("activada" 
+					+ (i + 1), false));
 			LinearLayout ll2 = (LinearLayout) findViewById(i + 1);
 			ll2.setId(i);
 		}
 		editor.putInt("numAlarmas", numAlarmas - 1);
 		editor.commit();
-		LinearLayout lx = (LinearLayout) findViewById(R.id.mainLay);
-		lx.removeView(ll);
 		removeProximityAlert(id);
+		this.onCreate(null);
 	}
 
 	private void setProximityAlert(int id, double lat, double lng, int distancia) {
