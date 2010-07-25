@@ -121,6 +121,31 @@ public class AddAlarma extends Activity {
 			}
 		});
 
+		et3.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus)
+					et3.setText("");
+				else{
+					try {
+						addresses = gc.getFromLocationName(et3.getText().toString(), 1);
+						if (addresses != null && addresses.size() != 0) {
+							lat = (float) addresses.get(0).getLatitude();
+							lng = (float) addresses.get(0).getLongitude();
+						} else {
+							Toast.makeText(getApplicationContext(),
+									"No se ha encontrado la dirección",
+									Toast.LENGTH_SHORT).show();
+						}
+					} catch (IOException e) {
+						Toast.makeText(getApplicationContext(),
+								"No se ha encontrado la dirección", Toast.LENGTH_SHORT)
+								.show();
+					}
+				}
+			}
+		});
+
 		cb.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (((CheckBox) v).isChecked()) {
