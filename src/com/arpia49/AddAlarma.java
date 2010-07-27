@@ -21,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -57,11 +58,14 @@ public class AddAlarma extends Activity {
 		final EditText et2 = (EditText) findViewById(R.id.et_descAlarma);
 		final EditText et3 = (EditText) findViewById(R.id.et_lugar);
 		final CheckBox cb = (CheckBox) findViewById(R.id.cb_posicion);
+
+		final RadioButton rb = (RadioButton) findViewById(R.id.rb_fuerte);
+
 		Button bt = (Button) findViewById(R.id.botonAceptar);
 		Button bt2 = (Button) findViewById(R.id.botonCancelar);
 		final Spinner sp = (Spinner) findViewById(R.id.sp_radio);
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-				R.array.radios, android.R.layout.simple_spinner_item);
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+				this, R.array.radios, android.R.layout.simple_spinner_item);
 		adapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -87,6 +91,12 @@ public class AddAlarma extends Activity {
 					outData.putExtra("radioAlarma", "");
 					outData.putExtra("latAlarma", 0);
 					outData.putExtra("lngAlarma", 0);
+				}
+
+				if (rb.isChecked()) {
+					outData.putExtra("sonidoFuerte", true);
+				} else {
+					outData.putExtra("sonidoFuerte", false);
 				}
 
 				final String nombre_alarma = et.getText().toString();
@@ -126,9 +136,10 @@ public class AddAlarma extends Activity {
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus)
 					et3.setText("");
-				else{
+				else {
 					try {
-						addresses = gc.getFromLocationName(et3.getText().toString(), 1);
+						addresses = gc.getFromLocationName(et3.getText()
+								.toString(), 1);
 						if (addresses != null && addresses.size() != 0) {
 							lat = (float) addresses.get(0).getLatitude();
 							lng = (float) addresses.get(0).getLongitude();
@@ -139,8 +150,8 @@ public class AddAlarma extends Activity {
 						}
 					} catch (IOException e) {
 						Toast.makeText(getApplicationContext(),
-								"No se ha encontrado la dirección", Toast.LENGTH_SHORT)
-								.show();
+								"No se ha encontrado la dirección",
+								Toast.LENGTH_SHORT).show();
 					}
 				}
 			}

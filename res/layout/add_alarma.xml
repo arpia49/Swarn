@@ -33,6 +33,17 @@
 			<ImageView android:src="@drawable/borde"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:scaleType="fitXY" />
+			<TextView android:text="¿Tipo de sonido?" android:id="@+id/tv_sonido"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<RadioGroup android:id="@+id/RadioGroup01"
+				android:layout_width="wrap_content" android:layout_height="wrap_content">
+						<RadioButton android:text="Fuerte"
+							android:id="@+id/rb_fuerte" android:layout_width="wrap_content"
+							android:layout_height="wrap_content"></RadioButton>
+						<RadioButton android:text="Muy Fuerte"
+							android:id="@+id/rb_muy_fuerte" android:layout_width="wrap_content"
+							android:layout_height="wrap_content"></RadioButton>
+			</RadioGroup>
 			<TableLayout android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:layout_alignParentBottom="true" android:stretchColumns="0,1">
@@ -45,7 +56,6 @@
 						android:text="@string/cancelar" />
 				</TableRow>
 			</TableLayout>
-		
-</LinearLayout>
+		</LinearLayout>
 	</ScrollView>
 </LinearLayout>
