@@ -296,9 +296,14 @@ public class VistaAlarmas extends Activity {
 		String locService = Context.LOCATION_SERVICE;
 		LocationManager locationManager;
 		locationManager = (LocationManager) getSystemService(locService);
+		
 		Intent intent = new Intent(PROXIMITY_ALERT);
+		intent.putExtra("id", Integer.toString(id));
+		intent.setData((Uri.parse(id + "://" + id)));
+		
 		PendingIntent proximityIntent = PendingIntent.getBroadcast(
 				getApplicationContext(), id, intent, 0);
+		
 		locationManager.removeProximityAlert(proximityIntent);
 		Toast.makeText(getApplicationContext(), "Borrada alerta" + id,
 				Toast.LENGTH_SHORT).show();
