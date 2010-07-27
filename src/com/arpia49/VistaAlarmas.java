@@ -146,6 +146,7 @@ public class VistaAlarmas extends Activity {
 		editor.putString("descAlarma" + numAlarmas, desc);
 		editor.putBoolean("estadoAlarma" + numAlarmas, false);
 		editor.putBoolean("activada" + numAlarmas, false);
+		editor.putBoolean("registradaAlerta" + numAlarmas, false);
 		if (!ubic.equals("")) {
 			editor.putString("ubicAlarma" + numAlarmas, ubic);
 			editor.putInt("radioAlarma" + numAlarmas, radio);
@@ -235,6 +236,9 @@ public class VistaAlarmas extends Activity {
 				"lngAlarma" + id, 0));
 		editor.putBoolean("activada" + numAlarmas + 1, settings.getBoolean(
 				"activada" + id, false));
+		editor.putBoolean("registradaAlerta" + numAlarmas + 1, settings.getBoolean(
+				"registradaAlerta" + id, false));
+		
 		for (int i = id; i < numAlarmas; i++) {
 			editor.putBoolean("estadoAlarma" + i, settings.getBoolean(
 					"estadoAlarma" + (i + 1), false));
@@ -251,6 +255,8 @@ public class VistaAlarmas extends Activity {
 			editor.putFloat("lngAlarma" + i, settings.getFloat("lngAlarma"
 					+ (i + 1), 0));
 			editor.putBoolean("activada" + i, settings.getBoolean("activada"
+					+ (i + 1), false));
+			editor.putBoolean("registradaAlerta" + i, settings.getBoolean("registradaAlerta"
 					+ (i + 1), false));
 			if (settings.getBoolean("estadoAlarma" + (i + 1), false)) {
 				removeProximityAlert(i + 1);
@@ -283,9 +289,16 @@ public class VistaAlarmas extends Activity {
 		locationManager.addProximityAlert(lat, lng, distancia, expiration,
 				proximityIntent);
 
-		IntentFilter filter = new IntentFilter(PROXIMITY_ALERT);
-		filter.addDataScheme(Integer.toString(id));
-		registerReceiver(new AlertaEntrante(), filter);
+		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+		SharedPreferences.Editor editor = settings.edit();
+		
+		if (settings.getBoolean("registradaAlerta" + id, false)==false) {
+			IntentFilter filter = new IntentFilter(PROXIMITY_ALERT);
+			filter.addDataScheme(Integer.toString(id));
+			registerReceiver(new AlertaEntrante(), filter);
+			editor.putBoolean("registradaAlerta" + id, true);
+			editor.commit();
+		}
 
 		// guardamos las preferencias
 		Toast.makeText(getApplicationContext(), "Añadida alerta" + id,
@@ -296,15 +309,16 @@ public class VistaAlarmas extends Activity {
 		String locService = Context.LOCATION_SERVICE;
 		LocationManager locationManager;
 		locationManager = (LocationManager) getSystemService(locService);
-		
+
 		Intent intent = new Intent(PROXIMITY_ALERT);
 		intent.putExtra("id", Integer.toString(id));
 		intent.setData((Uri.parse(id + "://" + id)));
-		
+
 		PendingIntent proximityIntent = PendingIntent.getBroadcast(
 				getApplicationContext(), id, intent, 0);
-		
+
 		locationManager.removeProximityAlert(proximityIntent);
+
 		Toast.makeText(getApplicationContext(), "Borrada alerta" + id,
 				Toast.LENGTH_SHORT).show();
 	}
