@@ -131,8 +131,9 @@ public class VistaAlarmas extends Activity {
 		case (ACT_DEL_ALARMA): {
 			if (resCode == Activity.RESULT_OK) {
 				if (data.getBooleanExtra("todas", false)) {
-					for (int i = 1; i <= numAlarmas(); i++) {
-						delAlarma(i);
+					int numAlarmas = numAlarmas();
+					for (int i = 1; i <= numAlarmas; i++) {
+						delAlarma(numAlarmas-i+1);
 					}
 					Toast.makeText(getApplicationContext(),
 							"¡Eliminadas todas las alarmas!",
