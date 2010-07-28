@@ -230,13 +230,12 @@ public class VistaAlarmas extends Activity {
 				int v_id = v.getId();
 				if (((CheckBox) v).isChecked()) {
 					editor.putBoolean("estadoAlarma" + v_id, true);
-					editor.commit();
 					setProximityAlert(v_id, flat, flng, radio);
 				} else {
 					editor.putBoolean("estadoAlarma" + v_id, false);
-					editor.commit();
 					removeProximityAlert(v_id);
 				}
+				editor.commit();
 			}
 		});
 		la.addView(cb);

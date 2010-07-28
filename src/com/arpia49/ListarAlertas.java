@@ -1,6 +1,5 @@
 package com.arpia49;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
