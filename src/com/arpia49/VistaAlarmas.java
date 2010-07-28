@@ -112,14 +112,12 @@ public class VistaAlarmas extends Activity {
 		switch (reqCode) {
 		case (ACT_ADD_ALARMA): {
 			if (resCode == Activity.RESULT_OK) {
-				crearAlarma(
-						data.getStringExtra("nombreAlarma"), 
-						data.getStringExtra("descAlarma"), 
-						data.getStringExtra("ubicAlarma"), 
-						data.getIntExtra("radioAlarma", 0), 
-						data.getFloatExtra("latAlarma", 0),
-						data.getFloatExtra("lngAlarma", 0), 
-						data.getBooleanExtra("sonidoFuerte", true));
+				crearAlarma(data.getStringExtra("nombreAlarma"), data
+						.getStringExtra("descAlarma"), data
+						.getStringExtra("ubicAlarma"), data.getIntExtra(
+						"radioAlarma", 0), data.getFloatExtra("latAlarma", 0),
+						data.getFloatExtra("lngAlarma", 0), data
+								.getBooleanExtra("sonidoFuerte", false));
 				Toast.makeText(getApplicationContext(), "Alarma añadida!",
 						Toast.LENGTH_SHORT).show();
 			} else {
@@ -133,7 +131,7 @@ public class VistaAlarmas extends Activity {
 				if (data.getBooleanExtra("todas", false)) {
 					int numAlarmas = numAlarmas();
 					for (int i = 1; i <= numAlarmas; i++) {
-						delAlarma(numAlarmas-i+1);
+						delAlarma(numAlarmas - i + 1);
 					}
 					Toast.makeText(getApplicationContext(),
 							"¡Eliminadas todas las alarmas!",
@@ -157,22 +155,20 @@ public class VistaAlarmas extends Activity {
 		// Leemos el número de alarmas
 		int numAlarmas = numAlarmas();
 		for (int i = 1; i <= numAlarmas; i++) {
-			addAlarma(
-					i, 
-					settings.getBoolean("estadoAlarma" + i, false),
+			addAlarma(i, settings.getBoolean("estadoAlarma" + i, false),
 					settings.getString("nombreAlarma" + i, "sin nombre"),
 					settings.getString("descAlarma" + i, "sin descripción"),
 					settings.getString("ubicAlarma" + i, "sin ubicación"),
-					settings.getInt("radioAlarma" + i, 0), 
-					settings.getFloat("latAlarma" + i, 0), 
-					settings.getFloat("lngAlarma" + i, 0));
+					settings.getInt("radioAlarma" + i, 0), settings.getFloat(
+							"latAlarma" + i, 0), settings.getFloat("lngAlarma"
+							+ i, 0));
 		}
 	}
 
 	private void crearAlarma(String nombre, String desc, String ubic,
 			int radio, float lat, float lng, boolean fuerte) {
 
-		int numAlarmas = numAlarmas()+1;
+		int numAlarmas = numAlarmas() + 1;
 
 		// Añadimos los datos de la alarma al registro
 		editor.putInt("numAlarmas", numAlarmas);
@@ -181,7 +177,10 @@ public class VistaAlarmas extends Activity {
 		editor.putBoolean("estadoAlarma" + numAlarmas, false);
 		editor.putBoolean("activada" + numAlarmas, false);
 		editor.putBoolean("registradaAlerta" + numAlarmas, false);
-		editor.putBoolean("sonidoFuerte" + numAlarmas, fuerte);
+		if (fuerte) {
+			editor.putInt("sonidoFuerte",
+					settings.getInt("sonidoFuerte", 0) + 1);
+		}
 		if (!ubic.equals("")) {
 			editor.putString("ubicAlarma" + numAlarmas, ubic);
 			editor.putInt("radioAlarma" + numAlarmas, radio);
@@ -194,6 +193,8 @@ public class VistaAlarmas extends Activity {
 			editor.putFloat("lngAlarma" + numAlarmas, 0);
 		}
 		editor.commit();
+//		int kkk = settings.getInt("sonidoFuerte", 0) +1;
+//		kkk--;
 
 		addAlarma(numAlarmas, false, nombre, desc, ubic, radio, lat, lng);
 

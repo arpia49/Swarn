@@ -47,7 +47,7 @@ public class AlertaEntrante extends BroadcastReceiver {
 					}
 
 				};
-				engine.start_engine(messageHandler, context);
+				engine.start_engine(messageHandler, settings.getInt("sonidoFuerte", 0)>0);
 
 			}
 		} else {

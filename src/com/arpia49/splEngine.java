@@ -2,13 +2,10 @@ package com.arpia49;
 
 import java.math.BigDecimal;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 
 /**
  * 
@@ -24,18 +21,18 @@ public class splEngine extends Thread {
 	private static final double P0 = 0.000002;
 	public volatile boolean isRunning = false;
 	private Handler handle;
-	private Context context;
+	private boolean fuerte;
 
 	static AudioRecord recordInstance = null;
 
 	/**
 	 * starts the engine.
 	 */
-	public void start_engine(Handler handle, Context context) {
+	public void start_engine(Handler handle, boolean fuerte) {
 
 		this.isRunning = true;
 		this.handle = handle;
-		this.context = context;
+		this.fuerte = fuerte;
 		this.start();
 
 	}
@@ -62,7 +59,6 @@ public class splEngine extends Thread {
 
 			recordInstance.startRecording();
 			short[] tempBuffer = new short[BUFFSIZE];
-			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
 
 			while (this.isRunning) {
 				double splValue = 0.0;
@@ -84,7 +80,7 @@ public class splEngine extends Thread {
 				splValue = 20 * Math.log10(rmsValue / P0);
 				splValue = round(splValue, 2);
 				
-				if (splValue > 90 && settings.getBoolean("sonidoFuerte", false)) {
+				if (splValue > 90 && fuerte) {
 					handle.sendEmptyMessage((int) splValue);
 					Thread.sleep(10000);
 				}
