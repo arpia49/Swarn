@@ -171,7 +171,7 @@ public class VistaAlarmas extends Activity {
 	private void crearAlarma(String nombre, String desc, String ubic,
 			int radio, float lat, float lng, boolean fuerte) {
 
-		int numAlarmas = numAlarmas();
+		int numAlarmas = numAlarmas()+1;
 
 		// Añadimos los datos de la alarma al registro
 		editor.putInt("numAlarmas", numAlarmas);
