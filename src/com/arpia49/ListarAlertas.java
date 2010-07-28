@@ -1,5 +1,6 @@
 package com.arpia49;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -61,8 +62,7 @@ public class ListarAlertas extends ListActivity {
 			editor.commit();
 			Toast.makeText(getApplicationContext(), "Alertas borradas",
 					Toast.LENGTH_SHORT).show();
-			this.onCreate(null);
-			return true;
+			finish();
 		}
 		}
 		return false;
