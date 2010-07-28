@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 public class VistaAlarmas extends Activity {
 
+	// De los menús
 	public static final String PREFS_NAME = "PrefTimbre";
 	public static final int ACT_ADD_ALARMA = 1;
 	public static final int ACT_DEL_ALARMA = 2;
@@ -28,14 +29,18 @@ public class VistaAlarmas extends Activity {
 	static final private int DEL_ALARMA = Menu.FIRST + 1;
 	static final private int LISTA_ALERTAS = Menu.FIRST + 2;
 	static final private int INFO = Menu.FIRST + 3;
-	int usando;
+
+	// Alerta de proximidad
 	private static String PROXIMITY_ALERT = "com.arpia49.action.proximityalert";
+
+	// Preferencias en el sistema
 	private SharedPreferences settings = null;
+	private SharedPreferences.Editor editor = null;
 
 	public void onCreate(Bundle savedInstanceState) {
 		settings = getSharedPreferences(PREFS_NAME, 0);
+		editor = settings.edit();
 		super.onCreate(savedInstanceState);
-		// meterBasuras();
 		setContentView(R.layout.main);
 		cargarPosiciones((LinearLayout) findViewById(R.id.mainLay));
 	}
@@ -43,6 +48,7 @@ public class VistaAlarmas extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
+
 		// Create and add new menu items.
 		MenuItem itemAdd = menu.add(0, ADD_ALARMA, Menu.NONE,
 				R.string.menu_add_alarma);
@@ -51,6 +57,7 @@ public class VistaAlarmas extends Activity {
 		MenuItem itemLista = menu.add(0, LISTA_ALERTAS, Menu.NONE,
 				R.string.menu_lista_alertas);
 		MenuItem itemInfo = menu.add(0, INFO, Menu.NONE, R.string.menu_info);
+
 		// Assign icons
 		itemAdd.setIcon(R.drawable.add);
 		itemDel.setIcon(R.drawable.del);
@@ -88,8 +95,11 @@ public class VistaAlarmas extends Activity {
 			return true;
 		}
 		case (INFO): {
-			Toast.makeText(getApplicationContext(),
-					"Mostrando ayuda! (mentira)", Toast.LENGTH_SHORT).show();
+			// Create an VIEW intent
+			Intent myIntent = new Intent("android.intent.action.VIEW", Uri
+					.parse("http://arpia49.com/timbre/help"));
+			// Start the activity
+			startActivity(myIntent);
 			return true;
 		}
 		}
@@ -102,12 +112,14 @@ public class VistaAlarmas extends Activity {
 		switch (reqCode) {
 		case (ACT_ADD_ALARMA): {
 			if (resCode == Activity.RESULT_OK) {
-				crearAlarma(data.getStringExtra("nombreAlarma"), data
-						.getStringExtra("descAlarma"), data
-						.getStringExtra("ubicAlarma"), data.getIntExtra(
-						"radioAlarma", 0), data.getFloatExtra("latAlarma", 0),
-						data.getFloatExtra("lngAlarma", 0), data
-								.getBooleanExtra("sonidoFuerte", true));
+				crearAlarma(
+						data.getStringExtra("nombreAlarma"), 
+						data.getStringExtra("descAlarma"), 
+						data.getStringExtra("ubicAlarma"), 
+						data.getIntExtra("radioAlarma", 0), 
+						data.getFloatExtra("latAlarma", 0),
+						data.getFloatExtra("lngAlarma", 0), 
+						data.getBooleanExtra("sonidoFuerte", true));
 				Toast.makeText(getApplicationContext(), "Alarma añadida!",
 						Toast.LENGTH_SHORT).show();
 			} else {
@@ -119,11 +131,12 @@ public class VistaAlarmas extends Activity {
 		case (ACT_DEL_ALARMA): {
 			if (resCode == Activity.RESULT_OK) {
 				if (data.getBooleanExtra("todas", false)) {
-					for (int i = 1; i<=numAlarmas(); i++){
+					for (int i = 1; i <= numAlarmas(); i++) {
 						delAlarma(i);
 					}
 					Toast.makeText(getApplicationContext(),
-							"¡Eliminadas todas las alarmas!", Toast.LENGTH_SHORT).show();
+							"¡Eliminadas todas las alarmas!",
+							Toast.LENGTH_SHORT).show();
 				} else {
 					delAlarma(Integer.parseInt(data.getStringExtra("idAlarma")) + 1);
 					Toast.makeText(getApplicationContext(),
@@ -141,23 +154,23 @@ public class VistaAlarmas extends Activity {
 	private void cargarPosiciones(LinearLayout lx) {
 
 		// Leemos el número de alarmas
-
 		int numAlarmas = numAlarmas();
 		for (int i = 1; i <= numAlarmas; i++) {
-			addAlarma(i, settings.getBoolean("estadoAlarma" + i, false),
+			addAlarma(
+					i, 
+					settings.getBoolean("estadoAlarma" + i, false),
 					settings.getString("nombreAlarma" + i, "sin nombre"),
 					settings.getString("descAlarma" + i, "sin descripción"),
 					settings.getString("ubicAlarma" + i, "sin ubicación"),
-					settings.getInt("radioAlarma" + i, 0), settings.getFloat(
-							"latAlarma" + i, 0), settings.getFloat("lngAlarma"
-							+ i, 0));
+					settings.getInt("radioAlarma" + i, 0), 
+					settings.getFloat("latAlarma" + i, 0), 
+					settings.getFloat("lngAlarma" + i, 0));
 		}
 	}
 
 	private void crearAlarma(String nombre, String desc, String ubic,
 			int radio, float lat, float lng, boolean fuerte) {
 
-		SharedPreferences.Editor editor = settings.edit();
 		int numAlarmas = numAlarmas();
 
 		// Añadimos los datos de la alarma al registro
@@ -215,7 +228,6 @@ public class VistaAlarmas extends Activity {
 		cb.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				int v_id = v.getId();
-				SharedPreferences.Editor editor = settings.edit();
 				if (((CheckBox) v).isChecked()) {
 					editor.putBoolean("estadoAlarma" + v_id, true);
 					editor.commit();
@@ -234,7 +246,6 @@ public class VistaAlarmas extends Activity {
 	}
 
 	private void delAlarma(int id) {
-		SharedPreferences.Editor editor = settings.edit();
 		int numAlarmas = numAlarmas();
 		LinearLayout ll = (LinearLayout) findViewById(id);
 		ll.setId(numAlarmas + 1);
@@ -311,9 +322,6 @@ public class VistaAlarmas extends Activity {
 		locationManager.addProximityAlert(lat, lng, distancia, expiration,
 				proximityIntent);
 
-		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-		SharedPreferences.Editor editor = settings.edit();
-
 		if (settings.getBoolean("registradaAlerta" + id, false) == false) {
 			IntentFilter filter = new IntentFilter(PROXIMITY_ALERT);
 			filter.addDataScheme(Integer.toString(id));
@@ -322,7 +330,6 @@ public class VistaAlarmas extends Activity {
 			editor.commit();
 		}
 
-		// guardamos las preferencias
 		Toast.makeText(getApplicationContext(), "Añadida alerta" + id,
 				Toast.LENGTH_SHORT).show();
 	}
@@ -352,7 +359,7 @@ public class VistaAlarmas extends Activity {
 	private boolean hayAlarmas() {
 		return (settings.getInt("numAlarmas", 0) > 0);
 	}
-	
+
 	private int numAlarmas() {
 		return (settings.getInt("numAlarmas", 0));
 	}
