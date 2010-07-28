@@ -51,8 +51,7 @@ public class AddAlarma extends Activity {
 		criteria.setCostAllowed(true);
 		criteria.setPowerRequirement(Criteria.POWER_LOW);
 		provider = locationManager.getBestProvider(criteria, true);
-		location = locationManager.getLastKnownLocation(provider);
-		locationManager.requestLocationUpdates(provider, 2000, 10,
+		locationManager.requestLocationUpdates(provider, 30000, 100,
 				locationListener);
 		final EditText et = (EditText) findViewById(R.id.et_nombreAlarma);
 		final EditText et2 = (EditText) findViewById(R.id.et_descAlarma);
