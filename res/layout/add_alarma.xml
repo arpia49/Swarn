@@ -37,12 +37,11 @@
 				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 			<RadioGroup android:id="@+id/RadioGroup01"
 				android:layout_width="wrap_content" android:layout_height="wrap_content">
-						<RadioButton android:text="Fuerte"
-							android:id="@+id/rb_fuerte" android:layout_width="wrap_content"
-							android:layout_height="wrap_content"></RadioButton>
-						<RadioButton android:text="Muy Fuerte"
-							android:id="@+id/rb_muy_fuerte" android:layout_width="wrap_content"
-							android:layout_height="wrap_content"></RadioButton>
+				<RadioButton android:text="Fuerte" android:id="@+id/rb_fuerte"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:checked="true"></RadioButton>
+				<RadioButton android:text="Muy Fuerte" android:id="@+id/rb_muy_fuerte"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"></RadioButton>
 			</RadioGroup>
 			<TableLayout android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
