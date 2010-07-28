@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">Lista de alarmas</string>
-	<string name="Button01">Editar alarma</string>
-	<string name="Button02">Borrar alarma</string>
 	<string name="menu_add_alarma">Añadir alarma</string>
-	<string name="menu_del_alarma">Borrar alarma</string>
+	<string name="menu_del_alarma">Borrar alarmas</string>
+	<string name="menu_del_todas_alarmas">Borrar todas alarmas</string>
 	<string name="menu_del_alertas">Borrar alertas</string>
 	<string name="menu_lista_alertas">Mostrar alertas</string>
 	<string name="menu_info">Mostrar ayuda</string>
