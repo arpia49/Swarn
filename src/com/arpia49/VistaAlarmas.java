@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +38,8 @@ public class VistaAlarmas extends Activity {
 	// Preferencias en el sistema
 	private SharedPreferences settings = null;
 	private SharedPreferences.Editor editor = null;
+	
+	private splEngine engine = null;
 
 	public void onCreate(Bundle savedInstanceState) {
 		settings = getSharedPreferences(PREFS_NAME, 0);
@@ -193,8 +197,8 @@ public class VistaAlarmas extends Activity {
 			editor.putFloat("lngAlarma" + numAlarmas, 0);
 		}
 		editor.commit();
-//		int kkk = settings.getInt("sonidoFuerte", 0) +1;
-//		kkk--;
+		// int kkk = settings.getInt("sonidoFuerte", 0) +1;
+		// kkk--;
 
 		addAlarma(numAlarmas, false, nombre, desc, ubic, radio, lat, lng);
 
@@ -232,10 +236,31 @@ public class VistaAlarmas extends Activity {
 				int v_id = v.getId();
 				if (((CheckBox) v).isChecked()) {
 					editor.putBoolean("estadoAlarma" + v_id, true);
-					setProximityAlert(v_id, flat, flng, radio);
+					if (settings.getFloat("latAlarma" + v_id, 0) == 0) {
+						engine = new splEngine();
+						final Handler messageHandler = new Handler() {
+							@Override
+							public void handleMessage(Message msg) {
+								Toast
+										.makeText(getApplicationContext(),
+												"yeah!!" + msg.what,
+												Toast.LENGTH_SHORT).show();
+							}
+
+						};
+						engine.start_engine(messageHandler, settings.getInt(
+								"sonidoFuerte", 0) > 0);
+
+					} else {
+						setProximityAlert(v_id, flat, flng, radio);
+					}
 				} else {
 					editor.putBoolean("estadoAlarma" + v_id, false);
-					removeProximityAlert(v_id);
+					if (settings.getFloat("latAlarma" + v_id, 0) == 0) {
+						engine.stop_engine();
+					} else {
+						removeProximityAlert(v_id);
+					}
 				}
 				editor.commit();
 			}
