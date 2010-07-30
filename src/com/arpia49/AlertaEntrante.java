@@ -12,7 +12,8 @@ import android.widget.Toast;
 
 public class AlertaEntrante extends BroadcastReceiver {
 	public static final String PREFS_NAME = "PrefTimbre";
-	protected splEngine engine;
+	public static Handler messageHandler = null;
+	protected splEngine engine=null;
 
 	@Override
 	public void onReceive(final Context context, Intent intent) {
@@ -23,7 +24,16 @@ public class AlertaEntrante extends BroadcastReceiver {
 		SharedPreferences settings = context
 				.getSharedPreferences(PREFS_NAME, 0);
 		SharedPreferences.Editor editor = settings.edit();
-		engine = new splEngine();
+		messageHandler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				Toast
+						.makeText(context,
+								"yeah baby!!" + msg.what,
+								Toast.LENGTH_SHORT).show();
+			}
+		};
+		engine = splEngine.getInstance(messageHandler);
 		if (entering) {
 			long fecha = System.currentTimeMillis();
 
@@ -38,29 +48,11 @@ public class AlertaEntrante extends BroadcastReceiver {
 			Toast.makeText(context, "¡Has entrado! Num=" + numAlertas,
 					Toast.LENGTH_SHORT).show();
 			// Aquí deberemos (re)arrancar el servicio para que mire lo que sea
-			if (!engine.isRunning) {
-				final Handler messageHandler = new Handler() {
-					@Override
-					public void handleMessage(Message msg) {
-						Toast.makeText(context, "yeah!!"+msg.what, Toast.LENGTH_SHORT)
-								.show();
-					}
-
-				};
-				engine.start_engine(messageHandler, settings.getInt("sonidoFuerte", 0)>0);
-
-			}
+				engine.start_engine();
 		} else {
 			Log.d("ALERTA DE PROXIMIDAD", "salida");
 			// Aquí deberemos parar/rearrancar el servicio
 			Toast.makeText(context, "¡Has salido!", Toast.LENGTH_SHORT).show();
-			int corriendo = 0;
-			int numAlarmas = settings.getInt("numAlarmas", 0);
-			for (int i = 1; i <= numAlarmas; i++) {
-				if (settings.getBoolean("activada" + i, false) == true)
-					corriendo++;
-			}
-			if (corriendo <= 1)
 				engine.stop_engine();
 			editor.putBoolean("activada" + intent.getExtras().getString("id"),
 					false);

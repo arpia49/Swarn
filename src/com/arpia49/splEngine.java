@@ -1,6 +1,7 @@
 package com.arpia49;
 
 import java.math.BigDecimal;
+import java.util.Stack;
 
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -13,27 +14,37 @@ import android.os.Handler;
  * 
  */
 public class splEngine extends Thread {
-	public static final String PREFS_NAME = "PrefTimbre";
 	private static final int FREQUENCY = 8000;
 	private static final int CHANNEL = AudioFormat.CHANNEL_CONFIGURATION_MONO;
 	private static final int ENCODING = AudioFormat.ENCODING_PCM_16BIT;
 	private int BUFFSIZE = 320;
 	private static final double P0 = 0.000002;
 	public volatile boolean isRunning = false;
-	private Handler handle;
-	private boolean fuerte;
+	static Handler handle = null;
+	public volatile static Stack<Integer> pila = null;
+	private static splEngine instance = null;
+	AudioRecord recordInstance = null;
 
-	static AudioRecord recordInstance = null;
+	protected splEngine() {
+		// Exists only to defeat instantiation.
+	}
+
+	public static splEngine getInstance(Handler h) {
+		if (instance == null) instance = new splEngine();
+		if (handle == null)	handle = h;
+		if (pila == null) pila = new Stack<Integer>();
+		return instance;
+	}
 
 	/**
 	 * starts the engine.
 	 */
-	public void start_engine(Handler handle, boolean fuerte) {
-
-		this.isRunning = true;
-		this.handle = handle;
-		this.fuerte = fuerte;
-		this.start();
+	public void start_engine() {
+		pila.push(1);
+		if (!this.isRunning) {
+			this.isRunning = true;
+			this.start();
+		}
 
 	}
 
@@ -41,8 +52,11 @@ public class splEngine extends Thread {
 	 * stops the engine
 	 */
 	public void stop_engine() {
-		this.isRunning = false;
-		recordInstance.stop();
+		pila.pop();
+		if (pila.empty()) {
+			this.isRunning = false;
+			recordInstance.stop();
+		}
 	}
 
 	/*
@@ -79,15 +93,9 @@ public class splEngine extends Thread {
 
 				splValue = 20 * Math.log10(rmsValue / P0);
 				splValue = round(splValue, 2);
-				
-				if (splValue > 90 && fuerte) {
-					handle.sendEmptyMessage((int) splValue);
-					Thread.sleep(10000);
-				}
-				else if (splValue > 80) {
-					handle.sendEmptyMessage((int) splValue);
-					Thread.sleep(10000);
-				}
+
+				handle.sendEmptyMessage(pila.size());
+				sleep(10000);
 
 			}
 

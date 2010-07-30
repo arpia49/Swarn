@@ -31,19 +31,29 @@ public class VistaAlarmas extends Activity {
 	static final private int DEL_ALARMA = Menu.FIRST + 1;
 	static final private int LISTA_ALERTAS = Menu.FIRST + 2;
 	static final private int INFO = Menu.FIRST + 3;
-
+	private static splEngine engine = null;
+	private static Handler messageHandler = null;
+	
 	// Alerta de proximidad
 	private static String PROXIMITY_ALERT = "com.arpia49.action.proximityalert";
 
 	// Preferencias en el sistema
 	private SharedPreferences settings = null;
 	private SharedPreferences.Editor editor = null;
-	
-	private splEngine engine = null;
 
 	public void onCreate(Bundle savedInstanceState) {
 		settings = getSharedPreferences(PREFS_NAME, 0);
 		editor = settings.edit();
+		messageHandler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				Toast
+						.makeText(getApplicationContext(),
+								"yeah!!" + msg.what,
+								Toast.LENGTH_SHORT).show();
+			}
+		};
+		engine = splEngine.getInstance(messageHandler);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		cargarPosiciones((LinearLayout) findViewById(R.id.mainLay));
@@ -237,19 +247,7 @@ public class VistaAlarmas extends Activity {
 				if (((CheckBox) v).isChecked()) {
 					editor.putBoolean("estadoAlarma" + v_id, true);
 					if (settings.getFloat("latAlarma" + v_id, 0) == 0) {
-						engine = new splEngine();
-						final Handler messageHandler = new Handler() {
-							@Override
-							public void handleMessage(Message msg) {
-								Toast
-										.makeText(getApplicationContext(),
-												"yeah!!" + msg.what,
-												Toast.LENGTH_SHORT).show();
-							}
-
-						};
-						engine.start_engine(messageHandler, settings.getInt(
-								"sonidoFuerte", 0) > 0);
+						engine.start_engine();
 
 					} else {
 						setProximityAlert(v_id, flat, flng, radio);
@@ -258,6 +256,8 @@ public class VistaAlarmas extends Activity {
 					editor.putBoolean("estadoAlarma" + v_id, false);
 					if (settings.getFloat("latAlarma" + v_id, 0) == 0) {
 						engine.stop_engine();
+						engine=null;
+						messageHandler=null;
 					} else {
 						removeProximityAlert(v_id);
 					}
