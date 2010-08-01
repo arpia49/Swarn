@@ -126,12 +126,13 @@ public class VistaAlarmas extends Activity {
 		switch (reqCode) {
 		case (ACT_ADD_ALARMA): {
 			if (resCode == Activity.RESULT_OK) {
-				crearAlarma(data.getStringExtra("nombreAlarma"), data
-						.getStringExtra("descAlarma"), data
-						.getStringExtra("ubicAlarma"), data.getIntExtra(
-						"radioAlarma", 0), data.getFloatExtra("latAlarma", 0),
-						data.getFloatExtra("lngAlarma", 0), data
-								.getBooleanExtra("sonidoFuerte", false));
+				crearAlarma(data.getStringExtra("nombreAlarma"),
+							data.getStringExtra("descAlarma"), 
+							data.getStringExtra("ubicAlarma"), 
+							data.getIntExtra("radioAlarma", 0), 
+							data.getFloatExtra("latAlarma", 0),
+							data.getFloatExtra("lngAlarma", 0), 
+							data.getBooleanExtra("sonidoFuerte", false));
 				Toast.makeText(getApplicationContext(), "Alarma añadida!",
 						Toast.LENGTH_SHORT).show();
 			} else {
@@ -173,9 +174,9 @@ public class VistaAlarmas extends Activity {
 					settings.getString("nombreAlarma" + i, "sin nombre"),
 					settings.getString("descAlarma" + i, "sin descripción"),
 					settings.getString("ubicAlarma" + i, "sin ubicación"),
-					settings.getInt("radioAlarma" + i, 0), settings.getFloat(
-							"latAlarma" + i, 0), settings.getFloat("lngAlarma"
-							+ i, 0));
+					settings.getInt("radioAlarma" + i, 0),
+					settings.getFloat("latAlarma" + i, 0), 
+					settings.getFloat("lngAlarma" + i, 0));
 		}
 	}
 
@@ -207,8 +208,6 @@ public class VistaAlarmas extends Activity {
 			editor.putFloat("lngAlarma" + numAlarmas, 0);
 		}
 		editor.commit();
-		// int kkk = settings.getInt("sonidoFuerte", 0) +1;
-		// kkk--;
 
 		addAlarma(numAlarmas, false, nombre, desc, ubic, radio, lat, lng);
 
@@ -256,8 +255,6 @@ public class VistaAlarmas extends Activity {
 					editor.putBoolean("estadoAlarma" + v_id, false);
 					if (settings.getFloat("latAlarma" + v_id, 0) == 0) {
 						engine.stop_engine();
-						engine=null;
-						messageHandler=null;
 					} else {
 						removeProximityAlert(v_id);
 					}
@@ -348,7 +345,7 @@ public class VistaAlarmas extends Activity {
 		locationManager.addProximityAlert(lat, lng, distancia, expiration,
 				proximityIntent);
 
-		if (settings.getBoolean("registradaAlerta" + id, false) == false) {
+		if (!settings.getBoolean("registradaAlerta" + id, false)) {
 			IntentFilter filter = new IntentFilter(PROXIMITY_ALERT);
 			filter.addDataScheme(Integer.toString(id));
 			registerReceiver(new AlertaEntrante(), filter);
