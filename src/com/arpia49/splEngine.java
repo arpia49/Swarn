@@ -21,7 +21,7 @@ public class splEngine extends Thread {
 	private static final double P0 = 0.000002;
 	public volatile boolean isRunning = false;
 	static Handler handle = null;
-	public volatile static Stack<Integer> pila = null;
+	public volatile static Stack<Boolean> pila = null;
 	private static splEngine instance = null;
 	AudioRecord recordInstance = null;
 
@@ -32,15 +32,15 @@ public class splEngine extends Thread {
 	public static splEngine getInstance(Handler h) {
 		if (instance == null) instance = new splEngine();
 		if (handle == null)	handle = h;
-		if (pila == null) pila = new Stack<Integer>();
+		if (pila == null) pila = new Stack<Boolean>();
 		return instance;
 	}
 
 	/**
 	 * starts the engine.
 	 */
-	public void start_engine() {
-		pila.push(1);
+	public void start_engine(boolean fuerte) {
+		pila.push(fuerte);
 		if (!this.isRunning) {
 			this.isRunning = true;
 			this.start();
@@ -94,8 +94,13 @@ public class splEngine extends Thread {
 				splValue = 20 * Math.log10(rmsValue / P0);
 				splValue = round(splValue, 2);
 
-				handle.sendEmptyMessage(pila.size());
-				sleep(10000);
+				if(pila.contains(true) && splValue>90){
+					handle.sendEmptyMessage((int) splValue);
+					sleep(10000);
+				}else{
+					handle.sendEmptyMessage((int) splValue);
+					sleep(10000);			
+				}
 
 			}
 

@@ -93,7 +93,6 @@ public class AddAlarma extends Activity {
 				}
 
 				outData.putExtra("sonidoFuerte", !rb.isChecked());
-
 				final String nombre_alarma = et.getText().toString();
 				outData.putExtra("nombreAlarma", nombre_alarma);
 				final String desc_alarma = et2.getText().toString();

@@ -192,10 +192,8 @@ public class VistaAlarmas extends Activity {
 		editor.putBoolean("estadoAlarma" + numAlarmas, false);
 		editor.putBoolean("activada" + numAlarmas, false);
 		editor.putBoolean("registradaAlerta" + numAlarmas, false);
-		if (fuerte) {
-			editor.putInt("sonidoFuerte",
-					settings.getInt("sonidoFuerte", 0) + 1);
-		}
+		editor.putBoolean("sonidoFuerte"+ numAlarmas,fuerte);
+
 		if (!ubic.equals("")) {
 			editor.putString("ubicAlarma" + numAlarmas, ubic);
 			editor.putInt("radioAlarma" + numAlarmas, radio);
@@ -246,7 +244,7 @@ public class VistaAlarmas extends Activity {
 				if (((CheckBox) v).isChecked()) {
 					editor.putBoolean("estadoAlarma" + v_id, true);
 					if (settings.getFloat("latAlarma" + v_id, 0) == 0) {
-						engine.start_engine();
+						engine.start_engine(settings.getBoolean("sonidoFuerte" + v_id, false));
 
 					} else {
 						setProximityAlert(v_id, flat, flng, radio);
@@ -291,7 +289,7 @@ public class VistaAlarmas extends Activity {
 		editor.putBoolean("registradaAlerta" + numAlarmas + 1, settings
 				.getBoolean("registradaAlerta" + id, false));
 		editor.putBoolean("sonidoFuerte" + numAlarmas + 1, settings.getBoolean(
-				"sonidoFuerte" + id, true));
+				"sonidoFuerte" + id, false));
 
 		for (int i = id; i < numAlarmas; i++) {
 			editor.putBoolean("estadoAlarma" + i, settings.getBoolean(
