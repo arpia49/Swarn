@@ -59,6 +59,17 @@ public class VistaAlarmas extends Activity {
 		cargarPosiciones((LinearLayout) findViewById(R.id.mainLay));
 	}
 
+//	@Override
+//	public void onStop() {
+//		int numAlarmas = numAlarmas();
+//		for (int i = 1; i <= numAlarmas; i++) {
+////			editor.putBoolean("estadoAlarma" + i, false);
+//			editor.putBoolean("registradaAlerta" + i, false);
+//		}
+//		editor.commit();
+//		super.onStop();
+//	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
@@ -251,11 +262,10 @@ public class VistaAlarmas extends Activity {
 					}
 				} else {
 					editor.putBoolean("estadoAlarma" + v_id, false);
-					if (settings.getFloat("latAlarma" + v_id, 0) == 0) {
-						engine.stop_engine();
-					} else {
+					if (settings.getFloat("latAlarma" + v_id, 0) != 0) {
 						removeProximityAlert(v_id);
 					}
+					engine.stop_engine();
 				}
 				editor.commit();
 			}

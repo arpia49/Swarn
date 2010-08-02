@@ -95,13 +95,11 @@ public class splEngine extends Thread {
 				splValue = round(splValue, 2);
 
 				if(pila.contains(true) && splValue>90){
-					handle.sendEmptyMessage((int) splValue);
-					sleep(10000);
+					handle.sendEmptyMessage((int) 0);
 				}else{
-					handle.sendEmptyMessage((int) splValue);
-					sleep(10000);			
+					handle.sendEmptyMessage((int) 1);
 				}
-
+				sleep(10000);
 			}
 
 			recordInstance.stop();
