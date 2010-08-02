@@ -260,8 +260,9 @@ public class VistaAlarmas extends Activity {
 					editor.putBoolean("estadoAlarma" + v_id, false);
 					if (settings.getFloat("latAlarma" + v_id, 0) != 0) {
 						removeProximityAlert(v_id);
+					}else{
+						engine.stop_engine();
 					}
-					engine.stop_engine();
 				}
 				editor.commit();
 			}
@@ -377,6 +378,11 @@ public class VistaAlarmas extends Activity {
 
 		Toast.makeText(getApplicationContext(), "Borrada alerta" + id,
 				Toast.LENGTH_SHORT).show();
+		if(settings.getBoolean("activada"+id, false) == true){
+			engine.stop_engine();
+		}
+		editor.putBoolean("activada" + id,false);
+		editor.commit();
 	}
 
 	private boolean hayAlertas() {

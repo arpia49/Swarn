@@ -42,8 +42,7 @@ public class AlertaEntrante extends BroadcastReceiver {
 			editor.putInt("numAlertas", numAlertas);
 			editor.putLong("fechaAlerta" + numAlertas, fecha);
 			editor.putString("idAlerta" + numAlertas, id);
-			editor.putBoolean("activada" + id,
-					true);
+			editor.putBoolean("activada" + id, true);
 			editor.commit();
 			Toast.makeText(context, "¡Has entrado! Num=" + numAlertas,
 					Toast.LENGTH_SHORT).show();
