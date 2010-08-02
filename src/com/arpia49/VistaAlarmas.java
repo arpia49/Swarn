@@ -47,9 +47,16 @@ public class VistaAlarmas extends Activity {
 		messageHandler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
+				String mensaje = "";
+				if(msg.what==0){
+					mensaje = "Comienza a mirar el micro";
+				}
+				else{
+					mensaje = "Termina de mirar el micro";
+				}
 				Toast
 						.makeText(getApplicationContext(),
-								"yeah!!" + msg.what,
+								mensaje,
 								Toast.LENGTH_SHORT).show();
 			}
 		};
@@ -58,17 +65,6 @@ public class VistaAlarmas extends Activity {
 		setContentView(R.layout.main);
 		cargarPosiciones((LinearLayout) findViewById(R.id.mainLay));
 	}
-
-//	@Override
-//	public void onStop() {
-//		int numAlarmas = numAlarmas();
-//		for (int i = 1; i <= numAlarmas; i++) {
-////			editor.putBoolean("estadoAlarma" + i, false);
-//			editor.putBoolean("registradaAlerta" + i, false);
-//		}
-//		editor.commit();
-//		super.onStop();
-//	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

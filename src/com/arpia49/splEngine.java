@@ -13,7 +13,7 @@ import android.os.Handler;
  * @author Hashir N A <hashir@mobware4u.com>
  * 
  */
-public class splEngine extends Thread {
+public class splEngine implements Runnable {
 	private static final int FREQUENCY = 8000;
 	private static final int CHANNEL = AudioFormat.CHANNEL_CONFIGURATION_MONO;
 	private static final int ENCODING = AudioFormat.ENCODING_PCM_16BIT;
@@ -30,9 +30,11 @@ public class splEngine extends Thread {
 	}
 
 	public static splEngine getInstance(Handler h) {
-		if (instance == null) instance = new splEngine();
-		if (handle == null)	handle = h;
-		if (pila == null) pila = new Stack<Boolean>();
+		if (instance == null) {
+			instance = new splEngine();
+			handle = h;
+			pila = new Stack<Boolean>();
+		}
 		return instance;
 	}
 
@@ -43,9 +45,9 @@ public class splEngine extends Thread {
 		pila.push(fuerte);
 		if (!this.isRunning) {
 			this.isRunning = true;
-			this.start();
+			Thread t=new Thread (this);
+		    t.start();
 		}
-
 	}
 
 	/**
@@ -55,7 +57,6 @@ public class splEngine extends Thread {
 		pila.pop();
 		if (pila.empty()) {
 			this.isRunning = false;
-			recordInstance.stop();
 		}
 	}
 
@@ -65,7 +66,6 @@ public class splEngine extends Thread {
 	 */
 	public void run() {
 		try {
-
 			android.os.Process
 					.setThreadPriority(android.os.Process.THREAD_PRIORITY_URGENT_AUDIO);
 			recordInstance = new AudioRecord(MediaRecorder.AudioSource.MIC,
@@ -74,6 +74,9 @@ public class splEngine extends Thread {
 			recordInstance.startRecording();
 			short[] tempBuffer = new short[BUFFSIZE];
 
+
+			handle.sendEmptyMessage(0);
+			
 			while (this.isRunning) {
 				double splValue = 0.0;
 				double rmsValue = 0.0;
@@ -93,16 +96,11 @@ public class splEngine extends Thread {
 
 				splValue = 20 * Math.log10(rmsValue / P0);
 				splValue = round(splValue, 2);
-
-				if(pila.contains(true) && splValue>90){
-					handle.sendEmptyMessage((int) 0);
-				}else{
-					handle.sendEmptyMessage((int) 1);
-				}
-				sleep(10000);
 			}
 
 			recordInstance.stop();
+			handle.sendEmptyMessage(1);
+			
 		} catch (Exception e) {
 
 		}
