@@ -1,19 +1,29 @@
 package com.arpia49;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 public class Alarma {
+	
+	//Para persistencia
+	private static Context contexto = null;	
+	private static SharedPreferences settings = null;
+	private static SharedPreferences.Editor editor = null;
+	public static final String PREFS_NAME = "PrefTimbre";
+		
+	//Sin builder
 	private int id;
+
+	//Obligatorias
 	private String nombre;
 	private String descripcion;
+	private boolean muyFuerte;
+	
+	//Opcionales
 	private boolean marcada;
 	private boolean activada;
-	private boolean alertaRegistrada;
-	private boolean muyFuerte;
-	private String ubicacion;
-	private int radio;
-	private float latitud;
-	private float longitud;
+	private Alerta alerta;
 
 	public static class Builder {
 		// Obligatorios
@@ -24,11 +34,7 @@ public class Alarma {
 		// Opcionales
 		private boolean marcada = false;
 		private boolean activada = false;
-		private boolean alertaRegistrada = false;
-		private String ubicacion = "";
-		private int radio = 0;
-		private float latitud = 0;
-		private float longitud = 0;
+		private Alerta alerta = null;
 
 		public Builder(String nombre, String descripcion, boolean muyFuerte) {
 			this.nombre = nombre;
@@ -46,64 +52,57 @@ public class Alarma {
 			return this;
 		}
 
-		public Builder alertaRegistrada(boolean val) {
-			alertaRegistrada = val;
+		public Builder alerta(Alerta val) {
+			alerta = val;
 			return this;
 		}
 
-		public Builder radio(int val) {
-			radio = val;
-			return this;
-		}
-
-		public Builder ubicacion(String val) {
-			ubicacion = val;
-			return this;
-		}
-
-		public Builder latitud(float val) {
-			latitud = val;
-			return this;
-		}
-
-		public Builder longitud(float val) {
-			longitud = val;
-			return this;
-		}
-
-		public Alarma build() {
-			Alarma temp = new Alarma(this);
+		public Alarma build(Boolean guardar) {
+			Alarma temp = new Alarma(this, guardar);
 			ListaAlarmas.add(temp);
 			return temp;
 		}
 	}
 
-	private Alarma(Builder builder) {
+	private Alarma(Builder builder, Boolean guardar) {
+		
+		//Guardamos en memoria
 		id = ListaAlarmas.size() + 1;
 		nombre = builder.nombre;
 		descripcion = builder.descripcion;
 		marcada = builder.marcada;
 		activada = builder.activada;
-		alertaRegistrada = builder.alertaRegistrada;
 		muyFuerte = builder.muyFuerte;
-		radio = builder.radio;
-		latitud = builder.latitud;
-		longitud = builder.longitud;
-		ubicacion = builder.ubicacion;
-
-		// Si hay internet rellenamos lat y long
+		alerta = builder.alerta;
+	
+		if (guardar){
+			//Guardamos de manera persistente
+			editor.putInt("numeroAlarmas", ListaAlarmas.size()+1);
+			editor.putString("alarmaNombre" + id, nombre);
+			editor.putString("alarmaDescripcion" + id, descripcion);
+			editor.putBoolean("alarmaMarcada" + id, marcada);
+			editor.putBoolean("alarmaActivada" + id, activada);
+			editor.putBoolean("alarmaMuyFuerte" + id, muyFuerte);
+			editor.putInt("alarmaIdAlerta" + id, alerta.getId());
+			
+			editor.commit();
+		}
 	}
 
 	public void setMarcada(boolean val) {
 		marcada = val;
+		
+		//Guardamos de manera persistente
+		editor.putBoolean("alarmaMarcada" + id, val);
+		editor.commit();
 	}
 
 	public void setActivada(boolean val) {
 		activada = val;
-	}
 
-	public void setAlertaRegistrada(boolean val) {
-		alertaRegistrada = val;
+		//Guardamos de manera persistente
+		editor.putBoolean("alarmaActivada" + id, val);
+		editor.commit();
 	}
 
 	public int getId() {
@@ -125,47 +124,20 @@ public class Alarma {
 	public boolean getActivada() {
 		return activada;
 	}
-
-	public boolean getAlertaRegistrada() {
-		return alertaRegistrada;
-	}
-
 	public boolean getMuyFuerte() {
 		return muyFuerte;
 	}
-
-	public String getUbicacion() {
-		return ubicacion;
+	
+	public Alerta getAlerta() {
+		return alerta;
 	}
-
-	public int getRadio() {
-		return radio;
-	}
-
-	public float getLatitud() {
-		return latitud;
-	}
-
-
-	public float getLongitud() {
-		return longitud;
-	}
-
-	public boolean conUbicacion() {
-		return !(radio == 0 || (latitud == 0 && longitud == 0 && ubicacion
-				.compareTo("") == 0));
-	}
-
-	public static int numAlarmas() {
-		return ListaAlarmas.size();
-	}
-
-	public static Alarma obtenerAlarma(int id) {
-		for (int i = 0; i < ListaAlarmas.size(); i++) {
-			if (ListaAlarmas.elementAt(i).id == id) {
-				return ListaAlarmas.elementAt(i);
-			}
+	
+	public static void iniciarRegistro(Activity val){
+		if(contexto==null){
+			contexto = val.getApplicationContext();
+			settings = contexto.getSharedPreferences(PREFS_NAME, 0);
+			editor = settings.edit();
+			ListaAlarmas.inicializar(settings);
 		}
-		return null;
 	}
 }

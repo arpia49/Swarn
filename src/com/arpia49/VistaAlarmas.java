@@ -36,7 +36,8 @@ public class VistaAlarmas extends Activity {
 	private static String PROXIMITY_ALERT = "com.arpia49.action.proximityalert";
 
 	public void onCreate(Bundle savedInstanceState) {
-		Registro.iniciarRegistro(this);
+		Alerta.iniciarRegistro(this);
+		Alarma.iniciarRegistro(this);
 		messageHandler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
@@ -119,14 +120,20 @@ public class VistaAlarmas extends Activity {
 		switch (reqCode) {
 		case (ACT_ADD_ALARMA): {
 			if (resCode == Activity.RESULT_OK) {
+				
+				Alerta nuevaAlerta = new Alerta.Builder(
+						data.getStringExtra("ubicAlarma"),
+						data.getIntExtra("radioAlarma",100),
+						data.getFloatExtra("latAlarma", 0),
+						data.getFloatExtra("lngAlarma", 0))
+						.build(true);
+
 				Alarma nuevaAlarma = new Alarma.Builder(
 						data.getStringExtra("nombreAlarma"),
 						data.getStringExtra("descAlarma"),
-						data.getBooleanExtra("sonidoFuerte", false)).
-						radio(data.getIntExtra("radioAlarma", 0)).
-						latitud(data.getFloatExtra("latAlarma", 0)).
-						longitud(data.getFloatExtra("lngAlarma", 0))
-						.build();
+						data.getBooleanExtra("sonidoFuerte", false))
+						.alerta(ListaAlertas.obtenerAlerta(nuevaAlerta.getId()))
+						.build(true);
 
 				addAlarma(nuevaAlarma);
 				
@@ -141,9 +148,9 @@ public class VistaAlarmas extends Activity {
 		case (ACT_DEL_ALARMA): {
 			if (resCode == Activity.RESULT_OK) {
 				if (data.getBooleanExtra("todas", false)) {
-					int numAlarmas = Alarma.numAlarmas();
-					for (int i = 0; i < numAlarmas; i++) {
-						delAlarma(numAlarmas - i -1);
+					int numAlarmas = ListaAlarmas.size();
+					for (int i = 1; i <= numAlarmas; i++) {
+						delAlarma(numAlarmas - i);
 					}
 					Toast.makeText(getApplicationContext(),
 							"¡Eliminadas todas las alarmas!",
@@ -166,9 +173,10 @@ public class VistaAlarmas extends Activity {
 	private void cargarPosiciones(LinearLayout lx) {
 
 		// Leemos el número de alarmas
-		int numAlarmas = Alarma.numAlarmas();
+		int numAlarmas = ListaAlarmas.size();
 		for (int i = 0; i < numAlarmas; i++) {
-			addAlarma(ListaAlarmas.elementAt(i));
+			Alarma alarmaActual = ListaAlarmas.elementAt(i);
+			addAlarma(alarmaActual);
 		}
 	}
 
@@ -178,9 +186,9 @@ public class VistaAlarmas extends Activity {
 		final int id = val.getId();
 		final String descripcion = val.getDescripcion();
 		final boolean marcada = val.getMarcada();
-		final float latitud = val.getLatitud();
-		final float longitud = val.getLongitud();
-		final int radio = val.getRadio();
+		final float latitud = val.getAlerta().getLatitud();
+		final float longitud = val.getAlerta().getLongitud();
+		final int radio = val.getAlerta().getRadio();
 		
 		LinearLayout lx = (LinearLayout) findViewById(R.id.mainLay);
 		LinearLayout la = new LinearLayout(this);
@@ -195,11 +203,11 @@ public class VistaAlarmas extends Activity {
 		tbdesc.setSingleLine(false);
 		cb.setText(val.getNombre());
 		if (marcada) {
-			setProximityAlert(id, latitud, longitud, radio);
+			setProximityAlert(val.getAlerta());
 		}
 		cb.setChecked(marcada);
-		if (val.conUbicacion()) {
-			tbdesc.setText(descripcion + " - " + val.getUbicacion() + " (" + radio + "m)");
+		if (val.getAlerta().conUbicacion()) {
+			tbdesc.setText(descripcion + " - " + val.getAlerta().getUbicacion() + " (" + radio + "m)");
 		} else {
 			tbdesc.setText(descripcion);
 		}
@@ -207,18 +215,18 @@ public class VistaAlarmas extends Activity {
 		cb.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				int v_id = v.getId();
-				Alarma alarmaActual = Alarma.obtenerAlarma(v_id);
+				Alarma alarmaActual = ListaAlarmas.obtenerAlarma(v_id);
 				if (((CheckBox) v).isChecked()) {
 					alarmaActual.setMarcada(true);
-					if (!alarmaActual.conUbicacion()) {
+					if (!alarmaActual.getAlerta().conUbicacion()) {
 						engine.start_engine(alarmaActual.getMuyFuerte());
 					} else {
-						setProximityAlert(v_id, latitud, longitud, radio);
+						setProximityAlert(alarmaActual.getAlerta());
 					}
 				} else {
 					alarmaActual.setMarcada(false);
-					if (alarmaActual.conUbicacion()) {
-						removeProximityAlert(v_id);
+					if (alarmaActual.getAlerta().conUbicacion()) {
+						removeProximityAlert(alarmaActual.getAlerta());
 					}else{
 						engine.stop_engine();
 					}
@@ -235,25 +243,22 @@ public class VistaAlarmas extends Activity {
 		Alarma alarmaABorrar = ListaAlarmas.elementAt(id);
 		for (int i = id+1; i < numAlarmas; i++) {
 			Alarma alarmaActual = ListaAlarmas.elementAt(i);
-			if (alarmaActual.getMarcada() && alarmaActual.conUbicacion()){
-				removeProximityAlert(i + 1);
-				setProximityAlert(
-						i,
-						alarmaActual.getLatitud(),
-						alarmaActual.getLongitud(),
-						alarmaActual.getRadio());
+			if (alarmaActual.getMarcada() && alarmaActual.getAlerta().conUbicacion()){
+				removeProximityAlert(alarmaActual.getAlerta());
+				setProximityAlert(alarmaActual.getAlerta());
 			}
 		}
 		
-		if(alarmaABorrar.conUbicacion() && alarmaABorrar.getMarcada()){
-			removeProximityAlert(id);
+		if(alarmaABorrar.getAlerta().conUbicacion() && alarmaABorrar.getMarcada()){
+			removeProximityAlert(alarmaABorrar.getAlerta());
 		}
 
 		ListaAlarmas.del(id);
 	}
 
-	private void setProximityAlert(int id, double lat, double lng, int distancia) {
-		Alarma alarmaActual = ListaAlarmas.elementAt(id);
+	private void setProximityAlert(Alerta val) {
+		int id = val.getId();
+		
 		String locService = Context.LOCATION_SERVICE;
 		LocationManager locationManager;
 		locationManager = (LocationManager) getSystemService(locService);
@@ -265,22 +270,23 @@ public class VistaAlarmas extends Activity {
 
 		PendingIntent proximityIntent = PendingIntent.getBroadcast(
 				getApplicationContext(), id, intent, 0);
-		locationManager.addProximityAlert(lat, lng, distancia, expiration,
+		locationManager.addProximityAlert(val.getLatitud(), val.getLongitud(), val.getRadio(), expiration,
 				proximityIntent);
 
-		if (!alarmaActual.getAlertaRegistrada()) {
+		if (!val.getRegistrada()) {
 			IntentFilter filter = new IntentFilter(PROXIMITY_ALERT);
 			filter.addDataScheme(Integer.toString(id));
 			registerReceiver(new AlertaEntrante(), filter);
-			alarmaActual.setAlertaRegistrada(true);
+			val.setRegistrada(true);
 		}
 		
 		Toast.makeText(getApplicationContext(), "Añadida alerta" + id,
 				Toast.LENGTH_SHORT).show();
 	}
 
-	private void removeProximityAlert(int id) {
-		Alarma alarmaActual = ListaAlarmas.elementAt(id);
+	private void removeProximityAlert(Alerta val) {
+		int id = val.getId();
+		
 		String locService = Context.LOCATION_SERVICE;
 		LocationManager locationManager;
 		locationManager = (LocationManager) getSystemService(locService);
@@ -296,13 +302,9 @@ public class VistaAlarmas extends Activity {
 
 		Toast.makeText(getApplicationContext(), "Borrada alerta" + id,
 				Toast.LENGTH_SHORT).show();
-		if(alarmaActual.getActivada()){
+		if(val.getRegistrada()){
 			engine.stop_engine();
-			alarmaActual.setActivada(false);
+			val.setRegistrada(false);
 		}
 	}
-
-//	private boolean hayAlertas() {
-//		return (settings.getInt("numAlertas", 0) > 0);
-//	} Hay que objetar
 }

@@ -1,3 +1,34 @@
+			editor.putInt("numeroAlarmas", ListaAlarmas.size()+1);
+		editor.putString("alarmaNombre" + id, nombre);
+		editor.putString("alarmaDescripcion" + id, descripcion);
+		editor.putBoolean("alarmaMarcada" + id, marcada);
+		editor.putBoolean("alarmaActivada" + id, activada);
+		editor.putBoolean("alarmaAlertaRegistrada" + id, alertaRegistrada);
+		editor.putBoolean("alarmaMuyFuerte" + id, muyFuerte);
+		editor.putInt("alarmaRadio" + id, radio);
+		editor.putFloat("alarmaLatitud" + id, latitud);
+		editor.putFloat("alarmaLongitud" + id, longitud);
+		editor.putString("alarmaUbicacion" + id, ubicacion);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	private void delAlarma(int id) {
 		ListaAlarmas.del(id);
 		int numAlarmas = Alarma.numAlarmas();

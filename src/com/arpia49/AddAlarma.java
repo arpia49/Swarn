@@ -68,14 +68,12 @@ public class AddAlarma extends Activity {
 		adapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		sp.setEnabled(false);
-		et3.setEnabled(false);
 		sp.setAdapter(adapter);
-
+		updateWithLocation(location);
 		bt.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Intent outData = new Intent();
-				if (cb.isChecked() && addresses.size() > 0) {
+				if (cb.isChecked()) {
 					Address address = addresses.get(0);
 					int metros = 100;
 					if (sp.getSelectedItemPosition() == 1) {
@@ -87,7 +85,7 @@ public class AddAlarma extends Activity {
 					outData.putExtra("lngAlarma", lng);
 				} else {
 					outData.putExtra("ubicAlarma", "");
-					outData.putExtra("radioAlarma", "");
+					outData.putExtra("radioAlarma", 0);
 					outData.putExtra("latAlarma", 0);
 					outData.putExtra("lngAlarma", 0);
 				}
@@ -130,11 +128,16 @@ public class AddAlarma extends Activity {
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus)
 					et3.setText("");
-				else {
+			}
+		});
+
+		cb.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				if (((CheckBox) v).isChecked()) {
 					try {
 						addresses = gc.getFromLocationName(et3.getText()
 								.toString(), 1);
-						if (addresses != null && addresses.size() != 0) {
+						if (addresses != null && addresses.size() > 0) {
 							lat = (float) addresses.get(0).getLatitude();
 							lng = (float) addresses.get(0).getLongitude();
 						} else {
@@ -147,20 +150,7 @@ public class AddAlarma extends Activity {
 								"No se ha encontrado la dirección",
 								Toast.LENGTH_SHORT).show();
 					}
-				}
-			}
-		});
-
-		cb.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				if (((CheckBox) v).isChecked()) {
-					et3.setEnabled(true);
-					sp.setEnabled(true);
-					updateWithLocation(location);
-				} else {
-					et3.setEnabled(false);
-					sp.setEnabled(false);
-				}
+				} 
 			}
 		});
 
@@ -185,12 +175,8 @@ public class AddAlarma extends Activity {
 						sb.append(address.getAddressLine(i));
 				}
 			} catch (IOException e) {
-				final EditText et3 = (EditText) findViewById(R.id.et_lugar);
-				final Spinner sp = (Spinner) findViewById(R.id.sp_radio);
 				final CheckBox cb = (CheckBox) findViewById(R.id.cb_posicion);
 
-				sp.setEnabled(false);
-				et3.setEnabled(false);
 				cb.setChecked(false);
 				Toast.makeText(getApplicationContext(),
 						"Ubicación no disponible", Toast.LENGTH_SHORT).show();
@@ -206,7 +192,6 @@ public class AddAlarma extends Activity {
 
 	private final LocationListener locationListener = new LocationListener() {
 		public void onLocationChanged(Location location) {
-			updateWithLocation(location);
 		}
 
 		public void onProviderDisabled(String provider) {

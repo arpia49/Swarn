@@ -11,7 +11,7 @@
 	<string name="cancelar">Cancelar</string>
 	<string name="ayuda">Menú para añadir, borrar y ayuda</string>
 	<string name="et_descAlarma">Descripción de la alarma</string>
-	<string name="desc_locale">¿Especificar ubicación?</string>
+	<string name="desc_locale">¿Utilizar ubicación?</string>
 	<string name="et_lugar">Ubicación actual</string>
 	<string name="cb_sonora">Activar sonidos</string>
 	<string name="desc_sonora">Opciones de la notificación</string>
