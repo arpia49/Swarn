@@ -1,7 +1,6 @@
 package com.arpia49;
 
 import java.math.BigDecimal;
-import java.util.Stack;
 
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -21,7 +20,7 @@ public class splEngine implements Runnable {
 	private static final double P0 = 0.000002;
 	public volatile boolean isRunning = false;
 	static Handler handle = null;
-	public volatile static Stack<Boolean> pila = null;
+	public volatile static int pila;
 	private static splEngine instance = null;
 	AudioRecord recordInstance = null;
 
@@ -33,7 +32,7 @@ public class splEngine implements Runnable {
 		if (instance == null) {
 			instance = new splEngine();
 			handle = h;
-			pila = new Stack<Boolean>();
+			pila = 0;
 		}
 		return instance;
 	}
@@ -42,7 +41,7 @@ public class splEngine implements Runnable {
 	 * starts the engine.
 	 */
 	public void start_engine(boolean fuerte) {
-		pila.push(fuerte);
+		pila++;
 		if (!this.isRunning) {
 			this.isRunning = true;
 			Thread t=new Thread (this);
@@ -54,8 +53,8 @@ public class splEngine implements Runnable {
 	 * stops the engine
 	 */
 	public void stop_engine() {
-		pila.pop();
-		if (pila.empty()) {
+		pila--;
+		if (pila==0) {
 			this.isRunning = false;
 		}
 	}
@@ -73,10 +72,8 @@ public class splEngine implements Runnable {
 
 			recordInstance.startRecording();
 			short[] tempBuffer = new short[BUFFSIZE];
+			int veces = 1000;
 
-
-			handle.sendEmptyMessage(0);
-			
 			while (this.isRunning) {
 				double splValue = 0.0;
 				double rmsValue = 0.0;
@@ -96,10 +93,16 @@ public class splEngine implements Runnable {
 
 				splValue = 20 * Math.log10(rmsValue / P0);
 				splValue = round(splValue, 2);
+				
+				if(veces==1000){
+					handle.sendEmptyMessage((int) splValue);
+					veces=0;
+				}
+				veces++;
+					
 			}
 
 			recordInstance.stop();
-			handle.sendEmptyMessage(1);
 			
 		} catch (Exception e) {
 
