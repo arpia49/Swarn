@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,7 +22,6 @@ import android.widget.Toast;
 public class VistaAlarmas extends Activity {
 
 	// De los menús
-	public static final String PREFS_NAME = "PrefTimbre";
 	public static final int ACT_ADD_ALARMA = 1;
 	public static final int ACT_DEL_ALARMA = 2;
 	public static final int ACT_LISTA_ALERTAS = 3;
@@ -37,13 +35,8 @@ public class VistaAlarmas extends Activity {
 	// Alerta de proximidad
 	private static String PROXIMITY_ALERT = "com.arpia49.action.proximityalert";
 
-	// Preferencias en el sistema
-	private SharedPreferences settings = null;
-	private SharedPreferences.Editor editor = null;
-
 	public void onCreate(Bundle savedInstanceState) {
-		settings = getSharedPreferences(PREFS_NAME, 0);
-		editor = settings.edit();
+		Registro.iniciarRegistro(this);
 		messageHandler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
@@ -84,9 +77,9 @@ public class VistaAlarmas extends Activity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		MenuItem itemDel = menu.getItem(1);
 		MenuItem itemLista = menu.getItem(2);
-		itemDel.setEnabled(hayAlarmas());
-		itemLista.setEnabled(hayAlertas());
-
+		itemDel.setEnabled(ListaAlarmas.size()>0);
+		//itemLista.setEnabled(hayAlertas()); Hay que objetar
+		itemLista.setEnabled(true); //Hay que objetar
 		return true;
 	}
 
@@ -126,13 +119,17 @@ public class VistaAlarmas extends Activity {
 		switch (reqCode) {
 		case (ACT_ADD_ALARMA): {
 			if (resCode == Activity.RESULT_OK) {
-				crearAlarma(data.getStringExtra("nombreAlarma"),
-							data.getStringExtra("descAlarma"), 
-							data.getStringExtra("ubicAlarma"), 
-							data.getIntExtra("radioAlarma", 0), 
-							data.getFloatExtra("latAlarma", 0),
-							data.getFloatExtra("lngAlarma", 0), 
-							data.getBooleanExtra("sonidoFuerte", false));
+				Alarma nuevaAlarma = new Alarma.Builder(
+						data.getStringExtra("nombreAlarma"),
+						data.getStringExtra("descAlarma"),
+						data.getBooleanExtra("sonidoFuerte", false)).
+						radio(data.getIntExtra("radioAlarma", 0)).
+						latitud(data.getFloatExtra("latAlarma", 0)).
+						longitud(data.getFloatExtra("lngAlarma", 0))
+						.build();
+
+				addAlarma(nuevaAlarma);
+				
 				Toast.makeText(getApplicationContext(), "Alarma añadida!",
 						Toast.LENGTH_SHORT).show();
 			} else {
@@ -145,17 +142,18 @@ public class VistaAlarmas extends Activity {
 			if (resCode == Activity.RESULT_OK) {
 				if (data.getBooleanExtra("todas", false)) {
 					int numAlarmas = Alarma.numAlarmas();
-					for (int i = 1; i <= numAlarmas; i++) {
-						delAlarma(numAlarmas - i + 1);
+					for (int i = 0; i < numAlarmas; i++) {
+						delAlarma(numAlarmas - i -1);
 					}
 					Toast.makeText(getApplicationContext(),
 							"¡Eliminadas todas las alarmas!",
 							Toast.LENGTH_SHORT).show();
 				} else {
-					delAlarma(Integer.parseInt(data.getStringExtra("idAlarma")) + 1);
+					delAlarma((int)data.getLongExtra("idAlarma",0));
 					Toast.makeText(getApplicationContext(),
 							"Alarma  eliminada!", Toast.LENGTH_SHORT).show();
 				}
+				this.onCreate(null);
 			} else {
 				Toast.makeText(getApplicationContext(),
 						"No se han borrado alarmas", Toast.LENGTH_SHORT).show();
@@ -169,34 +167,21 @@ public class VistaAlarmas extends Activity {
 
 		// Leemos el número de alarmas
 		int numAlarmas = Alarma.numAlarmas();
-		for (int i = 1; i <= numAlarmas; i++) {
-			addAlarma(i, settings.getBoolean("estadoAlarma" + i, false),
-					settings.getString("nombreAlarma" + i, "sin nombre"),
-					settings.getString("descAlarma" + i, "sin descripción"),
-					settings.getString("ubicAlarma" + i, "sin ubicación"),
-					settings.getInt("radioAlarma" + i, 0),
-					settings.getFloat("latAlarma" + i, 0), 
-					settings.getFloat("lngAlarma" + i, 0));
+		for (int i = 0; i < numAlarmas; i++) {
+			addAlarma(ListaAlarmas.elementAt(i));
 		}
 	}
 
-	private void crearAlarma(String nombre, String desc, String ubic,
-			int radio, float lat, float lng, boolean fuerte) {
-		Alarma nuevaAlarma = new Alarma.Builder(
-				nombre, 
-				desc,
-				fuerte).
-				radio(radio).
-				latitud(lat).
-				longitud(lng)
-				.build();
+	private void addAlarma(Alarma val) {
 
-		addAlarma(Alarma.numAlarmas(), false, nombre, desc, ubic, radio, lat, lng);
-	}
-
-	private void addAlarma(int id, boolean estado, String nombre, String desc,
-			String ubic, final int radio, float lat, float lng) {
-
+		//Obtenemos los datos que se usarán más de una vez
+		final int id = val.getId();
+		final String descripcion = val.getDescripcion();
+		final boolean marcada = val.getMarcada();
+		final float latitud = val.getLatitud();
+		final float longitud = val.getLongitud();
+		final int radio = val.getRadio();
+		
 		LinearLayout lx = (LinearLayout) findViewById(R.id.mainLay);
 		LinearLayout la = new LinearLayout(this);
 		la.setId(id);
@@ -208,19 +193,17 @@ public class VistaAlarmas extends Activity {
 		cb.setId(id);
 		tbdesc.setId(id);
 		tbdesc.setSingleLine(false);
-		cb.setText(nombre);
-		if (estado) {
-			setProximityAlert(id, lat, lng, radio);
+		cb.setText(val.getNombre());
+		if (marcada) {
+			setProximityAlert(id, latitud, longitud, radio);
 		}
-		cb.setChecked(estado);
-		if (!ubic.equals("")) {
-			tbdesc.setText(desc + " - " + ubic + " (" + radio + "m)");
+		cb.setChecked(marcada);
+		if (val.conUbicacion()) {
+			tbdesc.setText(descripcion + " - " + val.getUbicacion() + " (" + radio + "m)");
 		} else {
-			tbdesc.setText(desc);
+			tbdesc.setText(descripcion);
 		}
 
-		final float flat = lat;
-		final float flng = lng;
 		cb.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				int v_id = v.getId();
@@ -230,7 +213,7 @@ public class VistaAlarmas extends Activity {
 					if (!alarmaActual.conUbicacion()) {
 						engine.start_engine(alarmaActual.getMuyFuerte());
 					} else {
-						setProximityAlert(v_id, flat, flng, radio);
+						setProximityAlert(v_id, latitud, longitud, radio);
 					}
 				} else {
 					alarmaActual.setMarcada(false);
@@ -240,7 +223,6 @@ public class VistaAlarmas extends Activity {
 						engine.stop_engine();
 					}
 				}
-				editor.commit();
 			}
 		});
 		la.addView(cb);
@@ -249,68 +231,29 @@ public class VistaAlarmas extends Activity {
 	}
 
 	private void delAlarma(int id) {
-		int numAlarmas = Alarma.numAlarmas();
-		LinearLayout ll = (LinearLayout) findViewById(id);
-		ll.setId(numAlarmas + 1);
-		editor.putBoolean("estadoAlarma" + numAlarmas + 1, settings.getBoolean(
-				"estadoAlarma" + id, false));
-		editor.putString("nombreAlarma" + numAlarmas + 1, settings.getString(
-				"nombreAlarma" + id, "sin nombre"));
-		editor.putString("descAlarma" + numAlarmas + 1, settings.getString(
-				"descAlarma" + id, "sin descripción"));
-		editor.putString("ubicAlarma" + numAlarmas + 1, settings.getString(
-				"ubicAlarma" + id, "sin ubicación"));
-		editor.putInt("radioAlarma" + numAlarmas + 1, settings.getInt(
-				"radioAlarma" + id, 0));
-		editor.putFloat("latAlarma" + numAlarmas + 1, settings.getFloat(
-				"latAlarma" + id, 0));
-		editor.putFloat("lngAlarma" + numAlarmas + 1, settings.getFloat(
-				"lngAlarma" + id, 0));
-		editor.putBoolean("activada" + numAlarmas + 1, settings.getBoolean(
-				"activada" + id, false));
-		editor.putBoolean("registradaAlerta" + numAlarmas + 1, settings
-				.getBoolean("registradaAlerta" + id, false));
-		editor.putBoolean("sonidoFuerte" + numAlarmas + 1, settings.getBoolean(
-				"sonidoFuerte" + id, false));
-
-		for (int i = id; i < numAlarmas; i++) {
-			editor.putBoolean("estadoAlarma" + i, settings.getBoolean(
-					"estadoAlarma" + (i + 1), false));
-			editor.putString("nombreAlarma" + i, settings.getString(
-					"nombreAlarma" + (i + 1), "sin nombre"));
-			editor.putString("descAlarma" + i, settings.getString("descAlarma"
-					+ (i + 1), "sin descripción"));
-			editor.putString("ubicAlarma" + i, settings.getString("ubicAlarma"
-					+ (i + 1), "sin ubicación"));
-			editor.putInt("radioAlarma" + i, settings.getInt("radioAlarma"
-					+ (i + 1), 0));
-			editor.putFloat("latAlarma" + i, settings.getFloat("latAlarma"
-					+ (i + 1), 0));
-			editor.putFloat("lngAlarma" + i, settings.getFloat("lngAlarma"
-					+ (i + 1), 0));
-			editor.putBoolean("activada" + i, settings.getBoolean("activada"
-					+ (i + 1), false));
-			editor.putBoolean("registradaAlerta" + i, settings.getBoolean(
-					"registradaAlerta" + (i + 1), false));
-			editor.putBoolean("sonidoFuerte" + i, settings.getBoolean(
-					"sonidoFuerte" + (i + 1), false));
-			if (settings.getBoolean("estadoAlarma" + (i + 1), false)) {
+		int numAlarmas = ListaAlarmas.size();
+		Alarma alarmaABorrar = ListaAlarmas.elementAt(id);
+		for (int i = id+1; i < numAlarmas; i++) {
+			Alarma alarmaActual = ListaAlarmas.elementAt(i);
+			if (alarmaActual.getMarcada() && alarmaActual.conUbicacion()){
 				removeProximityAlert(i + 1);
-				setProximityAlert(i, settings
-						.getFloat("latAlarma" + (i + 1), 0), settings.getFloat(
-						"lngAlarma" + (i + 1), 0), settings.getInt(
-						"radioAlarma" + (i + 1), 0));
+				setProximityAlert(
+						i,
+						alarmaActual.getLatitud(),
+						alarmaActual.getLongitud(),
+						alarmaActual.getRadio());
 			}
-			LinearLayout ll2 = (LinearLayout) findViewById(i + 1);
-			ll2.setId(i);
 		}
-		editor.putInt("numAlarmas", numAlarmas - 1);
-		editor.commit();
-		removeProximityAlert(id);
-		this.onCreate(null);
+		
+		if(alarmaABorrar.conUbicacion() && alarmaABorrar.getMarcada()){
+			removeProximityAlert(id);
+		}
+
+		ListaAlarmas.del(id);
 	}
 
 	private void setProximityAlert(int id, double lat, double lng, int distancia) {
+		Alarma alarmaActual = ListaAlarmas.elementAt(id);
 		String locService = Context.LOCATION_SERVICE;
 		LocationManager locationManager;
 		locationManager = (LocationManager) getSystemService(locService);
@@ -325,19 +268,19 @@ public class VistaAlarmas extends Activity {
 		locationManager.addProximityAlert(lat, lng, distancia, expiration,
 				proximityIntent);
 
-		if (!settings.getBoolean("registradaAlerta" + id, false)) {
+		if (!alarmaActual.getAlertaRegistrada()) {
 			IntentFilter filter = new IntentFilter(PROXIMITY_ALERT);
 			filter.addDataScheme(Integer.toString(id));
 			registerReceiver(new AlertaEntrante(), filter);
-			editor.putBoolean("registradaAlerta" + id, true);
-			editor.commit();
+			alarmaActual.setAlertaRegistrada(true);
 		}
-
+		
 		Toast.makeText(getApplicationContext(), "Añadida alerta" + id,
 				Toast.LENGTH_SHORT).show();
 	}
 
 	private void removeProximityAlert(int id) {
+		Alarma alarmaActual = ListaAlarmas.elementAt(id);
 		String locService = Context.LOCATION_SERVICE;
 		LocationManager locationManager;
 		locationManager = (LocationManager) getSystemService(locService);
@@ -353,18 +296,13 @@ public class VistaAlarmas extends Activity {
 
 		Toast.makeText(getApplicationContext(), "Borrada alerta" + id,
 				Toast.LENGTH_SHORT).show();
-		if(settings.getBoolean("activada"+id, false) == true){
+		if(alarmaActual.getActivada()){
 			engine.stop_engine();
+			alarmaActual.setActivada(false);
 		}
-		editor.putBoolean("activada" + id,false);
-		editor.commit();
 	}
 
-	private boolean hayAlertas() {
-		return (settings.getInt("numAlertas", 0) > 0);
-	}
-
-	private boolean hayAlarmas() {
-		return (settings.getInt("numAlarmas", 0) > 0);
-	}
+//	private boolean hayAlertas() {
+//		return (settings.getInt("numAlertas", 0) > 0);
+//	} Hay que objetar
 }

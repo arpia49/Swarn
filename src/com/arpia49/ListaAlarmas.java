@@ -12,6 +12,10 @@ public class ListaAlarmas {
 	public static void add(Alarma val){
 		listaAlarmas.add(val);
 	}
+
+	public static void del(int val){
+		listaAlarmas.remove(val);
+	}
 	
 	public static Alarma elementAt(int val){
 		return listaAlarmas.elementAt(val);

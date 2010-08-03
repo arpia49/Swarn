@@ -3,7 +3,6 @@ package com.arpia49;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,33 +12,30 @@ import android.widget.ListView;
 
 public class DelAlarmas extends ListActivity {
 
-	public static final String PREFS_NAME = "PrefTimbre";
 	static final private int DEL_ALARMAS = Menu.FIRST;
-	private SharedPreferences settings = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		settings = getSharedPreferences(PREFS_NAME, 0);
 		super.onCreate(savedInstanceState);
-		int numAlarmas = settings.getInt("numAlarmas", 0);
+		int numAlarmas = ListaAlarmas.size();
 		String[] alarmas = new String[numAlarmas];
-		for (int i = 1; i <= numAlarmas; i++) {
-			alarmas[i - 1] = settings.getString("nombreAlarma" + i,
-					"sin nombre");
+		for (int i = 0; i < numAlarmas; i++) {
+			alarmas[i] = ListaAlarmas.elementAt(i).getNombre();
 		}
 		setListAdapter(new ArrayAdapter<String>(this, R.layout.del_alarma,
 				alarmas));
 	}
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id){
-        super.onListItemClick(l, v, position, id);
+
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
 
 		Intent outData = new Intent();
-		outData.putExtra("idAlarma", Long.toString(id));
+		outData.putExtra("idAlarma", id);
 		setResult(Activity.RESULT_OK, outData);
 		finish();
-    }
-    
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);

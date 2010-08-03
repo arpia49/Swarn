@@ -79,6 +79,7 @@ public class Alarma {
 	}
 
 	private Alarma(Builder builder) {
+		id = ListaAlarmas.size() + 1;
 		nombre = builder.nombre;
 		descripcion = builder.descripcion;
 		marcada = builder.marcada;
@@ -88,7 +89,7 @@ public class Alarma {
 		radio = builder.radio;
 		latitud = builder.latitud;
 		longitud = builder.longitud;
-		id = ListaAlarmas.size() + 1;
+		ubicacion = builder.ubicacion;
 
 		// Si hay internet rellenamos lat y long
 	}
@@ -97,8 +98,57 @@ public class Alarma {
 		marcada = val;
 	}
 
+	public void setActivada(boolean val) {
+		activada = val;
+	}
+
+	public void setAlertaRegistrada(boolean val) {
+		alertaRegistrada = val;
+	}
+
+	public int getId() {
+		return id;
+	}
+	
+	public String getNombre() {
+		return nombre;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public boolean getMarcada() {
+		return marcada;
+	}
+
+	public boolean getActivada() {
+		return activada;
+	}
+
+	public boolean getAlertaRegistrada() {
+		return alertaRegistrada;
+	}
+
 	public boolean getMuyFuerte() {
 		return muyFuerte;
+	}
+
+	public String getUbicacion() {
+		return ubicacion;
+	}
+
+	public int getRadio() {
+		return radio;
+	}
+
+	public float getLatitud() {
+		return latitud;
+	}
+
+
+	public float getLongitud() {
+		return longitud;
 	}
 
 	public boolean conUbicacion() {
