@@ -4,6 +4,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import com.arpia49.R;
+import com.arpia49.R.array;
+import com.arpia49.R.id;
+import com.arpia49.R.layout;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

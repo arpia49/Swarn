@@ -72,7 +72,7 @@ public class splEngine implements Runnable {
 
 			recordInstance.startRecording();
 			short[] tempBuffer = new short[BUFFSIZE];
-			int veces = 1000;
+			int veces = 500;
 
 			while (this.isRunning) {
 				double splValue = 0.0;

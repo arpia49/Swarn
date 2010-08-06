@@ -19,12 +19,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.arpia49.R;
+
 public class VistaAlarmas extends Activity {
 
 	// De los menús
 	public static final int ACT_ADD_ALARMA = 1;
 	public static final int ACT_DEL_ALARMA = 2;
-	public static final int ACT_LISTA_ALERTAS = 3;
+	public static final int ACT_LISTA_NOTIFICACIONES = 3;
 	static final private int ADD_ALARMA = Menu.FIRST;
 	static final private int DEL_ALARMA = Menu.FIRST + 1;
 	static final private int LISTA_ALERTAS = Menu.FIRST + 2;
@@ -38,6 +40,7 @@ public class VistaAlarmas extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		Alerta.iniciarRegistro(this);
 		Alarma.iniciarRegistro(this);
+		Notificacion.iniciarRegistro(this);
 		messageHandler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
@@ -79,8 +82,7 @@ public class VistaAlarmas extends Activity {
 		MenuItem itemDel = menu.getItem(1);
 		MenuItem itemLista = menu.getItem(2);
 		itemDel.setEnabled(ListaAlarmas.size()>0);
-		//itemLista.setEnabled(hayAlertas()); Hay que objetar
-		itemLista.setEnabled(true); //Hay que objetar
+		itemLista.setEnabled(ListaNotificaciones.size()>0);
 		return true;
 	}
 
@@ -99,7 +101,7 @@ public class VistaAlarmas extends Activity {
 		}
 		case (LISTA_ALERTAS): {
 			Intent intent = new Intent(this, ListarAlertas.class);
-			startActivityForResult(intent, ACT_LISTA_ALERTAS);
+			startActivityForResult(intent, ACT_LISTA_NOTIFICACIONES);
 			return true;
 		}
 		case (INFO): {
@@ -265,7 +267,7 @@ public class VistaAlarmas extends Activity {
 
 		long expiration = -1; // do not expire
 		Intent intent = new Intent(PROXIMITY_ALERT);
-		intent.putExtra("id", Integer.toString(id));
+		intent.putExtra("id", id);
 		intent.setData((Uri.parse(id + "://" + id)));
 
 		PendingIntent proximityIntent = PendingIntent.getBroadcast(
@@ -292,7 +294,7 @@ public class VistaAlarmas extends Activity {
 		locationManager = (LocationManager) getSystemService(locService);
 
 		Intent intent = new Intent(PROXIMITY_ALERT);
-		intent.putExtra("id", Integer.toString(id));
+		intent.putExtra("id", id);
 		intent.setData((Uri.parse(id + "://" + id)));
 
 		PendingIntent proximityIntent = PendingIntent.getBroadcast(

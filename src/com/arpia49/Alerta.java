@@ -93,6 +93,14 @@ public class Alerta {
 		}
 	}
 
+	public void setActivada(boolean val) {
+		activada = val;
+
+		//Guardamos de manera persistente
+		editor.putBoolean("alertaActivada" + id, val);
+		editor.commit();
+	}
+
 	public void setRegistrada(boolean val) {
 		registrada = val;
 
