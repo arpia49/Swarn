@@ -127,13 +127,13 @@ public class VistaAlarmas extends Activity {
 						data.getStringExtra("ubicAlarma"),
 						data.getIntExtra("radioAlarma",100),
 						data.getFloatExtra("latAlarma", 0),
-						data.getFloatExtra("lngAlarma", 0))
+						data.getFloatExtra("lngAlarma", 0),
+						data.getBooleanExtra("sonidoFuerte", false))
 						.build(true);
 
 				Alarma nuevaAlarma = new Alarma.Builder(
 						data.getStringExtra("nombreAlarma"),
-						data.getStringExtra("descAlarma"),
-						data.getBooleanExtra("sonidoFuerte", false))
+						data.getStringExtra("descAlarma"))
 						.alerta(ListaAlertas.obtenerAlerta(nuevaAlerta.getId()))
 						.build(true);
 
@@ -211,7 +211,7 @@ public class VistaAlarmas extends Activity {
 		if (val.getAlerta().conUbicacion()) {
 			tbdesc.setText(descripcion + " - " + val.getAlerta().getUbicacion() + " (" + radio + "m)");
 		} else {
-			tbdesc.setText(descripcion);
+			tbdesc.setText(descripcion + " - " + val.getAlerta().getUbicacion());
 		}
 
 		cb.setOnClickListener(new OnClickListener() {
@@ -221,7 +221,7 @@ public class VistaAlarmas extends Activity {
 				if (((CheckBox) v).isChecked()) {
 					alarmaActual.setMarcada(true);
 					if (!alarmaActual.getAlerta().conUbicacion()) {
-						engine.start_engine(alarmaActual.getMuyFuerte());
+						engine.start_engine(alarmaActual.getAlerta().getMuyFuerte());
 					} else {
 						setProximityAlert(alarmaActual.getAlerta());
 					}

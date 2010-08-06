@@ -41,7 +41,7 @@ public class AlertaEntrante extends BroadcastReceiver {
 			Toast.makeText(context, "¡Has entrado! Num=" + id,
 					Toast.LENGTH_SHORT).show();
 			// OJO; AQUÍ TIENE QUE PILLAR DE ALERTA
-				engine.start_engine(ListaAlarmas.obtenerAlarma(id).getMuyFuerte());
+				engine.start_engine(ListaAlarmas.obtenerAlarma(id).getAlerta().getMuyFuerte());
 				ListaAlertas.obtenerAlerta(id).setActivada(true);
 		} else {
 			Log.d("ALERTA DE PROXIMIDAD", "salida");

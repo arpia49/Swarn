@@ -20,7 +20,6 @@ public class Alarma {
 	//Obligatorias
 	private String nombre;
 	private String descripcion;
-	private boolean muyFuerte;
 	
 	//Opcionales
 	private boolean marcada;
@@ -31,17 +30,15 @@ public class Alarma {
 		// Obligatorios
 		private String nombre;
 		private String descripcion;
-		private boolean muyFuerte;
 
 		// Opcionales
 		private boolean marcada = false;
 		private boolean activada = false;
 		private Alerta alerta = null;
 
-		public Builder(String nombre, String descripcion, boolean muyFuerte) {
+		public Builder(String nombre, String descripcion) {
 			this.nombre = nombre;
 			this.descripcion = descripcion;
-			this.muyFuerte = muyFuerte;
 		}
 
 		public Builder marcada(boolean val) {
@@ -74,7 +71,6 @@ public class Alarma {
 		descripcion = builder.descripcion;
 		marcada = builder.marcada;
 		activada = builder.activada;
-		muyFuerte = builder.muyFuerte;
 		alerta = builder.alerta;
 	
 		if (guardar){
@@ -84,7 +80,6 @@ public class Alarma {
 			editor.putString("alarmaDescripcion" + id, descripcion);
 			editor.putBoolean("alarmaMarcada" + id, marcada);
 			editor.putBoolean("alarmaActivada" + id, activada);
-			editor.putBoolean("alarmaMuyFuerte" + id, muyFuerte);
 			editor.putInt("alarmaIdAlerta" + id, alerta.getId());
 			
 			editor.commit();
@@ -125,9 +120,6 @@ public class Alarma {
 
 	public boolean getActivada() {
 		return activada;
-	}
-	public boolean getMuyFuerte() {
-		return muyFuerte;
 	}
 	
 	public Alerta getAlerta() {

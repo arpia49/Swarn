@@ -89,7 +89,7 @@ public class AddAlarma extends Activity {
 					outData.putExtra("latAlarma", lat);
 					outData.putExtra("lngAlarma", lng);
 				} else {
-					outData.putExtra("ubicAlarma", "");
+					outData.putExtra("ubicAlarma", "Sin ubicación");
 					outData.putExtra("radioAlarma", 0);
 					outData.putExtra("latAlarma", 0);
 					outData.putExtra("lngAlarma", 0);

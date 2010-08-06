@@ -21,6 +21,7 @@ public class Alerta {
 	private int radio;
 	private float latitud;
 	private float longitud;
+	private boolean muyFuerte;
 	
 	//Opcionales
 	private boolean registrada;
@@ -35,15 +36,17 @@ public class Alerta {
 		private int radio;
 		private float latitud;
 		private float longitud;
+		private boolean muyFuerte;
 		
 		// Opcionales
 		private boolean registrada;
 
-		public Builder(String ubicacion,int radio,float latitud,float longitud) {
+		public Builder(String ubicacion,int radio,float latitud,float longitud, boolean muyFuerte) {
 			this.ubicacion=ubicacion;
 			this.radio=radio;
 			this.latitud=latitud;
 			this.longitud=longitud;
+			this.muyFuerte = muyFuerte;
 		}
 
 		public Builder activada(boolean val) {
@@ -76,6 +79,7 @@ public class Alerta {
 		latitud = builder.latitud;
 		longitud = builder.longitud;
 		ubicacion = builder.ubicacion;
+		muyFuerte = builder.muyFuerte;
 	
 		if (guardar){
 
@@ -88,6 +92,7 @@ public class Alerta {
 			editor.putFloat("alertaLatitud" + id, latitud);
 			editor.putFloat("alertaLongitud" + id, longitud);
 			editor.putString("alertaUbicacion" + id, ubicacion);
+			editor.putBoolean("alertaMuyFuerte" + id, muyFuerte);
 			
 			editor.commit();
 		}
@@ -136,10 +141,13 @@ public class Alerta {
 	public boolean getRegistrada() {
 		return registrada;
 	}
+	
+	public boolean getMuyFuerte() {
+		return muyFuerte;
+	}
 
 	public boolean conUbicacion() {
-		return !(latitud == 0 && longitud == 0 && ubicacion
-				.compareTo("") == 0);
+		return !(ubicacion.compareTo("Sin ubicación") == 0);
 	}
 	
 	public static void iniciarRegistro(Activity val){

@@ -39,8 +39,7 @@ public class ListaAlarmas {
 		for(int i = 1; i<=total; i++){
 			Alarma nuevaAlarma = new Alarma.Builder(
 					val.getString("alarmaNombre"+ i,""),
-					val.getString("alarmaDescripcion"+ i,""),
-					val.getBoolean("alarmaMuyFuerte"+ i, false)).
+					val.getString("alarmaDescripcion"+ i,"")).
 					marcada(val.getBoolean("alarmaMarcada"+ i, false)).
 					activada(val.getBoolean("alarmaActivada"+ i, false)).
 					alerta(ListaAlertas.obtenerAlerta(val.getInt("alarmaIdAlerta"+i, 0)))

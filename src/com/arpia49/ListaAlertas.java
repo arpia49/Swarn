@@ -43,7 +43,8 @@ public class ListaAlertas {
 					val.getString("alertaUbicacion"+ i,""),
 					val.getInt("alertaRadio"+ i,0),
 					val.getFloat("alertaLatitud"+ i, 0),
-					val.getFloat("alertaLongitud"+ i, 0)).
+					val.getFloat("alertaLongitud"+ i, 0),
+					val.getBoolean("alertaMuyFuerte"+ i, false)).
 					registrada(val.getBoolean("alertaRegistrada" + i, false)).
 					activada(val.getBoolean("alertaActivada" + i, false))
 					.build(false);
