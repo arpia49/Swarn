@@ -12,11 +12,13 @@
 			<TextView android:text="Nombre de la alarma:" android:id="@+id/TextView01"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 			<EditText android:text="nombre alarma" android:id="@+id/et_nombreAlarma"
-				android:layout_width="fill_parent" android:layout_height="wrap_content"></EditText>
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:singleLine="true"></EditText>
 			<TextView android:text="@string/et_descAlarma" android:id="@+id/tv_desc_alarma"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 			<EditText android:text="@string/et_descAlarma" android:id="@+id/et_descAlarma"
-				android:layout_width="fill_parent" android:layout_height="wrap_content"></EditText>
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:singleLine="true"></EditText>
 			<ImageView android:src="@drawable/borde"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:scaleType="fitXY" />
@@ -24,8 +26,12 @@
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:text="@string/desc_locale">
 			</CheckBox>
+			<TextView android:text="Lugar de la alarma:" android:id="@+id/tv_lugar"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 			<EditText android:text="@string/et_lugar" android:id="@+id/et_lugar"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"></EditText>
+			<TextView android:text="Radio de la alarma en metros:" android:id="@+id/tv_radio"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 			<Spinner android:id="@+id/sp_radio" android:layout_width="fill_parent"
 				android:drawSelectorOnTop="true" android:prompt="@string/sp_radio"
 				android:layout_height="wrap_content">
