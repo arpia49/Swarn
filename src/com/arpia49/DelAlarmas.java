@@ -36,7 +36,7 @@ public class DelAlarmas extends ListActivity {
 		super.onListItemClick(l, v, position, id);
 
 		Intent outData = new Intent();
-		outData.putExtra("idAlarma", id);
+		outData.putExtra("idAlarma", (int)id);
 		setResult(Activity.RESULT_OK, outData);
 		finish();
 	}

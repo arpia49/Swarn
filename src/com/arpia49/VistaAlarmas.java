@@ -158,7 +158,7 @@ public class VistaAlarmas extends Activity {
 							"¡Eliminadas todas las alarmas!",
 							Toast.LENGTH_SHORT).show();
 				} else {
-					delAlarma((int)data.getLongExtra("idAlarma",0));
+					delAlarma(data.getIntExtra("idAlarma",0));
 					Toast.makeText(getApplicationContext(),
 							"Alarma  eliminada!", Toast.LENGTH_SHORT).show();
 				}
@@ -239,20 +239,10 @@ public class VistaAlarmas extends Activity {
 	}
 
 	private void delAlarma(int id) {
-		int numAlarmas = ListaAlarmas.size();
-		Alarma alarmaABorrar = ListaAlarmas.elementAt(id);
-		for (int i = id+1; i < numAlarmas; i++) {
-			Alarma alarmaActual = ListaAlarmas.elementAt(i);
-			if (alarmaActual.getMarcada() && alarmaActual.getAlerta().conUbicacion()){
-				removeProximityAlert(alarmaActual.getAlerta());
-				setProximityAlert(alarmaActual.getAlerta());
-			}
-		}
-		
-		if(alarmaABorrar.getAlerta().conUbicacion() && alarmaABorrar.getMarcada()){
-			removeProximityAlert(alarmaABorrar.getAlerta());
-		}
-
+//		Alarma alarmaABorrar = ListaAlarmas.elementAt(id);
+//		if(alarmaABorrar.getAlerta().getRegistrada()){
+//			removeProximityAlert(alarmaABorrar.getAlerta());
+//		}
 		ListaAlarmas.del(id);
 	}
 
@@ -302,9 +292,10 @@ public class VistaAlarmas extends Activity {
 
 		Toast.makeText(getApplicationContext(), "Borrada alerta" + id,
 				Toast.LENGTH_SHORT).show();
-		if(val.getRegistrada()){
+		if(val.getActivada()){
 			engine.stop_engine();
 			val.setRegistrada(false);
+			val.setActivada(false);
 		}
 	}
 }

@@ -17,7 +17,12 @@ public class ListaAlarmas {
 	}
 
 	public static void del(int val){
+		for (int i = val; i < size(); i++) {
+			ListaAlarmas.elementAt(i).setId(i);
+		}
+//		ListaAlertas.del(ListaAlarmas.elementAt(val).getAlerta().getId());
 		listaAlarmas.remove(val);
+		actualizar();
 	}
 	
 	public static Alarma elementAt(int val){
@@ -45,5 +50,9 @@ public class ListaAlarmas {
 					alerta(ListaAlertas.obtenerAlerta(val.getInt("alarmaIdAlerta"+i, 0)))
 					.build(false);
 		}
+	}	
+	
+	public static void actualizar(){
+		Alarma.actualizar();
 	}
 }

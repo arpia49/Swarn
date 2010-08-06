@@ -86,6 +86,18 @@ public class Alarma {
 		}
 	}
 
+	public void setId(int val) {
+		id = val;
+		//Guardamos de manera persistente
+		editor.putString("alarmaNombre" + id, nombre);
+		editor.putString("alarmaDescripcion" + id, descripcion);
+		editor.putBoolean("alarmaMarcada" + id, marcada);
+		editor.putBoolean("alarmaActivada" + id, activada);
+		editor.putInt("alarmaIdAlerta" + id, alerta.getId());
+		
+		editor.commit();
+	}
+
 	public void setMarcada(boolean val) {
 		marcada = val;
 		
@@ -134,4 +146,11 @@ public class Alarma {
 			ListaAlarmas.inicializar(settings);
 		}
 	}
+	
+
+	public static void actualizar(){
+		editor.putInt("numeroAlarmas", ListaAlarmas.size());
+		editor. commit();
+	}
+
 }
