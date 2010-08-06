@@ -188,8 +188,6 @@ public class VistaAlarmas extends Activity {
 		final int id = val.getId();
 		final String descripcion = val.getDescripcion();
 		final boolean marcada = val.getMarcada();
-		final float latitud = val.getAlerta().getLatitud();
-		final float longitud = val.getAlerta().getLongitud();
 		final int radio = val.getAlerta().getRadio();
 		
 		LinearLayout lx = (LinearLayout) findViewById(R.id.mainLay);
