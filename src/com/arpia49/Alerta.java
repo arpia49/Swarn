@@ -158,4 +158,9 @@ public class Alerta {
 			ListaAlertas.inicializar(settings);
 		}
 	}
+	
+	public static void actualizar(){
+		editor.putInt("numeroAlertas", ListaAlarmas.size());
+		editor. commit();
+	}
 }

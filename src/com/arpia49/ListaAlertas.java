@@ -16,7 +16,8 @@ public class ListaAlertas {
 	}
 
 	public static void del(int val){
-		listaAlertas.remove(val);
+		listaAlertas.remove(val-1);
+		actualizar();
 	}
 
 	public static Alerta elementAt(int val){
@@ -49,5 +50,9 @@ public class ListaAlertas {
 					activada(val.getBoolean("alertaActivada" + i, false))
 					.build(false);
 		}
+	}
+	
+	public static void actualizar(){
+		Alerta.actualizar();
 	}
 }

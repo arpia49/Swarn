@@ -20,7 +20,6 @@ public class ListaAlarmas {
 		for (int i = val; i < size(); i++) {
 			ListaAlarmas.elementAt(i).setId(i);
 		}
-//		ListaAlertas.del(ListaAlarmas.elementAt(val).getAlerta().getId());
 		listaAlarmas.remove(val);
 		actualizar();
 	}

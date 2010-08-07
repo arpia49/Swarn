@@ -146,11 +146,9 @@ public class Alarma {
 			ListaAlarmas.inicializar(settings);
 		}
 	}
-	
 
 	public static void actualizar(){
 		editor.putInt("numeroAlarmas", ListaAlarmas.size());
 		editor. commit();
 	}
-
 }

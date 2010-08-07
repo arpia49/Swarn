@@ -150,9 +150,9 @@ public class VistaAlarmas extends Activity {
 		case (ACT_DEL_ALARMA): {
 			if (resCode == Activity.RESULT_OK) {
 				if (data.getBooleanExtra("todas", false)) {
-					int numAlarmas = ListaAlarmas.size();
-					for (int i = 1; i <= numAlarmas; i++) {
-						delAlarma(numAlarmas - i);
+					int numAlarmas = ListaAlarmas.size()-1;
+					for (int i = numAlarmas; i >= 0; i--) {
+						delAlarma(i);
 					}
 					Toast.makeText(getApplicationContext(),
 							"¡Eliminadas todas las alarmas!",
@@ -239,11 +239,13 @@ public class VistaAlarmas extends Activity {
 	}
 
 	private void delAlarma(int id) {
-//		Alarma alarmaABorrar = ListaAlarmas.elementAt(id);
-//		if(alarmaABorrar.getAlerta().getRegistrada()){
-//			removeProximityAlert(alarmaABorrar.getAlerta());
-//		}
+		Alerta alertaABorrar = ListaAlarmas.elementAt(id).getAlerta();
 		ListaAlarmas.del(id);
+		
+		if(alertaABorrar.getRegistrada()){
+			removeProximityAlert(alertaABorrar);
+		}
+		ListaAlertas.del(alertaABorrar.getId());
 	}
 
 	private void setProximityAlert(Alerta val) {
