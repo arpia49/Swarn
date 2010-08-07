@@ -100,7 +100,7 @@ public class VistaAlarmas extends Activity {
 			return true;
 		}
 		case (LISTA_ALERTAS): {
-			Intent intent = new Intent(this, ListarAlertas.class);
+			Intent intent = new Intent(this, VistaNotificaciones.class);
 			startActivityForResult(intent, ACT_LISTA_NOTIFICACIONES);
 			return true;
 		}
@@ -161,6 +161,19 @@ public class VistaAlarmas extends Activity {
 					delAlarma(data.getIntExtra("idAlarma",0));
 					Toast.makeText(getApplicationContext(),
 							"Alarma  eliminada!", Toast.LENGTH_SHORT).show();
+				}
+				this.onCreate(null);
+			} else {
+				Toast.makeText(getApplicationContext(),
+						"No se han borrado alarmas", Toast.LENGTH_SHORT).show();
+			}
+		}
+		case (ACT_LISTA_NOTIFICACIONES): {
+			if (resCode == Activity.RESULT_OK) {
+				if (data.getBooleanExtra("todas", false)) {
+					ListaNotificaciones.borrar();
+					Toast.makeText(getApplicationContext(),
+							"Notificaciones eliminadas!", Toast.LENGTH_SHORT).show();
 				}
 				this.onCreate(null);
 			} else {
@@ -296,8 +309,8 @@ public class VistaAlarmas extends Activity {
 				Toast.LENGTH_SHORT).show();
 		if(val.getActivada()){
 			engine.stop_engine();
-			val.setRegistrada(false);
 			val.setActivada(false);
 		}
+		val.setRegistrada(false);
 	}
 }

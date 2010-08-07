@@ -18,16 +18,19 @@ public class Notificacion {
 
 	//Obligatorias
 	private long fecha;
-	private Alerta alerta;
+	private String nombre;
+	private String ubicacion;
 	
 	public static class Builder {
 		//Obligatorias
 		private long fecha;
-		private Alerta alerta;
+		private String nombre;
+		private String ubicacion;
 
-		public Builder(long fecha, Alerta alerta) {
+		public Builder(long fecha, String nombre, String ubicacion) {
 			this.fecha = fecha;
-			this.alerta = alerta;
+			this.nombre = nombre;
+			this.ubicacion = ubicacion;
 		}
 
 		public Notificacion build(Boolean guardar) {
@@ -42,13 +45,15 @@ public class Notificacion {
 		//Guardamos en memoria
 		id = ListaNotificaciones.size() + 1;
 		fecha = builder.fecha;
-		alerta = builder.alerta;
+		nombre = builder.nombre;
+		ubicacion = builder.ubicacion;
 	
 		if (guardar){
 			//Guardamos de manera persistente
-			editor.putInt("numeroNotificaciones", ListaAlarmas.size()+1);
+			editor.putInt("numeroNotificaciones", ListaNotificaciones.size()+1);
 			editor.putLong("notificacionFecha" + id, fecha);
-			editor.putInt("notificacionIdAlerta" + id, alerta.getId());
+			editor.putString("notificacionNombre" + id, nombre);
+			editor.putString("notificacionUbicacion" + id, ubicacion);
 			
 			editor.commit();
 		}
@@ -62,8 +67,12 @@ public class Notificacion {
 		return fecha;
 	}
 
-	public Alerta getAlerta() {
-		return alerta;
+	public String getNombre() {
+		return nombre;
+	}
+	
+	public String getUbicacion() {
+		return ubicacion;
 	}
 	
 	public static void iniciarRegistro(Activity val){
@@ -73,5 +82,10 @@ public class Notificacion {
 			editor = settings.edit();
 			ListaNotificaciones.inicializar(settings);
 		}
+	}
+	
+	public static void actualizar(){
+		editor.putInt("numeroNotificaciones", ListaNotificaciones.size());
+		editor. commit();
 	}
 }

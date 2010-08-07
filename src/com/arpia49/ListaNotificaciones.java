@@ -24,7 +24,6 @@ public class ListaNotificaciones {
 		return listaNotificaciones.elementAt(val);
 	}
 
-
 	public static Notificacion obtenerNotificacion(int id) {
 		for (int i = 0; i < ListaNotificaciones.size(); i++) {
 			if (elementAt(i).getId() == id) {
@@ -33,14 +32,24 @@ public class ListaNotificaciones {
 		}
 		return null;
 	}
+
+	public static void borrar() {
+		listaNotificaciones.clear();
+		actualizar();
+	}
 	
 	public static void inicializar(SharedPreferences val){
 		int total = val.getInt("numeroNotificaciones", 0);
 		for(int i = 1; i<=total; i++){
 			Notificacion nuevaNotificacion = new Notificacion.Builder(
 					val.getLong("notificacionFecha"+ i,0),
-					ListaAlertas.obtenerAlerta(val.getInt("notificacionIdAlerta",0)))
+					val.getString("notificacionNombre"+ i,""),
+					val.getString("notificacionUbicacion"+ i,"")					)
 					.build(false);
 		}
+	}
+
+	public static void actualizar(){
+		Notificacion.actualizar();
 	}
 }

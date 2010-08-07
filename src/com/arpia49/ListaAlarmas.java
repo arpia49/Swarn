@@ -36,6 +36,15 @@ public class ListaAlarmas {
 			}
 		}
 		return null;
+	}	
+	
+	public static Alarma obtenerDesdeAlerta(int id) {
+		for (int i = 0; i < ListaAlarmas.size(); i++) {
+			if (elementAt(i).getAlerta().getId() == id) {
+				return elementAt(i);
+			}
+		}
+		return null;
 	}
 	
 	public static void inicializar(SharedPreferences val){

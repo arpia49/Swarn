@@ -21,7 +21,7 @@
 				<category android:name="android.intent.category.ALARMAS" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".ListarAlertas" android:label="@string/menu_lista_alertas">
+		<activity android:name=".VistaNotificaciones" android:label="@string/menu_lista_alertas">
 			<intent-filter>
 				<action android:name="android.intent.action.LISTAR_ALERTAS" />
 				<category android:name="android.intent.category.ALERTAS" />

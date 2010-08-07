@@ -35,7 +35,8 @@ public class AlertaEntrante extends BroadcastReceiver {
 
 			Notificacion nuevaNotificacion = new Notificacion.Builder(
 					System.currentTimeMillis(),
-					ListaAlertas.obtenerAlerta(id))
+					ListaAlarmas.obtenerDesdeAlerta(id).getNombre(),
+					ListaAlertas.obtenerAlerta(id).getUbicacion())
 					.build(true);
 
 			Toast.makeText(context, "¡Has entrado! Num=" + id,
