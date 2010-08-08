@@ -7,12 +7,6 @@ import android.content.SharedPreferences;
 
 public class Notificacion {
 	
-	//Para persistencia
-	private static Context contexto = null;	
-	private static SharedPreferences settings = null;
-	private static SharedPreferences.Editor editor = null;
-	public static final String PREFS_NAME = "PrefTimbre";
-		
 	//Sin builder
 	private int id;
 
@@ -49,13 +43,7 @@ public class Notificacion {
 		ubicacion = builder.ubicacion;
 	
 		if (guardar){
-			//Guardamos de manera persistente
-			editor.putInt("numeroNotificaciones", ListaNotificaciones.size()+1);
-			editor.putLong("notificacionFecha" + id, fecha);
-			editor.putString("notificacionNombre" + id, nombre);
-			editor.putString("notificacionUbicacion" + id, ubicacion);
-			
-			editor.commit();
+			Registro.guardarNotificacion(this);
 		}
 	}
 
@@ -73,19 +61,5 @@ public class Notificacion {
 	
 	public String getUbicacion() {
 		return ubicacion;
-	}
-	
-	public static void iniciarRegistro(Activity val){
-		if(contexto==null){
-			contexto = val.getApplicationContext();
-			settings = contexto.getSharedPreferences(PREFS_NAME, 0);
-			editor = settings.edit();
-			ListaNotificaciones.inicializar(settings);
-		}
-	}
-	
-	public static void actualizar(){
-		editor.putInt("numeroNotificaciones", ListaNotificaciones.size());
-		editor. commit();
 	}
 }

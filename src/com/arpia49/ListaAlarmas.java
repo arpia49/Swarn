@@ -21,7 +21,7 @@ public class ListaAlarmas {
 			ListaAlarmas.elementAt(i).setId(i);
 		}
 		listaAlarmas.remove(id-1);
-		actualizar();
+		Registro.guardarInt("numeroAlarmas", size());
 	}
 	
 	public static Alarma elementAt(int val){
@@ -70,9 +70,5 @@ public class ListaAlarmas {
 					clave(val.getInt("alarmaClave"+ i, 0))
 					.build(false);
 		}
-	}	
-	
-	public static void actualizar(){
-		Alarma.actualizar();
 	}
 }

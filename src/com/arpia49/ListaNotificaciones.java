@@ -35,7 +35,7 @@ public class ListaNotificaciones {
 
 	public static void borrar() {
 		listaNotificaciones.clear();
-		actualizar();
+		Registro.guardarInt("numeroNotificaciones", size());
 	}
 	
 	public static void inicializar(SharedPreferences val){
@@ -47,9 +47,5 @@ public class ListaNotificaciones {
 					val.getString("notificacionUbicacion"+ i,"")					)
 					.build(false);
 		}
-	}
-
-	public static void actualizar(){
-		Notificacion.actualizar();
 	}
 }

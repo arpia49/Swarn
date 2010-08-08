@@ -6,12 +6,6 @@ import android.content.SharedPreferences;
 
 public class Alarma {
 	
-	//Para persistencia
-	private static Context contexto = null;	
-	private static SharedPreferences settings = null;
-	private static SharedPreferences.Editor editor = null;
-	public static final String PREFS_NAME = "PrefTimbre";
-		
 	//Sin builder
 	private int id;
 	private int clave;
@@ -99,69 +93,31 @@ public class Alarma {
 		longitud = builder.longitud;
 		ubicacion = builder.ubicacion;
 		muyFuerte = builder.muyFuerte;
-		
 	
 		if (guardar){
-			//Guardamos de manera persistente
-			editor.putInt("numeroAlarmas", id);
-			editor.putInt("alarmaClave" + id, clave);
-			editor.putString("alarmaNombre" + id, nombre);
-			editor.putString("alarmaDescripcion" + id, descripcion);
-			editor.putBoolean("alarmaMarcada" + id, marcada);
-			editor.putBoolean("alarmaActivada" + id, activada);
-			editor.putBoolean("alarmaRegistrada" + id, registrada);
-			editor.putBoolean("alarmaActivada" + id, activada);
-			editor.putInt("alarmaRadio" + id, radio);
-			editor.putFloat("alarmaLatitud" + id, latitud);
-			editor.putFloat("alarmaLongitud" + id, longitud);
-			editor.putString("alarmaUbicacion" + id, ubicacion);
-			editor.putBoolean("alarmaMuyFuerte" + id, muyFuerte);
-			
-			editor.commit();
+			Registro.guardarAlarma(this);
 		}
 	}
 
 	public void setId(int val) {
 		id = val;
-		//Guardamos de manera persistente
-		editor.putInt("alarmaClave" + id, clave);
-		editor.putString("alarmaNombre" + id, nombre);
-		editor.putString("alarmaDescripcion" + id, descripcion);
-		editor.putBoolean("alarmaMarcada" + id, marcada);
-		editor.putBoolean("alarmaActivada" + id, activada);
-		editor.putBoolean("alarmaRegistrada" + id, registrada);
-		editor.putBoolean("alarmaActivada" + id, activada);
-		editor.putInt("alarmaRadio" + id, radio);
-		editor.putFloat("alarmaLatitud" + id, latitud);
-		editor.putFloat("alarmaLongitud" + id, longitud);
-		editor.putString("alarmaUbicacion" + id, ubicacion);
-		editor.putBoolean("alarmaMuyFuerte" + id, muyFuerte);
 		
-		editor.commit();
+		Registro.guardarAlarma(this);
 	}
 
 	public void setRegistrada(boolean val) {
 		registrada = val;
-
-		//Guardamos de manera persistente
-		editor.putBoolean("alarmaRegistrada" + id, val);
-		editor.commit();
+		Registro.guardarBoolean("alarmaRegistrada" + id, val);
 	}
 	
 	public void setMarcada(boolean val) {
 		marcada = val;
-		
-		//Guardamos de manera persistente
-		editor.putBoolean("alarmaMarcada" + id, val);
-		editor.commit();
+		Registro.guardarBoolean("alarmaMarcada" + id, val);
 	}
 
 	public void setActivada(boolean val) {
 		activada = val;
-
-		//Guardamos de manera persistente
-		editor.putBoolean("alarmaActivada" + id, val);
-		editor.commit();
+		Registro.guardarBoolean("alarmaActivada" + id, val);
 	}
 
 	public int getId() {
@@ -214,19 +170,5 @@ public class Alarma {
 	
 	public boolean conUbicacion() {
 		return !(ubicacion.compareTo("Sin ubicación") == 0);
-	}
-	
-	public static void iniciarRegistro(Activity val){
-		if(contexto==null){
-			contexto = val.getApplicationContext();
-			settings = contexto.getSharedPreferences(PREFS_NAME, 0);
-			editor = settings.edit();
-			ListaAlarmas.inicializar(settings);
-		}
-	}
-
-	public static void actualizar(){
-		editor.putInt("numeroAlarmas", ListaAlarmas.size());
-		editor. commit();
 	}
 }

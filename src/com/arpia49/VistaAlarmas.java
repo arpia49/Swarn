@@ -38,8 +38,7 @@ public class VistaAlarmas extends Activity {
 	private static String PROXIMITY_ALERT = "com.arpia49.action.proximityalert";
 
 	public void onCreate(Bundle savedInstanceState) {
-		Alarma.iniciarRegistro(this);
-		Notificacion.iniciarRegistro(this);
+		Registro.iniciar(this);
 		messageHandler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
