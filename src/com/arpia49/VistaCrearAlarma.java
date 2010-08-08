@@ -53,8 +53,8 @@ public class VistaCrearAlarma extends Activity {
 		provider = locationManager.getBestProvider(criteria, true);
 		locationManager.requestLocationUpdates(provider, 30000, 100,
 				locationListener);
-		final EditText et = (EditText) findViewById(R.id.et_nombreAlarma);
-		final EditText et2 = (EditText) findViewById(R.id.et_descAlarma);
+		final EditText et_nombreAlarma = (EditText) findViewById(R.id.et_nombreAlarma);
+		final EditText et_descAlarma = (EditText) findViewById(R.id.et_descAlarma);
 		final EditText et3 = (EditText) findViewById(R.id.et_lugar);
 		final CheckBox cb = (CheckBox) findViewById(R.id.cb_posicion);
 
@@ -91,9 +91,10 @@ public class VistaCrearAlarma extends Activity {
 				}
 
 				outData.putExtra("sonidoFuerte", !rb.isChecked());
-				final String nombre_alarma = et.getText().toString();
+				final String nombre_alarma = et_nombreAlarma.getText()
+						.toString();
 				outData.putExtra("nombreAlarma", nombre_alarma);
-				final String desc_alarma = et2.getText().toString();
+				final String desc_alarma = et_descAlarma.getText().toString();
 				outData.putExtra("descAlarma", desc_alarma);
 				setResult(Activity.RESULT_OK, outData);
 				finish();
@@ -107,19 +108,31 @@ public class VistaCrearAlarma extends Activity {
 			}
 		});
 
-		et.setOnFocusChangeListener(new OnFocusChangeListener() {
+		et_nombreAlarma.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus)
-					et.setText("");
+				String defecto = getString(R.string.et_nombreAlarma);
+				String actual = et_nombreAlarma.getText().toString();
+
+				if (hasFocus && actual.compareTo(defecto) == 0)
+					et_nombreAlarma.setText("");
+				
+				else if (!hasFocus && actual.compareTo("") == 0)
+					et_nombreAlarma.setText(defecto);
 			}
 		});
-
-		et2.setOnFocusChangeListener(new OnFocusChangeListener() {
+		
+		et_descAlarma.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus)
-					et2.setText("");
+				String defecto = getString(R.string.et_descAlarma);
+				String actual = et_descAlarma.getText().toString();
+
+				if (hasFocus && actual.compareTo(defecto) == 0)
+					et_descAlarma.setText("");
+				
+				else if (!hasFocus && actual.compareTo("") == 0)
+					et_descAlarma.setText(defecto);
 			}
 		});
 

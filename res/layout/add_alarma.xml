@@ -11,7 +11,7 @@
 			android:layout_height="fill_parent">
 			<TextView android:text="Nombre de la alarma:" android:id="@+id/TextView01"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-			<EditText android:text="nombre alarma" android:id="@+id/et_nombreAlarma"
+			<EditText android:text="@string/et_nombreAlarma" android:id="@+id/et_nombreAlarma"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:singleLine="true"></EditText>
 			<TextView android:text="@string/et_descAlarma" android:id="@+id/tv_desc_alarma"
