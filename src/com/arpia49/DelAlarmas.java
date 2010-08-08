@@ -1,10 +1,5 @@
 package com.arpia49;
 
-import com.arpia49.R;
-import com.arpia49.R.drawable;
-import com.arpia49.R.layout;
-import com.arpia49.R.string;
-
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;

@@ -88,7 +88,7 @@ public class VistaAlarmas extends Activity {
 		super.onOptionsItemSelected(item);
 		switch (item.getItemId()) {
 		case (ADD_ALARMA): {
-			Intent intent = new Intent(this, AddAlarma.class);
+			Intent intent = new Intent(this, VistaCrearAlarma.class);
 			startActivityForResult(intent, ACT_ADD_ALARMA);
 			return true;
 		}

@@ -1,9 +1,5 @@
 package com.arpia49;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
-
 public class Alarma {
 	
 	//Sin builder

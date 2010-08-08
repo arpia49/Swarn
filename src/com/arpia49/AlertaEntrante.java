@@ -9,7 +9,6 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
-
 public class AlertaEntrante extends BroadcastReceiver {
 	public static Handler messageHandler = null;
 	protected splEngine engine=null;

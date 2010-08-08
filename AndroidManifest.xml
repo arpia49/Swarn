@@ -9,7 +9,7 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:name=".AddAlarma" android:label="@string/menu_add_alarma">
+		<activity android:name=".VistaCrearAlarma" android:label="@string/menu_add_alarma">
 			<intent-filter>
 				<action android:name="android.intent.action.ADD_ALARMA" />
 				<category android:name="android.intent.category.ALARMAS" />

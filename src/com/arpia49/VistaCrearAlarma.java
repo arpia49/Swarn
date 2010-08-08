@@ -4,11 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-import com.arpia49.R;
-import com.arpia49.R.array;
-import com.arpia49.R.id;
-import com.arpia49.R.layout;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -30,7 +25,7 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-public class AddAlarma extends Activity {
+public class VistaCrearAlarma extends Activity {
 
 	public Geocoder gc;
 	LocationManager locationManager;
@@ -128,34 +123,36 @@ public class AddAlarma extends Activity {
 			}
 		});
 
-		et3.setOnFocusChangeListener(new OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus)
-					et3.setText("");
-			}
-		});
-
 		cb.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (((CheckBox) v).isChecked()) {
-					try {
-						addresses = gc.getFromLocationName(et3.getText()
-								.toString(), 1);
-						if (addresses != null && addresses.size() > 0) {
-							lat = (float) addresses.get(0).getLatitude();
-							lng = (float) addresses.get(0).getLongitude();
-						} else {
+					if (et3.getText().toString().compareTo("") == 0) {
+						Toast.makeText(getApplicationContext(),
+								"No hay una dirección especificada",
+								Toast.LENGTH_SHORT).show();
+						((CheckBox) v).setChecked(false);
+					} else {
+						try {
+							addresses = gc.getFromLocationName(et3.getText()
+									.toString(), 1);
+							if (addresses != null && addresses.size() > 0) {
+								et3.setText(addresses.get(0).getAddressLine(0));
+								lat = (float) addresses.get(0).getLatitude();
+								lng = (float) addresses.get(0).getLongitude();
+							} else {
+								Toast.makeText(getApplicationContext(),
+										"No se ha encontrado la dirección",
+										Toast.LENGTH_SHORT).show();
+								((CheckBox) v).setChecked(false);
+							}
+						} catch (IOException e) {
 							Toast.makeText(getApplicationContext(),
 									"No se ha encontrado la dirección",
 									Toast.LENGTH_SHORT).show();
+							((CheckBox) v).setChecked(false);
 						}
-					} catch (IOException e) {
-						Toast.makeText(getApplicationContext(),
-								"No se ha encontrado la dirección",
-								Toast.LENGTH_SHORT).show();
 					}
-				} 
+				}
 			}
 		});
 
