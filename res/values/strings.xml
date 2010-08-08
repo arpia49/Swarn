@@ -3,10 +3,10 @@
 	<string name="app_name">Lista de alarmas</string>
 	<string name="menu_add_alarma">Añadir alarma</string>
 	<string name="menu_del_alarma">Borrar alarmas</string>
+	<string name="menu_edit_alarma">Editar alarma</string>
 	<string name="menu_del_todas_alarmas">Borrar todas alarmas</string>
-	<string name="menu_del_alertas">Borrar alertas</string>
 	<string name="menu_del_notificaciones">Borrar notificaciones</string>
-	<string name="menu_lista_alertas">Mostrar alertas</string>
+	<string name="menu_lista_notificaciones">Lista de notificaciones</string>
 	<string name="menu_info">Mostrar ayuda</string>
 	<string name="aceptar">Aceptar</string>
 	<string name="cancelar">Cancelar</string>

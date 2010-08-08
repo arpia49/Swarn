@@ -44,6 +44,16 @@ public class Registro {
 		editor.putInt(clave, valor);
 		editor.commit();
 	}
+
+	public static void guardarFloat(String clave, float valor) {
+		editor.putFloat(clave, valor);
+		editor.commit();
+	}
+
+	public static void guardarString(String clave, String valor) {
+		editor.putString(clave, valor);
+		editor.commit();
+	}
 	
 	public static void iniciar(Activity val){
 		if(contexto==null){

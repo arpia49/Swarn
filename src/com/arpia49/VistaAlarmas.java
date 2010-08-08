@@ -25,12 +25,15 @@ public class VistaAlarmas extends Activity {
 
 	// De los menús
 	public static final int ACT_ADD_ALARMA = 1;
-	public static final int ACT_DEL_ALARMA = 2;
-	public static final int ACT_LISTA_NOTIFICACIONES = 3;
+	public static final int ACT_LISTA_EDITAR_ALARMA = 2;
+	public static final int ACT_LISTA_DEL_ALARMA = 3;
+	public static final int ACT_LISTA_NOTIFICACIONES = 4;
+	public static final int ACT_EDITAR_ALARMA = 5;
 	static final private int ADD_ALARMA = Menu.FIRST;
-	static final private int DEL_ALARMA = Menu.FIRST + 1;
-	static final private int LISTA_ALERTAS = Menu.FIRST + 2;
-	static final private int INFO = Menu.FIRST + 3;
+	static final private int EDITAR_ALARMA = Menu.FIRST + 1;
+	static final private int DEL_ALARMA = Menu.FIRST + 2;
+	static final private int LISTA_ALERTAS = Menu.FIRST + 3;
+	static final private int INFO = Menu.FIRST + 4;
 	private static splEngine engine = null;
 	private static Handler messageHandler = null;
 	
@@ -61,14 +64,17 @@ public class VistaAlarmas extends Activity {
 		// Create and add new menu items.
 		MenuItem itemAdd = menu.add(0, ADD_ALARMA, Menu.NONE,
 				R.string.menu_add_alarma);
+		MenuItem itemEditar = menu.add(0, EDITAR_ALARMA, Menu.NONE,
+				R.string.menu_edit_alarma);
 		MenuItem itemDel = menu.add(0, DEL_ALARMA, Menu.NONE,
 				R.string.menu_del_alarma);
 		MenuItem itemLista = menu.add(0, LISTA_ALERTAS, Menu.NONE,
-				R.string.menu_lista_alertas);
+				R.string.menu_lista_notificaciones);
 		MenuItem itemInfo = menu.add(0, INFO, Menu.NONE, R.string.menu_info);
 
 		// Assign icons
 		itemAdd.setIcon(R.drawable.add);
+		itemEditar.setIcon(R.drawable.edit);
 		itemDel.setIcon(R.drawable.del);
 		itemLista.setIcon(R.drawable.list);
 		itemInfo.setIcon(R.drawable.help);
@@ -77,8 +83,10 @@ public class VistaAlarmas extends Activity {
 	}
 
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		MenuItem itemDel = menu.getItem(1);
-		MenuItem itemLista = menu.getItem(2);
+		MenuItem itemEditar = menu.getItem(1);
+		MenuItem itemDel = menu.getItem(2);
+		MenuItem itemLista = menu.getItem(3);
+		itemEditar.setEnabled(ListaAlarmas.size()>0);
 		itemDel.setEnabled(ListaAlarmas.size()>0);
 		itemLista.setEnabled(ListaNotificaciones.size()>0);
 		return true;
@@ -88,13 +96,18 @@ public class VistaAlarmas extends Activity {
 		super.onOptionsItemSelected(item);
 		switch (item.getItemId()) {
 		case (ADD_ALARMA): {
-			Intent intent = new Intent(this, VistaCrearAlarma.class);
+			Intent intent = new Intent(this, VistaAlarmaCrear.class);
 			startActivityForResult(intent, ACT_ADD_ALARMA);
 			return true;
 		}
+		case (EDITAR_ALARMA): {
+			Intent intent = new Intent(this, VistaListarAlarmasEditar.class);
+			startActivityForResult(intent, ACT_LISTA_EDITAR_ALARMA);
+			return true;
+		}
 		case (DEL_ALARMA): {
-			Intent intent = new Intent(this, DelAlarmas.class);
-			startActivityForResult(intent, ACT_DEL_ALARMA);
+			Intent intent = new Intent(this, VistaListarAlarmasBorrar.class);
+			startActivityForResult(intent, ACT_LISTA_DEL_ALARMA);
 			return true;
 		}
 		case (LISTA_ALERTAS): {
@@ -139,12 +152,38 @@ public class VistaAlarmas extends Activity {
 						"La alarma no se ha creado", Toast.LENGTH_SHORT).show();
 			}
 		}
-			break;
-		case (ACT_DEL_ALARMA): {
+		break;
+		case (ACT_LISTA_EDITAR_ALARMA): {
+			Intent intent = new Intent(this, VistaAlarmaEditar.class);
+			intent.putExtra("id", data.getIntExtra("idAlarma",0)+1);
+			startActivityForResult(intent, ACT_EDITAR_ALARMA);
+		}
+		break;
+		case (ACT_EDITAR_ALARMA): {
+			if (resCode == Activity.RESULT_OK) {
+
+				Alarma alarmaActual = ListaAlarmas.element(data.getIntExtra("id",0));
+				alarmaActual.setNombre(data.getStringExtra("nombreAlarma"));
+				alarmaActual.setDescripcion(data.getStringExtra("descAlarma"));
+				alarmaActual.setUbicacion(data.getStringExtra("ubicAlarma"));
+				alarmaActual.setRadio(data.getIntExtra("radioAlarma",100));
+				alarmaActual.setLatitud(data.getFloatExtra("latAlarma", 0));
+				alarmaActual.setLongitud(data.getFloatExtra("lngAlarma", 0));
+				alarmaActual.setMuyFuerte(data.getBooleanExtra("sonidoFuerte", false));
+				Toast.makeText(getApplicationContext(), "¡Alarma editada!",
+						Toast.LENGTH_SHORT).show();
+				this.onCreate(null);
+			} else {
+				Toast.makeText(getApplicationContext(),
+						"La alarma no se ha creado", Toast.LENGTH_SHORT).show();
+			}
+		}
+		break;
+		case (ACT_LISTA_DEL_ALARMA): {
 			if (resCode == Activity.RESULT_OK) {
 				if (data.getBooleanExtra("todas", false)) {
-					int numAlarmas = ListaAlarmas.size()-1;
-					for (int i = numAlarmas; i >= 0; i--) {
+					int numAlarmas = ListaAlarmas.size();
+					for (int i = numAlarmas; i > 0; i--) {
 						delAlarma(i);
 					}
 					Toast.makeText(getApplicationContext(),
@@ -183,8 +222,8 @@ public class VistaAlarmas extends Activity {
 
 		// Leemos el número de alarmas
 		int numAlarmas = ListaAlarmas.size();
-		for (int i = 0; i < numAlarmas; i++) {
-			Alarma alarmaActual = ListaAlarmas.elementAt(i);
+		for (int i = 1; i <= numAlarmas; i++) {
+			Alarma alarmaActual = ListaAlarmas.element(i);
 			addAlarma(alarmaActual);
 		}
 	}
@@ -222,7 +261,7 @@ public class VistaAlarmas extends Activity {
 		cb.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				int v_id = v.getId();
-				Alarma alarmaActual = ListaAlarmas.obtenerAlarma(v_id);
+				Alarma alarmaActual = ListaAlarmas.element(v_id);
 				if (((CheckBox) v).isChecked()) {
 					alarmaActual.setMarcada(true);
 					if (!alarmaActual.conUbicacion()) {
@@ -245,9 +284,9 @@ public class VistaAlarmas extends Activity {
 		lx.addView(la);
 	}
 
-	private void delAlarma(int val) {
-		Alarma alarmaABorrar = ListaAlarmas.elementAt(val-1);
-		ListaAlarmas.del(val);
+	private void delAlarma(int id) {
+		Alarma alarmaABorrar = ListaAlarmas.element(id);
+		ListaAlarmas.del(id);
 		
 		if(alarmaABorrar.getRegistrada()){
 			removeProximityAlert(alarmaABorrar);

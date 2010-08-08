@@ -8,20 +8,31 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-
-		<activity android:name=".VistaCrearAlarma" android:label="@string/menu_add_alarma">
+		<activity android:name=".VistaAlarmaCrear" android:label="@string/menu_add_alarma">
 			<intent-filter>
 				<action android:name="android.intent.action.ADD_ALARMA" />
 				<category android:name="android.intent.category.ALARMAS" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".DelAlarmas" android:label="@string/menu_del_alarma">
+		<activity android:name=".VistaAlarmaEditar" android:label="@string/menu_edit_alarma">
 			<intent-filter>
-				<action android:name="android.intent.action.DEL_ALARMA" />
+				<action android:name="android.intent.action.EDITAR_ALARMA" />
 				<category android:name="android.intent.category.ALARMAS" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".VistaNotificaciones" android:label="@string/menu_lista_alertas">
+		<activity android:name="VistaListarAlarmasBorrar" android:label="@string/menu_del_alarma">
+			<intent-filter>
+				<action android:name="android.intent.action.LISTAR_ALARMAS_BORRAR" />
+				<category android:name="android.intent.category.ALARMAS" />
+			</intent-filter>
+		</activity>
+		<activity android:name="VistaListarAlarmasEditar" android:label="@string/menu_edit_alarma">
+			<intent-filter>
+				<action android:name="android.intent.action.LISTAR_ALARMAS_EDITAR" />
+				<category android:name="android.intent.category.ALARMAS" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".VistaNotificaciones" android:label="@string/menu_lista_notificaciones">
 			<intent-filter>
 				<action android:name="android.intent.action.LISTAR_ALERTAS" />
 				<category android:name="android.intent.category.ALERTAS" />

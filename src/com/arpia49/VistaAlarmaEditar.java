@@ -25,7 +25,7 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-public class VistaCrearAlarma extends Activity {
+public class VistaAlarmaEditar extends Activity {
 
 	public Geocoder gc;
 	LocationManager locationManager;
@@ -41,7 +41,7 @@ public class VistaCrearAlarma extends Activity {
 		setContentView(R.layout.add_alarma);
 
 		locationManager = (LocationManager) getSystemService(context);
-
+		gc = new Geocoder(this, Locale.getDefault());
 		// criterio para la actualización de posiciones
 		Criteria criteria = new Criteria();
 		criteria.setAccuracy(Criteria.ACCURACY_FINE);
@@ -52,13 +52,22 @@ public class VistaCrearAlarma extends Activity {
 		provider = locationManager.getBestProvider(criteria, true);
 		locationManager.requestLocationUpdates(provider, 30000, 100,
 				locationListener);
+		Alarma alarmaActual = ListaAlarmas.element(getIntent().getExtras().getInt("id"));
 		final EditText et_nombreAlarma = (EditText) findViewById(R.id.et_nombreAlarma);
+		et_nombreAlarma.setText(alarmaActual.getNombre());
 		final EditText et_descAlarma = (EditText) findViewById(R.id.et_descAlarma);
+		et_descAlarma.setText(alarmaActual.getDescripcion());
 		final EditText et_lugar = (EditText) findViewById(R.id.et_lugar);
+		et_lugar.setText(alarmaActual.getUbicacion());
 		final CheckBox cb_posicion = (CheckBox) findViewById(R.id.cb_posicion);
+		cb_posicion.setChecked(alarmaActual.conUbicacion());
 
-		final RadioButton rb = (RadioButton) findViewById(R.id.rb_fuerte);
-
+		final RadioButton rb_fuerte = (RadioButton) findViewById(R.id.rb_fuerte);
+		rb_fuerte.setChecked(!alarmaActual.getMuyFuerte());
+		
+		final RadioButton rb_muyFuerte = (RadioButton) findViewById(R.id.rb_muyFuerte);
+		rb_muyFuerte.setChecked(alarmaActual.getMuyFuerte());
+		
 		Button bt = (Button) findViewById(R.id.botonAceptar);
 		Button bt2 = (Button) findViewById(R.id.botonCancelar);
 		final Spinner sp = (Spinner) findViewById(R.id.sp_radio);
@@ -68,7 +77,9 @@ public class VistaCrearAlarma extends Activity {
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		sp.setAdapter(adapter);
-		et_lugar.setText(updateWithLocation(location));
+
+		sp.setSelection((alarmaActual.getMuyFuerte())?1:0);
+		
 		bt.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Intent outData = new Intent();
@@ -77,7 +88,7 @@ public class VistaCrearAlarma extends Activity {
 					if (sp.getSelectedItemPosition() == 1) {
 						metros = 500;
 					}
-					outData.putExtra("ubicAlarma", et_lugar.getText());
+					outData.putExtra("ubicAlarma", et_lugar.getText().toString());
 					outData.putExtra("radioAlarma", metros);
 					outData.putExtra("latAlarma", lat);
 					outData.putExtra("lngAlarma", lng);
@@ -88,12 +99,13 @@ public class VistaCrearAlarma extends Activity {
 					outData.putExtra("lngAlarma", 0);
 				}
 
-				outData.putExtra("sonidoFuerte", !rb.isChecked());
+				outData.putExtra("sonidoFuerte", !rb_fuerte.isChecked());
 				final String nombre_alarma = et_nombreAlarma.getText()
 						.toString();
 				outData.putExtra("nombreAlarma", nombre_alarma);
 				final String desc_alarma = et_descAlarma.getText().toString();
 				outData.putExtra("descAlarma", desc_alarma);
+				outData.putExtra("id", getIntent().getExtras().getInt("id"));
 				setResult(Activity.RESULT_OK, outData);
 				finish();
 			}
@@ -132,11 +144,13 @@ public class VistaCrearAlarma extends Activity {
 				else if (!hasFocus && actual.compareTo("") == 0)
 					et_descAlarma.setText(defecto);
 			}
-		});
-
-		et_lugar.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				cb_posicion.setChecked(false);
+		});		
+		
+		et_lugar.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if (hasFocus)
+					cb_posicion.setChecked(false);
 			}
 		});
 
@@ -150,8 +164,9 @@ public class VistaCrearAlarma extends Activity {
 						((CheckBox) v).setChecked(false);
 					} else {
 						try {
+							String temp = et_lugar.getText().toString();
 							List<Address> ubicacion = gc.getFromLocationName(
-									et_lugar.getText().toString(), 1);
+									temp, 1);
 							if (ubicacion != null && ubicacion.size() > 0) {
 								et_lugar.setText(ubicacion.get(0)
 										.getAddressLine(0));
@@ -173,40 +188,8 @@ public class VistaCrearAlarma extends Activity {
 				}
 			}
 		});
-
 	}
-
-	private String updateWithLocation(Location location) {
-
-		location = locationManager.getLastKnownLocation(provider);
-		StringBuilder sb = new StringBuilder();
-		if (location != null) {
-			lat = (float) location.getLatitude();
-			lng = (float) location.getLongitude();
-			gc = new Geocoder(this, Locale.getDefault());
-			try {
-				List<Address> ubicacion = gc.getFromLocation(lat, lng, 1);
-				if (ubicacion != null && ubicacion.size() > 0) {
-					Address address = ubicacion.get(0);
-					for (int i = 0; i < address.getMaxAddressLineIndex(); i++)
-						sb.append(address.getAddressLine(i));
-				}
-			} catch (IOException e) {
-				final CheckBox cb = (CheckBox) findViewById(R.id.cb_posicion);
-
-				cb.setChecked(false);
-				Toast.makeText(getApplicationContext(),
-						"Ubicación no disponible", Toast.LENGTH_SHORT).show();
-			}
-
-		} else {
-			lat = 0;
-			lng = 0;
-		}
-		return(sb.toString());
-
-	}
-
+	
 	private final LocationListener locationListener = new LocationListener() {
 		public void onLocationChanged(Location location) {
 		}

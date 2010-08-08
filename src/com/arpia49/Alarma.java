@@ -97,10 +97,18 @@ public class Alarma {
 
 	public void setId(int val) {
 		id = val;
-		
 		Registro.guardarAlarma(this);
 	}
 
+	public void setNombre(String val) {
+		nombre=val;
+		Registro.guardarString("alarmaNombre" + id, val);
+	}
+	
+	public void setDescripcion(String val) {
+		descripcion=val;
+		Registro.guardarString("alarmaDescripcion" + id, val);
+	}
 	public void setRegistrada(boolean val) {
 		registrada = val;
 		Registro.guardarBoolean("alarmaRegistrada" + id, val);
@@ -116,6 +124,30 @@ public class Alarma {
 		Registro.guardarBoolean("alarmaActivada" + id, val);
 	}
 
+	public void setUbicacion(String val) {
+		ubicacion=val;
+		Registro.guardarString("alarmaUbicacion" + id, val);
+	}
+
+	public void setRadio(int val) {
+		radio = val;
+		Registro.guardarInt("alarmaRadio" + id, val);		
+	}
+
+	public void setLatitud(float val) {
+		latitud = val;
+		Registro.guardarFloat("alarmaLatitud" + id, val);
+	}
+
+	public void setLongitud(float val) {
+		longitud = val;
+		Registro.guardarFloat("alarmaLongitud" + id, val);
+	}
+
+	public void setMuyFuerte(boolean val) {
+		muyFuerte = val;
+		Registro.guardarBoolean("alarmaMuyFuerte" + id, val);
+	}
 	public int getId() {
 		return id;
 	}

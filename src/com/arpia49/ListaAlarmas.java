@@ -17,15 +17,15 @@ public class ListaAlarmas {
 	}
 
 	public static void del(int id){
-		for (int i = id; i < size(); i++) {
-			ListaAlarmas.elementAt(i).setId(i);
+		for (int i = id+1; i <= size(); i++) {
+			ListaAlarmas.element(i).setId(i-1);
 		}
 		listaAlarmas.remove(id-1);
 		Registro.guardarInt("numeroAlarmas", size());
 	}
 	
-	public static Alarma elementAt(int val){
-		return listaAlarmas.elementAt(val);
+	public static Alarma element(int id){
+		return listaAlarmas.elementAt(id-1);
 	}
 
 	public static int lastElementClave(){
@@ -34,20 +34,11 @@ public class ListaAlarmas {
 		}
 		return 0;
 	}
-
-	public static Alarma obtenerAlarma(int id) {
-		for (int i = 0; i < ListaAlarmas.size(); i++) {
-			if (elementAt(i).getId() == id) {
-				return ListaAlarmas.elementAt(i);
-			}
-		}
-		return null;
-	}	
 	
 	public static Alarma obtenerDesdeClave(int clave) {
-		for (int i = 0; i < ListaAlarmas.size(); i++) {
-			if (elementAt(i).getClave() == clave) {
-				return elementAt(i);
+		for (int i = 1; i <= ListaAlarmas.size(); i++) {
+			if (element(i).getClave() == clave) {
+				return element(i);
 			}
 		}
 		return null;

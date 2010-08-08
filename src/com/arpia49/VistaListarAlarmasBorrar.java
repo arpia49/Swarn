@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class DelAlarmas extends ListActivity {
+public class VistaListarAlarmasBorrar extends ListActivity {
 
 	static final private int DEL_ALARMAS = Menu.FIRST;
 
@@ -19,8 +19,8 @@ public class DelAlarmas extends ListActivity {
 		super.onCreate(savedInstanceState);
 		int numAlarmas = ListaAlarmas.size();
 		String[] alarmas = new String[numAlarmas];
-		for (int i = 0; i < numAlarmas; i++) {
-			alarmas[i] = ListaAlarmas.elementAt(i).getNombre();
+		for (int i = 1; i <= numAlarmas; i++) {
+			alarmas[i] = ListaAlarmas.element(i).getNombre();
 		}
 		setListAdapter(new ArrayAdapter<String>(this, R.layout.del_alarma,
 				alarmas));
