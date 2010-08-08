@@ -31,25 +31,24 @@ public class AlertaEntrante extends BroadcastReceiver {
 		};
 		engine = splEngine.getInstance(messageHandler);
 		int id = intent.getExtras().getInt("id");
+		Alarma alarmaActual = ListaAlarmas.obtenerDesdeClave(id);
 		if (entering) {
-
 			Notificacion nuevaNotificacion = new Notificacion.Builder(
 					System.currentTimeMillis(),
-					ListaAlarmas.obtenerDesdeAlerta(id).getNombre(),
-					ListaAlertas.obtenerAlerta(id).getUbicacion())
+					alarmaActual.getNombre(), alarmaActual.getUbicacion())
 					.build(true);
 
 			Toast.makeText(context, "¡Has entrado! Num=" + id,
 					Toast.LENGTH_SHORT).show();
 			// OJO; AQUÍ TIENE QUE PILLAR DE ALERTA
-				engine.start_engine(ListaAlarmas.obtenerAlarma(id).getAlerta().getMuyFuerte());
-				ListaAlertas.obtenerAlerta(id).setActivada(true);
+				engine.start_engine(alarmaActual.getMuyFuerte());
+				alarmaActual.setActivada(true);
 		} else {
 			Log.d("ALERTA DE PROXIMIDAD", "salida");
 			// Aquí deberemos parar/rearrancar el servicio
 			Toast.makeText(context, "¡Has salido!", Toast.LENGTH_SHORT).show();
 				engine.stop_engine();
-				ListaAlertas.obtenerAlerta(id).setActivada(false);
+				alarmaActual.setActivada(false);
 		}
 	}
 }

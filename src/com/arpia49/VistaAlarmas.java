@@ -38,7 +38,6 @@ public class VistaAlarmas extends Activity {
 	private static String PROXIMITY_ALERT = "com.arpia49.action.proximityalert";
 
 	public void onCreate(Bundle savedInstanceState) {
-		Alerta.iniciarRegistro(this);
 		Alarma.iniciarRegistro(this);
 		Notificacion.iniciarRegistro(this);
 		messageHandler = new Handler() {
@@ -122,21 +121,16 @@ public class VistaAlarmas extends Activity {
 		switch (reqCode) {
 		case (ACT_ADD_ALARMA): {
 			if (resCode == Activity.RESULT_OK) {
-				
-				Alerta nuevaAlerta = new Alerta.Builder(
+
+				Alarma nuevaAlarma = new Alarma.Builder(
+						data.getStringExtra("nombreAlarma"),
+						data.getStringExtra("descAlarma"),
 						data.getStringExtra("ubicAlarma"),
 						data.getIntExtra("radioAlarma",100),
 						data.getFloatExtra("latAlarma", 0),
 						data.getFloatExtra("lngAlarma", 0),
 						data.getBooleanExtra("sonidoFuerte", false))
 						.build(true);
-
-				Alarma nuevaAlarma = new Alarma.Builder(
-						data.getStringExtra("nombreAlarma"),
-						data.getStringExtra("descAlarma"))
-						.alerta(ListaAlertas.obtenerAlerta(nuevaAlerta.getId()))
-						.build(true);
-
 				addAlarma(nuevaAlarma);
 				
 				Toast.makeText(getApplicationContext(), "Alarma añadida!",
@@ -158,7 +152,7 @@ public class VistaAlarmas extends Activity {
 							"¡Eliminadas todas las alarmas!",
 							Toast.LENGTH_SHORT).show();
 				} else {
-					delAlarma(data.getIntExtra("idAlarma",0));
+					delAlarma(data.getIntExtra("idAlarma",0)+1);
 					Toast.makeText(getApplicationContext(),
 							"Alarma  eliminada!", Toast.LENGTH_SHORT).show();
 				}
@@ -168,6 +162,7 @@ public class VistaAlarmas extends Activity {
 						"No se han borrado alarmas", Toast.LENGTH_SHORT).show();
 			}
 		}
+		break;
 		case (ACT_LISTA_NOTIFICACIONES): {
 			if (resCode == Activity.RESULT_OK) {
 				if (data.getBooleanExtra("todas", false)) {
@@ -201,7 +196,7 @@ public class VistaAlarmas extends Activity {
 		final int id = val.getId();
 		final String descripcion = val.getDescripcion();
 		final boolean marcada = val.getMarcada();
-		final int radio = val.getAlerta().getRadio();
+		final int radio = val.getRadio();
 		
 		LinearLayout lx = (LinearLayout) findViewById(R.id.mainLay);
 		LinearLayout la = new LinearLayout(this);
@@ -216,13 +211,13 @@ public class VistaAlarmas extends Activity {
 		tbdesc.setSingleLine(false);
 		cb.setText(val.getNombre());
 		if (marcada) {
-			setProximityAlert(val.getAlerta());
+			setProximityAlert(val);
 		}
 		cb.setChecked(marcada);
-		if (val.getAlerta().conUbicacion()) {
-			tbdesc.setText(descripcion + " - " + val.getAlerta().getUbicacion() + " (" + radio + "m)");
+		if (val.conUbicacion()) {
+			tbdesc.setText(descripcion + " - " + val.getUbicacion() + " (" + radio + "m)");
 		} else {
-			tbdesc.setText(descripcion + " - " + val.getAlerta().getUbicacion());
+			tbdesc.setText(descripcion + " - " + val.getUbicacion());
 		}
 
 		cb.setOnClickListener(new OnClickListener() {
@@ -231,15 +226,15 @@ public class VistaAlarmas extends Activity {
 				Alarma alarmaActual = ListaAlarmas.obtenerAlarma(v_id);
 				if (((CheckBox) v).isChecked()) {
 					alarmaActual.setMarcada(true);
-					if (!alarmaActual.getAlerta().conUbicacion()) {
-						engine.start_engine(alarmaActual.getAlerta().getMuyFuerte());
+					if (!alarmaActual.conUbicacion()) {
+						engine.start_engine(alarmaActual.getMuyFuerte());
 					} else {
-						setProximityAlert(alarmaActual.getAlerta());
+						setProximityAlert(alarmaActual);
 					}
 				} else {
 					alarmaActual.setMarcada(false);
-					if (alarmaActual.getAlerta().conUbicacion()) {
-						removeProximityAlert(alarmaActual.getAlerta());
+					if (alarmaActual.conUbicacion()) {
+						removeProximityAlert(alarmaActual);
 					}else{
 						engine.stop_engine();
 					}
@@ -251,17 +246,16 @@ public class VistaAlarmas extends Activity {
 		lx.addView(la);
 	}
 
-	private void delAlarma(int id) {
-		Alerta alertaABorrar = ListaAlarmas.elementAt(id).getAlerta();
-		ListaAlarmas.del(id);
+	private void delAlarma(int val) {
+		Alarma alarmaABorrar = ListaAlarmas.elementAt(val-1);
+		ListaAlarmas.del(val);
 		
-		if(alertaABorrar.getRegistrada()){
-			removeProximityAlert(alertaABorrar);
+		if(alarmaABorrar.getRegistrada()){
+			removeProximityAlert(alarmaABorrar);
 		}
-		ListaAlertas.del(alertaABorrar.getId());
 	}
 
-	private void setProximityAlert(Alerta val) {
+	private void setProximityAlert(Alarma val) {
 		int id = val.getId();
 		
 		String locService = Context.LOCATION_SERVICE;
@@ -289,7 +283,7 @@ public class VistaAlarmas extends Activity {
 				Toast.LENGTH_SHORT).show();
 	}
 
-	private void removeProximityAlert(Alerta val) {
+	private void removeProximityAlert(Alarma val) {
 		int id = val.getId();
 		
 		String locService = Context.LOCATION_SERVICE;

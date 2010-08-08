@@ -1,7 +1,5 @@
 package com.arpia49;
 
-
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -16,29 +14,57 @@ public class Alarma {
 		
 	//Sin builder
 	private int id;
+	private int clave;
 
 	//Obligatorias
 	private String nombre;
 	private String descripcion;
+	private String ubicacion;
+	private int radio;
+	private float latitud;
+	private float longitud;
+	private boolean muyFuerte;
 	
 	//Opcionales
-	private boolean marcada;
-	private boolean activada;
-	private Alerta alerta;
+	private boolean marcada; //Tiene el tic
+	private boolean activada; //Está el engine corriendo
+	private boolean registrada; //La alerta de proximidad está metida
 
 	public static class Builder {
 		// Obligatorios
 		private String nombre;
 		private String descripcion;
+		private String ubicacion;
+		private int radio;
+		private float latitud;
+		private float longitud;
+		private boolean muyFuerte;
 
 		// Opcionales
 		private boolean marcada = false;
 		private boolean activada = false;
-		private Alerta alerta = null;
+		private boolean registrada;
+		private int clave;
 
-		public Builder(String nombre, String descripcion) {
+		public Builder(String nombre, String descripcion,String ubicacion,
+				int radio,float latitud,float longitud, boolean muyFuerte) {
 			this.nombre = nombre;
 			this.descripcion = descripcion;
+			this.ubicacion=ubicacion;
+			this.radio=radio;
+			this.latitud=latitud;
+			this.longitud=longitud;
+			this.muyFuerte = muyFuerte;
+		}
+
+		public Builder clave(int val) {
+			clave = val;
+			return this;
+		}
+		
+		public Builder registrada(boolean val) {
+			registrada = val;
+			return this;
 		}
 
 		public Builder marcada(boolean val) {
@@ -48,11 +74,6 @@ public class Alarma {
 
 		public Builder activada(boolean val) {
 			activada = val;
-			return this;
-		}
-
-		public Builder alerta(Alerta val) {
-			alerta = val;
 			return this;
 		}
 
@@ -67,20 +88,34 @@ public class Alarma {
 		
 		//Guardamos en memoria
 		id = ListaAlarmas.size() + 1;
+		clave = ListaAlarmas.lastElementClave()+1;
 		nombre = builder.nombre;
 		descripcion = builder.descripcion;
 		marcada = builder.marcada;
 		activada = builder.activada;
-		alerta = builder.alerta;
+		registrada = builder.registrada;
+		radio = builder.radio;
+		latitud = builder.latitud;
+		longitud = builder.longitud;
+		ubicacion = builder.ubicacion;
+		muyFuerte = builder.muyFuerte;
+		
 	
 		if (guardar){
 			//Guardamos de manera persistente
-			editor.putInt("numeroAlarmas", ListaAlarmas.size()+1);
+			editor.putInt("numeroAlarmas", id);
+			editor.putInt("alarmaClave" + id, clave);
 			editor.putString("alarmaNombre" + id, nombre);
 			editor.putString("alarmaDescripcion" + id, descripcion);
 			editor.putBoolean("alarmaMarcada" + id, marcada);
 			editor.putBoolean("alarmaActivada" + id, activada);
-			editor.putInt("alarmaIdAlerta" + id, alerta.getId());
+			editor.putBoolean("alarmaRegistrada" + id, registrada);
+			editor.putBoolean("alarmaActivada" + id, activada);
+			editor.putInt("alarmaRadio" + id, radio);
+			editor.putFloat("alarmaLatitud" + id, latitud);
+			editor.putFloat("alarmaLongitud" + id, longitud);
+			editor.putString("alarmaUbicacion" + id, ubicacion);
+			editor.putBoolean("alarmaMuyFuerte" + id, muyFuerte);
 			
 			editor.commit();
 		}
@@ -89,15 +124,30 @@ public class Alarma {
 	public void setId(int val) {
 		id = val;
 		//Guardamos de manera persistente
+		editor.putInt("alarmaClave" + id, clave);
 		editor.putString("alarmaNombre" + id, nombre);
 		editor.putString("alarmaDescripcion" + id, descripcion);
 		editor.putBoolean("alarmaMarcada" + id, marcada);
 		editor.putBoolean("alarmaActivada" + id, activada);
-		editor.putInt("alarmaIdAlerta" + id, alerta.getId());
+		editor.putBoolean("alarmaRegistrada" + id, registrada);
+		editor.putBoolean("alarmaActivada" + id, activada);
+		editor.putInt("alarmaRadio" + id, radio);
+		editor.putFloat("alarmaLatitud" + id, latitud);
+		editor.putFloat("alarmaLongitud" + id, longitud);
+		editor.putString("alarmaUbicacion" + id, ubicacion);
+		editor.putBoolean("alarmaMuyFuerte" + id, muyFuerte);
 		
 		editor.commit();
 	}
 
+	public void setRegistrada(boolean val) {
+		registrada = val;
+
+		//Guardamos de manera persistente
+		editor.putBoolean("alarmaRegistrada" + id, val);
+		editor.commit();
+	}
+	
 	public void setMarcada(boolean val) {
 		marcada = val;
 		
@@ -117,6 +167,34 @@ public class Alarma {
 	public int getId() {
 		return id;
 	}
+
+	public int getClave() {
+		return clave;
+	}
+	
+	public String getUbicacion() {
+		return ubicacion;
+	}
+
+	public int getRadio() {
+		return radio;
+	}
+
+	public float getLatitud() {
+		return latitud;
+	}
+
+	public float getLongitud() {
+		return longitud;
+	}
+	
+	public boolean getRegistrada() {
+		return registrada;
+	}
+	
+	public boolean getMuyFuerte() {
+		return muyFuerte;
+	}
 	
 	public String getNombre() {
 		return nombre;
@@ -134,8 +212,8 @@ public class Alarma {
 		return activada;
 	}
 	
-	public Alerta getAlerta() {
-		return alerta;
+	public boolean conUbicacion() {
+		return !(ubicacion.compareTo("Sin ubicación") == 0);
 	}
 	
 	public static void iniciarRegistro(Activity val){
