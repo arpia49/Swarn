@@ -32,7 +32,6 @@ public class VistaCrearAlarma extends Activity {
 	String context = Context.LOCATION_SERVICE;
 	String provider = null;
 	Location location = null;
-	public List<Address> addresses;
 	float lat = 0;
 	float lng = 0;
 
@@ -55,8 +54,8 @@ public class VistaCrearAlarma extends Activity {
 				locationListener);
 		final EditText et_nombreAlarma = (EditText) findViewById(R.id.et_nombreAlarma);
 		final EditText et_descAlarma = (EditText) findViewById(R.id.et_descAlarma);
-		final EditText et3 = (EditText) findViewById(R.id.et_lugar);
-		final CheckBox cb = (CheckBox) findViewById(R.id.cb_posicion);
+		final EditText et_lugar = (EditText) findViewById(R.id.et_lugar);
+		final CheckBox cb_posicion = (CheckBox) findViewById(R.id.cb_posicion);
 
 		final RadioButton rb = (RadioButton) findViewById(R.id.rb_fuerte);
 
@@ -69,17 +68,16 @@ public class VistaCrearAlarma extends Activity {
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		sp.setAdapter(adapter);
-		updateWithLocation(location);
+		et_lugar.setText(updateWithLocation(location));
 		bt.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Intent outData = new Intent();
-				if (cb.isChecked()) {
-					Address address = addresses.get(0);
+				if (cb_posicion.isChecked()) {
 					int metros = 100;
 					if (sp.getSelectedItemPosition() == 1) {
 						metros = 500;
 					}
-					outData.putExtra("ubicAlarma", address.getAddressLine(0));
+					outData.putExtra("ubicAlarma", et_lugar.getText());
 					outData.putExtra("radioAlarma", metros);
 					outData.putExtra("latAlarma", lat);
 					outData.putExtra("lngAlarma", lng);
@@ -116,12 +114,12 @@ public class VistaCrearAlarma extends Activity {
 
 				if (hasFocus && actual.compareTo(defecto) == 0)
 					et_nombreAlarma.setText("");
-				
+
 				else if (!hasFocus && actual.compareTo("") == 0)
 					et_nombreAlarma.setText(defecto);
 			}
 		});
-		
+
 		et_descAlarma.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
@@ -130,28 +128,35 @@ public class VistaCrearAlarma extends Activity {
 
 				if (hasFocus && actual.compareTo(defecto) == 0)
 					et_descAlarma.setText("");
-				
+
 				else if (!hasFocus && actual.compareTo("") == 0)
 					et_descAlarma.setText(defecto);
 			}
 		});
 
-		cb.setOnClickListener(new OnClickListener() {
+		et_lugar.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				cb_posicion.setChecked(false);
+			}
+		});
+
+		cb_posicion.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (((CheckBox) v).isChecked()) {
-					if (et3.getText().toString().compareTo("") == 0) {
+					if (et_lugar.getText().toString().compareTo("") == 0) {
 						Toast.makeText(getApplicationContext(),
 								"No hay una dirección especificada",
 								Toast.LENGTH_SHORT).show();
 						((CheckBox) v).setChecked(false);
 					} else {
 						try {
-							addresses = gc.getFromLocationName(et3.getText()
-									.toString(), 1);
-							if (addresses != null && addresses.size() > 0) {
-								et3.setText(addresses.get(0).getAddressLine(0));
-								lat = (float) addresses.get(0).getLatitude();
-								lng = (float) addresses.get(0).getLongitude();
+							List<Address> ubicacion = gc.getFromLocationName(
+									et_lugar.getText().toString(), 1);
+							if (ubicacion != null && ubicacion.size() > 0) {
+								et_lugar.setText(ubicacion.get(0)
+										.getAddressLine(0));
+								lat = (float) ubicacion.get(0).getLatitude();
+								lng = (float) ubicacion.get(0).getLongitude();
 							} else {
 								Toast.makeText(getApplicationContext(),
 										"No se ha encontrado la dirección",
@@ -171,21 +176,18 @@ public class VistaCrearAlarma extends Activity {
 
 	}
 
-	private void updateWithLocation(Location location) {
+	private String updateWithLocation(Location location) {
 
 		location = locationManager.getLastKnownLocation(provider);
-		EditText tv_lugar;
-		tv_lugar = (EditText) findViewById(R.id.et_lugar);
 		StringBuilder sb = new StringBuilder();
 		if (location != null) {
 			lat = (float) location.getLatitude();
 			lng = (float) location.getLongitude();
 			gc = new Geocoder(this, Locale.getDefault());
-			addresses = null;
 			try {
-				addresses = gc.getFromLocation(lat, lng, 1);
-				if (addresses.size() > 0) {
-					Address address = addresses.get(0);
+				List<Address> ubicacion = gc.getFromLocation(lat, lng, 1);
+				if (ubicacion != null && ubicacion.size() > 0) {
+					Address address = ubicacion.get(0);
 					for (int i = 0; i < address.getMaxAddressLineIndex(); i++)
 						sb.append(address.getAddressLine(i));
 				}
@@ -201,7 +203,7 @@ public class VistaCrearAlarma extends Activity {
 			lat = 0;
 			lng = 0;
 		}
-		tv_lugar.setText(sb.toString());
+		return(sb.toString());
 
 	}
 
