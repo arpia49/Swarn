@@ -14,6 +14,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -35,6 +36,9 @@ public class VistaAlarmaCrear extends Activity {
 	float lat = 0;
 	float lng = 0;
 
+	// Initialize a handler on the main thread.
+	private Handler handler = new Handler();
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
@@ -49,9 +53,11 @@ public class VistaAlarmaCrear extends Activity {
 		criteria.setBearingRequired(false);
 		criteria.setCostAllowed(true);
 		criteria.setPowerRequirement(Criteria.POWER_LOW);
+		
 		provider = locationManager.getBestProvider(criteria, true);
 		locationManager.requestLocationUpdates(provider, 30000, 100,
 				locationListener);
+		
 		final EditText et_nombreAlarma = (EditText) findViewById(R.id.et_nombreAlarma);
 		final EditText et_descAlarma = (EditText) findViewById(R.id.et_descAlarma);
 		final EditText et_lugar = (EditText) findViewById(R.id.et_lugar);
@@ -67,8 +73,11 @@ public class VistaAlarmaCrear extends Activity {
 		adapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+		Thread thread = new Thread(null, doBackgroundThreadProcessing, "Background");
+		
 		sp.setAdapter(adapter);
-		et_lugar.setText(updateWithLocation(location));
+
+		thread.start();
 		bt.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Intent outData = new Intent();
@@ -221,4 +230,10 @@ public class VistaAlarmaCrear extends Activity {
 		}
 	};
 
+	private Runnable doBackgroundThreadProcessing = new Runnable() {
+		public void run() {
+			final EditText et_lugar = (EditText) findViewById(R.id.et_lugar);
+			et_lugar.setText(updateWithLocation(location));
+		}
+	};
 }
