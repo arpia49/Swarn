@@ -44,8 +44,13 @@ public class ListaNotificaciones {
 			Notificacion nuevaNotificacion = new Notificacion.Builder(
 					val.getLong("notificacionFecha"+ i,0),
 					val.getString("notificacionNombre"+ i,""),
-					val.getString("notificacionUbicacion"+ i,"")					)
+					val.getString("notificacionUbicacion"+ i,""),
+					val.getInt("notificacionIdAlarma"+ i,0))
 					.build(false);
 		}
+	}
+
+	public static Notificacion lastElement() {
+		return listaNotificaciones.lastElement();
 	}
 }

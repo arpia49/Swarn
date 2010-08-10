@@ -21,8 +21,7 @@ public class VistaNotificaciones extends ListActivity {
 		int numNotificaciones = ListaNotificaciones.size();
 		String[] lugares = new String[numNotificaciones];
 		for (int i = 0; i < numNotificaciones; i++) {
-			Notificacion temp = ListaNotificaciones.elementAt(i);
-			lugares[i] = Long.toString(temp.getFecha()) + " - " + temp.getNombre() + " - "+temp.getUbicacion();
+			lugares[i] = ListaNotificaciones.elementAt(i).toString();
 		}
 		setListAdapter(new ArrayAdapter<String>(this, R.layout.del_alarma,
 				lugares));

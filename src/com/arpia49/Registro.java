@@ -32,6 +32,7 @@ public class Registro {
 		editor.putLong("notificacionFecha" + val.getId(), val.getFecha());
 		editor.putString("notificacionNombre" + val.getId(), val.getNombre());
 		editor.putString("notificacionUbicacion" + val.getId(), val.getUbicacion());
+		editor.putInt("notificacionIdAlarma" + val.getId(), val.getIdAlarma());
 		editor.commit();
 	}
 	
@@ -61,6 +62,7 @@ public class Registro {
 			settings = contexto.getSharedPreferences(PREFS_NAME, 0);
 			editor = settings.edit();
 			ListaAlarmas.inicializar(settings);
+			ListaNotificaciones.inicializar(settings);
 		}
 	}
 }

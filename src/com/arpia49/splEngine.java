@@ -1,11 +1,10 @@
 package com.arpia49;
 
 import java.math.BigDecimal;
-
+import java.util.Stack;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
-import android.os.Handler;
 
 /**
  * 
@@ -19,8 +18,7 @@ public class splEngine implements Runnable {
 	private int BUFFSIZE = 320;
 	private static final double P0 = 0.000002;
 	public volatile boolean isRunning = false;
-	static Handler handle = null;
-	public volatile static int pila;
+	public volatile static Stack<Evento> pila;
 	private static splEngine instance = null;
 	AudioRecord recordInstance = null;
 
@@ -28,11 +26,10 @@ public class splEngine implements Runnable {
 		// Exists only to defeat instantiation.
 	}
 
-	public static splEngine getInstance(Handler h) {
+	public static splEngine getInstance() {
 		if (instance == null) {
 			instance = new splEngine();
-			handle = h;
-			pila = 0;
+			pila = new Stack<Evento>();
 		}
 		return instance;
 	}
@@ -40,12 +37,12 @@ public class splEngine implements Runnable {
 	/**
 	 * starts the engine.
 	 */
-	public void start_engine(boolean fuerte) {
-		pila++;
+	public void start_engine(Evento evento) {
+		pila.push(evento);
 		if (!this.isRunning) {
 			this.isRunning = true;
-			Thread t=new Thread (this);
-		    t.start();
+			Thread t = new Thread(this);
+			t.start();
 		}
 	}
 
@@ -53,8 +50,8 @@ public class splEngine implements Runnable {
 	 * stops the engine
 	 */
 	public void stop_engine() {
-		pila--;
-		if (pila==0) {
+		pila.pop();
+		if (pila.size() == 0) {
 			this.isRunning = false;
 		}
 	}
@@ -72,7 +69,6 @@ public class splEngine implements Runnable {
 
 			recordInstance.startRecording();
 			short[] tempBuffer = new short[BUFFSIZE];
-			int veces = 500;
 
 			while (this.isRunning) {
 				double splValue = 0.0;
@@ -93,17 +89,17 @@ public class splEngine implements Runnable {
 
 				splValue = 20 * Math.log10(rmsValue / P0);
 				splValue = round(splValue, 2);
-				
-				if(veces==1000){
-					handle.sendEmptyMessage((int) splValue);
-					veces=0;
+
+				Evento.getHandler().sendEmptyMessage(pila.peek().getId());
+
+				if (ListaNotificaciones.lastElement().getIdAlarma() == pila
+						.peek().getId()) {
+					Thread.sleep(11000);
 				}
-				veces++;
-					
 			}
 
 			recordInstance.stop();
-			
+
 		} catch (Exception e) {
 
 		}

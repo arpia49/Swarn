@@ -1,5 +1,7 @@
 package com.arpia49;
 
+import java.text.SimpleDateFormat;
+
 public class Alarma {
 	
 	//Sin builder
@@ -198,5 +200,18 @@ public class Alarma {
 	
 	public boolean conUbicacion() {
 		return !(ubicacion.compareTo("Sin ubicación") == 0);
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+		result.append(nombre);
+		result.append(": ");
+		result.append(descripcion);
+		if(conUbicacion()){
+			result.append(" - ");
+			result.append(ubicacion);
+		}
+		return result.toString();
 	}
 }

@@ -18,29 +18,15 @@ public class AlertaEntrante extends BroadcastReceiver {
 
 		String key = LocationManager.KEY_PROXIMITY_ENTERING;
 		Boolean entering = intent.getBooleanExtra(key, false);
-
-		messageHandler = new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-				Toast
-						.makeText(context,
-								"yeah baby!!" + msg.what,
-								Toast.LENGTH_SHORT).show();
-			}
-		};
-		engine = splEngine.getInstance(messageHandler);
+		
+		engine = splEngine.getInstance();
 		int id = intent.getExtras().getInt("id");
 		Alarma alarmaActual = ListaAlarmas.obtenerDesdeClave(id);
 		if (entering) {
-			Notificacion nuevaNotificacion = new Notificacion.Builder(
-					System.currentTimeMillis(),
-					alarmaActual.getNombre(), alarmaActual.getUbicacion())
-					.build(true);
-
 			Toast.makeText(context, "¡Has entrado! Num=" + id,
 					Toast.LENGTH_SHORT).show();
 			// OJO; AQUÍ TIENE QUE PILLAR DE ALERTA
-				engine.start_engine(alarmaActual.getMuyFuerte());
+				engine.start_engine(new Evento(id, alarmaActual.getMuyFuerte(),VistaAlarmas.actividad));
 				alarmaActual.setActivada(true);
 		} else {
 			Log.d("ALERTA DE PROXIMIDAD", "salida");

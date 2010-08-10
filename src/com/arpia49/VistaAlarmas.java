@@ -8,8 +8,6 @@ import android.content.IntentFilter;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,8 +16,6 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.arpia49.R;
 
 public class VistaAlarmas extends Activity {
 
@@ -35,23 +31,15 @@ public class VistaAlarmas extends Activity {
 	static final private int LISTA_ALERTAS = Menu.FIRST + 3;
 	static final private int INFO = Menu.FIRST + 4;
 	private static splEngine engine = null;
-	private static Handler messageHandler = null;
-	
+	public static Activity actividad = null;
+
 	// Alerta de proximidad
 	private static String PROXIMITY_ALERT = "com.arpia49.action.proximityalert";
 
 	public void onCreate(Bundle savedInstanceState) {
-		Registro.iniciar(this);
-		messageHandler = new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-				Toast
-						.makeText(getApplicationContext(),
-								"pin"+msg.what,
-								Toast.LENGTH_SHORT).show();
-			}
-		};
-		engine = splEngine.getInstance(messageHandler);
+		actividad = this;
+		Registro.iniciar(actividad);
+		engine = splEngine.getInstance();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		cargarPosiciones((LinearLayout) findViewById(R.id.mainLay));
@@ -225,6 +213,13 @@ public class VistaAlarmas extends Activity {
 		for (int i = 1; i <= numAlarmas; i++) {
 			Alarma alarmaActual = ListaAlarmas.element(i);
 			addAlarma(alarmaActual);
+			if(alarmaActual.getMarcada()){
+				if (!alarmaActual.conUbicacion()) {
+					engine.start_engine(new Evento(alarmaActual.getId(),alarmaActual.getMuyFuerte(), actividad));
+				} else {
+					setProximityAlert(alarmaActual);
+				}
+			}
 		}
 	}
 
@@ -265,7 +260,7 @@ public class VistaAlarmas extends Activity {
 				if (((CheckBox) v).isChecked()) {
 					alarmaActual.setMarcada(true);
 					if (!alarmaActual.conUbicacion()) {
-						engine.start_engine(alarmaActual.getMuyFuerte());
+						engine.start_engine(new Evento(v_id,alarmaActual.getMuyFuerte(), actividad));
 					} else {
 						setProximityAlert(alarmaActual);
 					}
