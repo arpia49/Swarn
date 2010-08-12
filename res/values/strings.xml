@@ -10,9 +10,10 @@
 	<string name="menu_info">Mostrar ayuda</string>
 	<string name="aceptar">Aceptar</string>
 	<string name="cancelar">Cancelar</string>
-	<string name="ayuda">Menú para añadir, borrar y ayuda</string>
+	<string name="tv_nombreAlarma">Nombre:</string>
 	<string name="et_nombreAlarma">Sin nombre</string>
 	<string name="et_descAlarma">Sin descripción</string>
+	<string name="tv_descAlarma">Descripción:</string>
 	<string name="desc_locale">¿Utilizar ubicación?</string>
 	<string name="et_lugar">Ubicación actual</string>
 	<string name="cb_sonora">Activar sonidos</string>
@@ -20,4 +21,5 @@
 	<string name="tv_latlng">lat: long:</string>
 	<string name="verify">Comprobar</string>
 	<string name="sp_radio">Radio para la alarma en metros</string>
+	<string name="ayuda">Haz clic en Menú para añadir, borrar, editar, ver notificaciones o acceder a la ayuda</string>
 </resources>

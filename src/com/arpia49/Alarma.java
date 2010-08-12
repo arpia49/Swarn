@@ -1,14 +1,12 @@
 package com.arpia49;
 
-import java.text.SimpleDateFormat;
-
 public class Alarma {
-	
-	//Sin builder
+
+	// Sin builder
 	private int id;
 	private int clave;
 
-	//Obligatorias
+	// Obligatorias
 	private String nombre;
 	private String descripcion;
 	private String ubicacion;
@@ -16,11 +14,11 @@ public class Alarma {
 	private float latitud;
 	private float longitud;
 	private boolean muyFuerte;
-	
-	//Opcionales
-	private boolean marcada; //Tiene el tic
-	private boolean activada; //Está el engine corriendo
-	private boolean registrada; //La alerta de proximidad está metida
+
+	// Opcionales
+	private boolean marcada; // Tiene el tic
+	private boolean activada; // Está el engine corriendo
+	private boolean registrada; // La alerta de proximidad está metida
 
 	public static class Builder {
 		// Obligatorios
@@ -38,14 +36,14 @@ public class Alarma {
 		private boolean registrada;
 		private int clave;
 
-		public Builder(String nombre, String descripcion,String ubicacion,
-				int radio,float latitud,float longitud, boolean muyFuerte) {
+		public Builder(String nombre, String descripcion, String ubicacion,
+				int radio, float latitud, float longitud, boolean muyFuerte) {
 			this.nombre = nombre;
 			this.descripcion = descripcion;
-			this.ubicacion=ubicacion;
-			this.radio=radio;
-			this.latitud=latitud;
-			this.longitud=longitud;
+			this.ubicacion = ubicacion;
+			this.radio = radio;
+			this.latitud = latitud;
+			this.longitud = longitud;
 			this.muyFuerte = muyFuerte;
 		}
 
@@ -53,7 +51,7 @@ public class Alarma {
 			clave = val;
 			return this;
 		}
-		
+
 		public Builder registrada(boolean val) {
 			registrada = val;
 			return this;
@@ -77,10 +75,10 @@ public class Alarma {
 	}
 
 	private Alarma(Builder builder, Boolean guardar) {
-		
-		//Guardamos en memoria
+
+		// Guardamos en memoria
 		id = ListaAlarmas.size() + 1;
-		clave = ListaAlarmas.lastElementClave()+1;
+		clave = ListaAlarmas.lastElementClave() + 1;
 		nombre = builder.nombre;
 		descripcion = builder.descripcion;
 		marcada = builder.marcada;
@@ -91,8 +89,8 @@ public class Alarma {
 		longitud = builder.longitud;
 		ubicacion = builder.ubicacion;
 		muyFuerte = builder.muyFuerte;
-	
-		if (guardar){
+
+		if (guardar) {
 			Registro.guardarAlarma(this);
 		}
 	}
@@ -103,19 +101,20 @@ public class Alarma {
 	}
 
 	public void setNombre(String val) {
-		nombre=val;
+		nombre = val;
 		Registro.guardarString("alarmaNombre" + id, val);
 	}
-	
+
 	public void setDescripcion(String val) {
-		descripcion=val;
+		descripcion = val;
 		Registro.guardarString("alarmaDescripcion" + id, val);
 	}
+
 	public void setRegistrada(boolean val) {
 		registrada = val;
 		Registro.guardarBoolean("alarmaRegistrada" + id, val);
 	}
-	
+
 	public void setMarcada(boolean val) {
 		marcada = val;
 		Registro.guardarBoolean("alarmaMarcada" + id, val);
@@ -127,13 +126,13 @@ public class Alarma {
 	}
 
 	public void setUbicacion(String val) {
-		ubicacion=val;
+		ubicacion = val;
 		Registro.guardarString("alarmaUbicacion" + id, val);
 	}
 
 	public void setRadio(int val) {
 		radio = val;
-		Registro.guardarInt("alarmaRadio" + id, val);		
+		Registro.guardarInt("alarmaRadio" + id, val);
 	}
 
 	public void setLatitud(float val) {
@@ -150,6 +149,7 @@ public class Alarma {
 		muyFuerte = val;
 		Registro.guardarBoolean("alarmaMuyFuerte" + id, val);
 	}
+
 	public int getId() {
 		return id;
 	}
@@ -157,7 +157,7 @@ public class Alarma {
 	public int getClave() {
 		return clave;
 	}
-	
+
 	public String getUbicacion() {
 		return ubicacion;
 	}
@@ -173,15 +173,15 @@ public class Alarma {
 	public float getLongitud() {
 		return longitud;
 	}
-	
+
 	public boolean getRegistrada() {
 		return registrada;
 	}
-	
+
 	public boolean getMuyFuerte() {
 		return muyFuerte;
 	}
-	
+
 	public String getNombre() {
 		return nombre;
 	}
@@ -197,20 +197,25 @@ public class Alarma {
 	public boolean getActivada() {
 		return activada;
 	}
-	
+
 	public boolean conUbicacion() {
 		return !(ubicacion.compareTo("Sin ubicación") == 0);
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();
 		result.append(nombre);
-		result.append(": ");
-		result.append(descripcion);
-		if(conUbicacion()){
+		if (descripcion.compareTo("Sin descripción") != 0) {
+			result.append(": ");
+			result.append(descripcion);
+		}
+		if (conUbicacion()) {
 			result.append(" - ");
 			result.append(ubicacion);
+			result.append(" (");
+			result.append(radio);
+			result.append("m)");
 		}
 		return result.toString();
 	}

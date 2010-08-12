@@ -35,9 +35,6 @@ public class VistaAlarmaCrear extends Activity {
 	Location location = null;
 	float lat = 0;
 	float lng = 0;
-
-	// Initialize a handler on the main thread.
-	private Handler handler = new Handler();
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

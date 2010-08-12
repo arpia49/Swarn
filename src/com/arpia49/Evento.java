@@ -36,7 +36,7 @@ public class Evento {
 							ListaAlarmas.element(msg.what).getId())
 							.build(true);
 					triggerNotification();
-					Toast.makeText(contexto, "lalalalal",
+					Toast.makeText(contexto, "¡Alarma detectada!",
 							Toast.LENGTH_SHORT).show();
 				}
 			};
@@ -57,11 +57,11 @@ public class Evento {
 	
     private void triggerNotification()
     {
-        CharSequence title = "Hello";
-        CharSequence message = "Hello, Android!";
+        CharSequence title = "Timbre 2.0";
+        CharSequence message = "Click para ver las notificaciones de alertas";
  
         NotificationManager notificationManager = (NotificationManager)contexto.getSystemService(contexto.NOTIFICATION_SERVICE);
-        Notification notification = new Notification(R.drawable.icon, "A New Message!", System.currentTimeMillis());
+        Notification notification = new Notification(R.drawable.icon, "¡Alarma detectada!", System.currentTimeMillis());
  
         Intent notificationIntent = new Intent(contexto, VistaNotificaciones.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(contexto, 0, notificationIntent, 0);

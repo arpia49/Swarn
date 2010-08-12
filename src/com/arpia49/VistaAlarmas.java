@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class VistaAlarmas extends Activity {
@@ -133,7 +132,7 @@ public class VistaAlarmas extends Activity {
 						.build(true);
 				addAlarma(nuevaAlarma);
 				
-				Toast.makeText(getApplicationContext(), "Alarma añadida!",
+				Toast.makeText(getApplicationContext(), "¡Alarma añadida!",
 						Toast.LENGTH_SHORT).show();
 			} else {
 				Toast.makeText(getApplicationContext(),
@@ -180,7 +179,7 @@ public class VistaAlarmas extends Activity {
 				} else {
 					delAlarma(data.getIntExtra("idAlarma",0)+1);
 					Toast.makeText(getApplicationContext(),
-							"Alarma  eliminada!", Toast.LENGTH_SHORT).show();
+							"¡Alarma  eliminada!", Toast.LENGTH_SHORT).show();
 				}
 				this.onCreate(null);
 			} else {
@@ -194,7 +193,7 @@ public class VistaAlarmas extends Activity {
 				if (data.getBooleanExtra("todas", false)) {
 					ListaNotificaciones.borrar();
 					Toast.makeText(getApplicationContext(),
-							"Notificaciones eliminadas!", Toast.LENGTH_SHORT).show();
+							"¡Notificaciones eliminadas!", Toast.LENGTH_SHORT).show();
 				}
 				this.onCreate(null);
 			} else {
@@ -226,32 +225,21 @@ public class VistaAlarmas extends Activity {
 	private void addAlarma(Alarma val) {
 
 		//Obtenemos los datos que se usarán más de una vez
-		final int id = val.getId();
-		final String descripcion = val.getDescripcion();
-		final boolean marcada = val.getMarcada();
-		final int radio = val.getRadio();
-		
+
 		LinearLayout lx = (LinearLayout) findViewById(R.id.mainLay);
 		LinearLayout la = new LinearLayout(this);
-		la.setId(id);
+		la.setId(val.getId());
 		la.setOrientation(1);
 
 		// Creamos la alarma en la vista
 		CheckBox cb = new CheckBox(this);
-		TextView tbdesc = new TextView(this);
-		cb.setId(id);
-		tbdesc.setId(id);
-		tbdesc.setSingleLine(false);
-		cb.setText(val.getNombre());
-		if (marcada) {
+		cb.setId(val.getId());
+		cb.setSingleLine(false);
+		cb.setText(val.toString());
+		if (val.getMarcada()) {
 			setProximityAlert(val);
 		}
-		cb.setChecked(marcada);
-		if (val.conUbicacion()) {
-			tbdesc.setText(descripcion + " - " + val.getUbicacion() + " (" + radio + "m)");
-		} else {
-			tbdesc.setText(descripcion + " - " + val.getUbicacion());
-		}
+		cb.setChecked(val.getMarcada());
 
 		cb.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -275,7 +263,6 @@ public class VistaAlarmas extends Activity {
 			}
 		});
 		la.addView(cb);
-		la.addView(tbdesc);
 		lx.addView(la);
 	}
 
@@ -312,7 +299,7 @@ public class VistaAlarmas extends Activity {
 			val.setRegistrada(true);
 		}
 		
-		Toast.makeText(getApplicationContext(), "Añadida alerta" + id,
+		Toast.makeText(getApplicationContext(), "¡Alerta añadida!" + id,
 				Toast.LENGTH_SHORT).show();
 	}
 
@@ -332,7 +319,7 @@ public class VistaAlarmas extends Activity {
 
 		locationManager.removeProximityAlert(proximityIntent);
 
-		Toast.makeText(getApplicationContext(), "Borrada alerta" + id,
+		Toast.makeText(getApplicationContext(), "Alerta borrada",
 				Toast.LENGTH_SHORT).show();
 		if(val.getActivada()){
 			engine.stop_engine();

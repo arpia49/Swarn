@@ -20,7 +20,7 @@ public class VistaListarAlarmasBorrar extends ListActivity {
 		int numAlarmas = ListaAlarmas.size();
 		String[] alarmas = new String[numAlarmas];
 		for (int i = 1; i <= numAlarmas; i++) {
-			alarmas[i] = ListaAlarmas.element(i).getNombre();
+			alarmas[i-1] = ListaAlarmas.element(i).getNombre();
 		}
 		setListAdapter(new ArrayAdapter<String>(this, R.layout.del_alarma,
 				alarmas));
