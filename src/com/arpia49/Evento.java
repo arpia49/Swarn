@@ -21,9 +21,9 @@ public class Evento {
 		contexto = val.getApplicationContext();
 		this.id = id;
 		if(fuerte){
-			this.fuerte = 110;
-		}else{
 			this.fuerte = 100;
+		}else{
+			this.fuerte = 80;
 		}
 		if(handler==null){
 			handler = new Handler() {
@@ -31,12 +31,12 @@ public class Evento {
 				public void handleMessage(Message msg) {
 					Notificacion nuevaNotificacion = new Notificacion.Builder(
 							System.currentTimeMillis(),
-							ListaAlarmas.element(msg.what).getNombre(),
-							ListaAlarmas.element(msg.what).getUbicacion(),
-							ListaAlarmas.element(msg.what).getId())
+							ListaAlarmas.element(1).getNombre(),
+							ListaAlarmas.element(1).getUbicacion(),
+							ListaAlarmas.element(1).getId())
 							.build(true);
 					triggerNotification();
-					Toast.makeText(contexto, "¡Alarma detectada!",
+					Toast.makeText(contexto, "¡Alarma detectada!"+msg.what,
 							Toast.LENGTH_SHORT).show();
 				}
 			};

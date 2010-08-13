@@ -2,9 +2,12 @@ package com.arpia49;
 
 import java.math.BigDecimal;
 import java.util.Stack;
+
+import android.content.Context;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
+import android.widget.Toast;
 
 /**
  * 
@@ -89,12 +92,14 @@ public class splEngine implements Runnable {
 
 				splValue = 20 * Math.log10(rmsValue / P0);
 				splValue = round(splValue, 2);
+				splValue = splValue - 80;
 
-				Evento.getHandler().sendEmptyMessage(pila.peek().getId());
-
-				if (ListaNotificaciones.lastElement().getIdAlarma() == pila
-						.peek().getId()) {
-					Thread.sleep(11000);
+				if (splValue >= pila.peek().getFuerte()) {
+					if (ListaNotificaciones.size()==0 ||(ListaNotificaciones.lastElement().getIdAlarma() == pila.peek().getId()
+							&& System.currentTimeMillis() - ListaNotificaciones.lastElement().getFecha() > 10000 
+							|| ListaNotificaciones.lastElement().getIdAlarma() != pila.peek().getId())) {
+						Evento.getHandler().sendEmptyMessage(pila.peek().getId());
+					}
 				}
 			}
 
