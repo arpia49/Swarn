@@ -78,6 +78,7 @@ public class VistaAlarmaCrear extends Activity {
 			public void onClick(View v) {
 				Intent outData = new Intent();
 				String ubicacion = et_lugar.getText().toString();
+
 				if (cb_posicion.isChecked()) {
 					int metros = 100;
 					if (sp.getSelectedItemPosition() == 1) {
@@ -95,10 +96,15 @@ public class VistaAlarmaCrear extends Activity {
 				}
 
 				outData.putExtra("sonidoFuerte", !rb.isChecked());
-				final String nombre_alarma = et_nombreAlarma.getText()
+				String nombre_alarma = et_nombreAlarma.getText()
 						.toString();
+				if (nombre_alarma.compareTo("") == 0)
+					nombre_alarma = getString(R.string.et_nombreAlarma);
 				outData.putExtra("nombreAlarma", nombre_alarma);
-				final String desc_alarma = et_descAlarma.getText().toString();
+				
+				String desc_alarma = et_descAlarma.getText().toString();
+				if (desc_alarma.compareTo("") == 0)
+					desc_alarma = getString(R.string.et_descAlarma);
 				outData.putExtra("descAlarma", desc_alarma);
 				setResult(Activity.RESULT_OK, outData);
 				finish();

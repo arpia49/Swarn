@@ -21,7 +21,7 @@ public class Evento {
 		contexto = val.getApplicationContext();
 		this.id = id;
 		if(fuerte){
-			this.fuerte = 100;
+			this.fuerte = 105;
 		}else{
 			this.fuerte = 80;
 		}
