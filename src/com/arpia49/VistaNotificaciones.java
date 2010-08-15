@@ -2,6 +2,8 @@ package com.arpia49;
 
 import android.app.Activity;
 import android.app.ListActivity;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;

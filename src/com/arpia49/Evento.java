@@ -15,7 +15,7 @@ public class Evento {
 	private int id;
 	private int fuerte;
 	private static Handler handler=null;
-    private final int NOTIFICATION_ID = 1010;
+    private final int NOTIFICATION_ID = 1;
 
 	public Evento(final int id, final Boolean fuerte, Activity val) {
 		contexto = val.getApplicationContext();
@@ -62,7 +62,11 @@ public class Evento {
  
         NotificationManager notificationManager = (NotificationManager)contexto.getSystemService(contexto.NOTIFICATION_SERVICE);
         Notification notification = new Notification(R.drawable.icon, "¡Alarma detectada!", System.currentTimeMillis());
- 
+        notification.defaults |= Notification.DEFAULT_SOUND;
+        notification.defaults |= Notification.DEFAULT_VIBRATE;
+        notification.defaults |= Notification.DEFAULT_LIGHTS;
+        notification.defaults |= Notification.FLAG_AUTO_CANCEL;
+
         Intent notificationIntent = new Intent(contexto, VistaNotificaciones.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(contexto, 0, notificationIntent, 0);
  
