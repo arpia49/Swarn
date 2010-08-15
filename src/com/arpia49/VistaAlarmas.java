@@ -1,8 +1,10 @@
 package com.arpia49;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.location.LocationManager;
@@ -115,12 +117,31 @@ public class VistaAlarmas extends Activity {
 	}
 
 	@Override
-	public void onActivityResult(int reqCode, int resCode, Intent data) {
+	public void onActivityResult(int reqCode, int resCode, final Intent data) {
 		super.onActivityResult(reqCode, resCode, data);
 		switch (reqCode) {
 		case (ACT_ADD_ALARMA): {
 			if (resCode == Activity.RESULT_OK) {
-
+				final int idSobreescribir = ListaAlarmas.existe(data.getStringExtra("ubicAlarma"), data.getBooleanExtra("sonidoFuerte", false));
+				if(idSobreescribir>0){
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
+					builder.setMessage("Ya existe una alarma con esa ubicación y tipo de sonido. ¿Quieres sustituírla?")
+					       .setCancelable(false)
+					       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+					           public void onClick(DialogInterface dialog, int id) {
+					                editarAlarma(data, idSobreescribir);
+					        		setContentView(R.layout.main);
+					        		cargarPosiciones((LinearLayout) findViewById(R.id.mainLay));
+					           }
+					       })
+					       .setNegativeButton("No", new DialogInterface.OnClickListener() {
+					           public void onClick(DialogInterface dialog, int id) {
+					                dialog.cancel();
+					           }
+					       });
+					AlertDialog alert = builder.create();
+					alert.show();
+				}else{
 				Alarma nuevaAlarma = new Alarma.Builder(
 						data.getStringExtra("nombreAlarma"),
 						data.getStringExtra("descAlarma"),
@@ -134,6 +155,7 @@ public class VistaAlarmas extends Activity {
 				
 				Toast.makeText(getApplicationContext(), "¡Alarma añadida!",
 						Toast.LENGTH_SHORT).show();
+				}
 			} else {
 				Toast.makeText(getApplicationContext(),
 						"La alarma no se ha creado", Toast.LENGTH_SHORT).show();
@@ -148,21 +170,36 @@ public class VistaAlarmas extends Activity {
 		break;
 		case (ACT_EDITAR_ALARMA): {
 			if (resCode == Activity.RESULT_OK) {
-
-				Alarma alarmaActual = ListaAlarmas.element(data.getIntExtra("id",0));
-				alarmaActual.setNombre(data.getStringExtra("nombreAlarma"));
-				alarmaActual.setDescripcion(data.getStringExtra("descAlarma"));
-				alarmaActual.setUbicacion(data.getStringExtra("ubicAlarma"));
-				alarmaActual.setRadio(data.getIntExtra("radioAlarma",100));
-				alarmaActual.setLatitud(data.getFloatExtra("latAlarma", 0));
-				alarmaActual.setLongitud(data.getFloatExtra("lngAlarma", 0));
-				alarmaActual.setMuyFuerte(data.getBooleanExtra("sonidoFuerte", false));
-				Toast.makeText(getApplicationContext(), "¡Alarma editada!",
-						Toast.LENGTH_SHORT).show();
-				this.onCreate(null);
+				final int idSobreescribir = ListaAlarmas.existe(data.getStringExtra("ubicAlarma"), data.getBooleanExtra("sonidoFuerte", false));
+				if(idSobreescribir>0 && idSobreescribir!=data.getIntExtra("id",0)){
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
+					builder.setMessage("Ya existe una alarma con esa ubicación y tipo de sonido. ¿Quieres sustituírla?")
+					       .setCancelable(false)
+					       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+					           public void onClick(DialogInterface dialog, int id) {
+					                editarAlarma(data, idSobreescribir);
+					                ListaAlarmas.del(data.getIntExtra("id",0));
+					        		setContentView(R.layout.main);
+					        		cargarPosiciones((LinearLayout) findViewById(R.id.mainLay));
+					           }
+					       })
+					       .setNegativeButton("No", new DialogInterface.OnClickListener() {
+					           public void onClick(DialogInterface dialog, int id) {
+					                dialog.cancel();
+					           }
+					       });
+					AlertDialog alert = builder.create();
+					alert.show();
+				}else{
+					editarAlarma(data, data.getIntExtra("id",0));
+	        		setContentView(R.layout.main);
+	        		cargarPosiciones((LinearLayout) findViewById(R.id.mainLay));
+					Toast.makeText(getApplicationContext(), "¡Alarma editada!",
+							Toast.LENGTH_SHORT).show();
+				}
 			} else {
 				Toast.makeText(getApplicationContext(),
-						"La alarma no se ha creado", Toast.LENGTH_SHORT).show();
+						"La alarma no se ha editado", Toast.LENGTH_SHORT).show();
 			}
 		}
 		break;
@@ -221,7 +258,7 @@ public class VistaAlarmas extends Activity {
 			}
 		}
 	}
-
+	
 	private void addAlarma(Alarma val) {
 
 		//Obtenemos los datos que se usarán más de una vez
@@ -266,6 +303,17 @@ public class VistaAlarmas extends Activity {
 		lx.addView(la);
 	}
 
+	private void editarAlarma(Intent data, int id){
+		Alarma alarmaActual = ListaAlarmas.element(id);
+		alarmaActual.setNombre(data.getStringExtra("nombreAlarma"));
+		alarmaActual.setDescripcion(data.getStringExtra("descAlarma"));
+		alarmaActual.setUbicacion(data.getStringExtra("ubicAlarma"));
+		alarmaActual.setRadio(data.getIntExtra("radioAlarma",100));
+		alarmaActual.setLatitud(data.getFloatExtra("latAlarma", 0));
+		alarmaActual.setLongitud(data.getFloatExtra("lngAlarma", 0));
+		alarmaActual.setMuyFuerte(data.getBooleanExtra("sonidoFuerte", false));
+	}
+	
 	private void delAlarma(int id) {
 		Alarma alarmaABorrar = ListaAlarmas.element(id);
 		ListaAlarmas.del(id);

@@ -26,11 +26,11 @@
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:text="@string/desc_locale">
 			</CheckBox>
-			<TextView android:text="Lugar de la alarma:" android:id="@+id/tv_lugar"
+			<TextView android:text="@string/et_lugar" android:id="@+id/tv_lugar"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 			<EditText android:text="@string/et_lugar" android:id="@+id/et_lugar"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"></EditText>
-			<TextView android:text="Radio de la alarma en metros:" android:id="@+id/tv_radio"
+			<TextView android:text="@string/tv_radio" android:id="@+id/tv_radio"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 			<Spinner android:id="@+id/sp_radio" android:layout_width="fill_parent"
 				android:drawSelectorOnTop="true" android:prompt="@string/sp_radio"
@@ -39,14 +39,14 @@
 			<ImageView android:src="@drawable/borde"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:scaleType="fitXY" />
-			<TextView android:text="¿Tipo de sonido?" android:id="@+id/tv_sonido"
+			<TextView android:text="@string/tv_tipo" android:id="@+id/tv_sonido"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 			<RadioGroup android:id="@+id/RadioGroup01"
 				android:layout_width="wrap_content" android:layout_height="wrap_content">
-				<RadioButton android:text="Fuerte" android:id="@+id/rb_fuerte"
+				<RadioButton android:text="@string/tv_tipo1" android:id="@+id/rb_fuerte"
 					android:layout_width="wrap_content" android:layout_height="wrap_content"
 					android:checked="true"></RadioButton>
-				<RadioButton android:text="Muy Fuerte" android:id="@+id/rb_muyFuerte"
+				<RadioButton android:text="@string/tv_tipo2" android:id="@+id/rb_muyFuerte"
 					android:layout_width="wrap_content" android:layout_height="wrap_content"></RadioButton>
 			</RadioGroup>
 			<TableLayout android:layout_width="fill_parent"

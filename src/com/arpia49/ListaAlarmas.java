@@ -42,6 +42,16 @@ public class ListaAlarmas {
 			}
 		}
 		return null;
+	}	
+	
+	public static int existe(String ubicacion, boolean fuerte) {
+		for (int i = 1; i <= ListaAlarmas.size(); i++) {
+			if (element(i).getUbicacion().compareTo(ubicacion)==0 &&
+					element(i).getMuyFuerte()==fuerte) {
+				return element(i).getId();
+			}
+		}
+		return 0;
 	}
 	
 	public static void inicializar(SharedPreferences val){
