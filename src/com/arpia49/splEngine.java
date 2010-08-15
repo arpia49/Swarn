@@ -3,11 +3,9 @@ package com.arpia49;
 import java.math.BigDecimal;
 import java.util.Stack;
 
-import android.content.Context;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
-import android.widget.Toast;
 
 /**
  * 
@@ -24,6 +22,8 @@ public class splEngine implements Runnable {
 	public volatile static Stack<Evento> pila;
 	private static splEngine instance = null;
 	AudioRecord recordInstance = null;
+	long fecha = 0;
+	int ultimaId=0;
 
 	protected splEngine() {
 		// Exists only to defeat instantiation.
@@ -56,6 +56,7 @@ public class splEngine implements Runnable {
 		pila.pop();
 		if (pila.size() == 0) {
 			this.isRunning = false;
+			recordInstance.stop();
 		}
 	}
 
@@ -95,16 +96,16 @@ public class splEngine implements Runnable {
 				splValue = splValue - 80;
 
 				if (splValue >= pila.peek().getFuerte()) {
-					if (ListaNotificaciones.size()==0 ||(ListaNotificaciones.lastElement().getIdAlarma() == pila.peek().getId()
-							&& System.currentTimeMillis() - ListaNotificaciones.lastElement().getFecha() > 10000 
-							|| ListaNotificaciones.lastElement().getIdAlarma() != pila.peek().getId())) {
+					if (ListaNotificaciones.size()==0 || 
+							ultimaId != pila.peek().getId()||
+							(System.currentTimeMillis() - fecha > 10000 
+							)) {
+						fecha = System.currentTimeMillis();
+						ultimaId= pila.peek().getId();
 						Evento.getHandler().sendEmptyMessage(pila.peek().getId());
 					}
 				}
 			}
-
-			recordInstance.stop();
-
 		} catch (Exception e) {
 
 		}

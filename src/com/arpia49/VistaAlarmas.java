@@ -198,7 +198,7 @@ public class VistaAlarmas extends Activity {
 				this.onCreate(null);
 			} else {
 				Toast.makeText(getApplicationContext(),
-						"No se han borrado alarmas", Toast.LENGTH_SHORT).show();
+						"No se han borrado notificaciones", Toast.LENGTH_SHORT).show();
 			}
 		}
 			break;
