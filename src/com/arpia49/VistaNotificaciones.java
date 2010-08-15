@@ -16,6 +16,7 @@ public class VistaNotificaciones extends ListActivity {
 
 	public static final int ACT_DEL_NOTIFICACIONES = 3;
 	static final private int DEL_NOTIFICACIONES = Menu.FIRST;
+	NotificationManager notificationManager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,11 @@ public class VistaNotificaciones extends ListActivity {
 		}
 		setListAdapter(new ArrayAdapter<String>(this, R.layout.del_alarma,
 				lugares));
+		String svcName = Context.NOTIFICATION_SERVICE;
+		notificationManager = (NotificationManager) getSystemService(svcName);
+		notificationManager.cancel(1);
 	}
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

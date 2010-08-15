@@ -62,13 +62,11 @@ public class Evento {
  
         NotificationManager notificationManager = (NotificationManager)contexto.getSystemService(contexto.NOTIFICATION_SERVICE);
         Notification notification = new Notification(R.drawable.icon, "¡Alarma detectada!", System.currentTimeMillis());
-        notification.defaults |= Notification.DEFAULT_SOUND;
         notification.defaults |= Notification.DEFAULT_VIBRATE;
         notification.defaults |= Notification.DEFAULT_LIGHTS;
-        notification.defaults |= Notification.FLAG_AUTO_CANCEL;
 
         Intent notificationIntent = new Intent(contexto, VistaNotificaciones.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(contexto, 0, notificationIntent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(contexto, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | Notification.FLAG_AUTO_CANCEL);
  
         notification.setLatestEventInfo(contexto, title, message, pendingIntent);
         notificationManager.notify(NOTIFICATION_ID, notification);
