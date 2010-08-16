@@ -1,10 +1,13 @@
 package com.arpia49;
 
+import java.net.URISyntaxException;
+
 import android.app.Activity;
 import android.app.ListActivity;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,7 +36,6 @@ public class VistaNotificaciones extends ListActivity {
 		notificationManager.cancel(1);
 	}
 
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
@@ -60,6 +62,18 @@ public class VistaNotificaciones extends ListActivity {
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
+		Alarma actual = ListaAlarmas.element(ListaNotificaciones.elementAt(
+				(int) id).getIdAlarma());
+		if (actual.conUbicacion()) {
+			try {
 
+				final Intent myIntent = new Intent(
+						android.content.Intent.ACTION_VIEW, Uri.parse("geo:"
+								+ actual.getLatitud() + ","
+								+ actual.getLongitud()));
+				startActivity(myIntent);
+			} catch (Exception e) {
+			}
+		}
 	}
 }
