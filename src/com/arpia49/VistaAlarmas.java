@@ -218,7 +218,8 @@ public class VistaAlarmas extends Activity {
 					Toast.makeText(getApplicationContext(),
 							"¡Alarma  eliminada!", Toast.LENGTH_SHORT).show();
 				}
-				this.onCreate(null);
+				setContentView(R.layout.main);
+				cargarPosiciones((LinearLayout) findViewById(R.id.mainLay));
 			} else {
 				Toast.makeText(getApplicationContext(),
 						"No se han borrado alarmas", Toast.LENGTH_SHORT).show();
@@ -232,7 +233,8 @@ public class VistaAlarmas extends Activity {
 					Toast.makeText(getApplicationContext(),
 							"¡Notificaciones eliminadas!", Toast.LENGTH_SHORT).show();
 				}
-				this.onCreate(null);
+				setContentView(R.layout.main);
+				cargarPosiciones((LinearLayout) findViewById(R.id.mainLay));
 			} else {
 				Toast.makeText(getApplicationContext(),
 						"No se han borrado notificaciones", Toast.LENGTH_SHORT).show();

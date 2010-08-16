@@ -31,9 +31,9 @@ public class Evento {
 				public void handleMessage(Message msg) {
 					Notificacion nuevaNotificacion = new Notificacion.Builder(
 							System.currentTimeMillis(),
-							ListaAlarmas.element(1).getNombre(),
-							ListaAlarmas.element(1).getUbicacion(),
-							ListaAlarmas.element(1).getId())
+							ListaAlarmas.element(msg.what).getNombre(),
+							ListaAlarmas.element(msg.what).getUbicacion(),
+							ListaAlarmas.element(msg.what).getId())
 							.build(true);
 					triggerNotification();
 					Toast.makeText(contexto, "¡Alarma detectada!",
