@@ -7,6 +7,7 @@
 	<string name="menu_del_todas_alarmas">Borrar todas alarmas</string>
 	<string name="menu_del_notificaciones">Borrar notificaciones</string>
 	<string name="menu_lista_notificaciones">Lista de notificaciones</string>
+	<string name="menu_detalle_notificacion">Detalles de la notificación</string>
 	<string name="menu_info">Mostrar ayuda</string>
 	<string name="aceptar">Aceptar</string>
 	<string name="cancelar">Cancelar</string>

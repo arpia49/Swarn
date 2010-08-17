@@ -1,19 +1,17 @@
 package com.arpia49;
 
-import java.net.URISyntaxException;
-
 import android.app.Activity;
 import android.app.ListActivity;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class VistaNotificaciones extends ListActivity {
 
@@ -62,18 +60,15 @@ public class VistaNotificaciones extends ListActivity {
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		Alarma actual = ListaAlarmas.element(ListaNotificaciones.elementAt(
-				(int) id).getIdAlarma());
-		if (actual.conUbicacion()) {
-			try {
-
-				final Intent myIntent = new Intent(
-						android.content.Intent.ACTION_VIEW, Uri.parse("geo:"
-								+ actual.getLatitud() + ","
-								+ actual.getLongitud()));
-				startActivity(myIntent);
-			} catch (Exception e) {
+		Alarma actual = ListaAlarmas.obtenerDesdeClave(ListaNotificaciones.elementAt((int)id).getIdAlarma());
+			if(actual.conUbicacion()){
+				Intent intent = new Intent(this, VistaNotificacion.class);
+				intent.putExtra("lat", actual.getLatitud());
+				intent.putExtra("lng", actual.getLongitud());
+				startActivity(intent);
+			}else{
+				Toast.makeText(getApplicationContext(), "Esta alerta no tiene una ubicación concreta",
+						Toast.LENGTH_SHORT).show();
 			}
-		}
 	}
 }
