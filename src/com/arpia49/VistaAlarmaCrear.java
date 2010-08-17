@@ -213,9 +213,9 @@ public class VistaAlarmaCrear extends Activity {
 		} else {
 			lat = 0;
 			lng = 0;
+			sb.append("Sin ubicación");
 		}
 		return(sb.toString());
-
 	}
 
 	private final LocationListener locationListener = new LocationListener() {
@@ -234,8 +234,11 @@ public class VistaAlarmaCrear extends Activity {
 
 	private Runnable doBackgroundThreadProcessing = new Runnable() {
 		public void run() {
-			final EditText et_lugar = (EditText) findViewById(R.id.et_lugar);
+			EditText et_lugar = (EditText) findViewById(R.id.et_lugar);
+			try{
 			et_lugar.setText(updateWithLocation(location));
+			}catch(Exception e){
+			}
 		}
 	};
 }
