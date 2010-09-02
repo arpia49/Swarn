@@ -30,12 +30,6 @@
 				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 			<EditText android:text="@string/et_lugar" android:id="@+id/et_lugar"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"></EditText>
-			<TextView android:text="@string/tv_radio" android:id="@+id/tv_radio"
-				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-			<Spinner android:id="@+id/sp_radio" android:layout_width="fill_parent"
-				android:drawSelectorOnTop="true" android:prompt="@string/sp_radio"
-				android:layout_height="wrap_content">
-			</Spinner>
 			<ImageView android:src="@drawable/borde"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:scaleType="fitXY" />

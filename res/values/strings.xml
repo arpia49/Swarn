@@ -8,9 +8,12 @@
 	<string name="menu_del_notificaciones">Borrar notificaciones</string>
 	<string name="menu_lista_notificaciones">Lista de notificaciones</string>
 	<string name="menu_detalle_notificacion">Detalles de la notificación</string>
+	<string name="menu_config">Configuración</string>
 	<string name="menu_info">Mostrar ayuda</string>
 	<string name="aceptar">Aceptar</string>
 	<string name="cancelar">Cancelar</string>
+	<string name="bt_sonidos">Configurar sonidos</string>
+	<string name="bt_restaurar">Reestablecer valores iniciales</string>
 	<string name="tv_nombreAlarma">Nombre:</string>
 	<string name="et_nombreAlarma">Sin nombre</string>
 	<string name="et_descAlarma">Sin descripción</string>
@@ -24,5 +27,7 @@
 	<string name="tv_tipo">¿Tipo de sonido?</string>
 	<string name="tv_tipo1">Fuerte</string>
 	<string name="tv_tipo2">Muy Fuerte</string>
+	<string name="tv_fuerte">Valor del umbral "Fuerte":</string>
+	<string name="tv_muyFuerte">Valor del umbral "Muy Fuerte":</string>
 	<string name="ayuda">Haz clic en Menú para añadir, borrar, editar, ver notificaciones o acceder a la ayuda</string>
 </resources>

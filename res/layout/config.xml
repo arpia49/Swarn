@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/mainLay"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<ScrollView android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+		<LinearLayout android:id="@+id/ll_config"
+			xmlns:android="http://schemas.android.com/apk/res/android"
+			android:orientation="vertical" android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+			<TextView android:text="@string/tv_radio" android:id="@+id/tv_radio"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<Spinner android:id="@+id/sp_radio" android:layout_width="fill_parent"
+				android:drawSelectorOnTop="false" android:prompt="@string/sp_radio"
+				android:layout_height="wrap_content">
+			</Spinner>
+			<TextView android:text="@string/tv_fuerte" android:id="@+id/tv_fuerte"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<SeekBar android:id="@+id/sb_fuerte" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:layout_margin="10px"
+				android:max="25" android:progress="5"></SeekBar>
+			<TextView android:text="@string/tv_muyFuerte" android:id="@+id/tv_muyFuerte"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<SeekBar android:id="@+id/sb_muyFuerte" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:layout_margin="10px"
+				android:max="25" android:progress="5"></SeekBar>
+			<Button android:id="@+id/bt_restaurar" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:text="@string/bt_restaurar" />
+			<Button android:id="@+id/bt_sonidos" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:text="@string/bt_sonidos" />
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>

@@ -95,7 +95,9 @@ public class splEngine implements Runnable {
 				splValue = round(splValue, 2);
 				splValue = splValue - 80;
 
-				if (splValue >= pila.peek().getFuerte()) {
+				int comparar = Configuracion.getFuerte();
+				if(pila.peek().getMuyFuerte()) comparar = Configuracion.getMuyFuerte();
+				if (splValue >= comparar) {
 					if (ListaNotificaciones.size()==0 || 
 							ultimaId != pila.peek().getId()||
 							(System.currentTimeMillis() - fecha > 10000 

@@ -10,7 +10,6 @@ public class Alarma {
 	private String nombre;
 	private String descripcion;
 	private String ubicacion;
-	private int radio;
 	private float latitud;
 	private float longitud;
 	private boolean muyFuerte;
@@ -25,7 +24,6 @@ public class Alarma {
 		private String nombre;
 		private String descripcion;
 		private String ubicacion;
-		private int radio;
 		private float latitud;
 		private float longitud;
 		private boolean muyFuerte;
@@ -41,7 +39,6 @@ public class Alarma {
 			this.nombre = nombre;
 			this.descripcion = descripcion;
 			this.ubicacion = ubicacion;
-			this.radio = radio;
 			this.latitud = latitud;
 			this.longitud = longitud;
 			this.muyFuerte = muyFuerte;
@@ -84,7 +81,6 @@ public class Alarma {
 		marcada = builder.marcada;
 		activada = builder.activada;
 		registrada = builder.registrada;
-		radio = builder.radio;
 		latitud = builder.latitud;
 		longitud = builder.longitud;
 		ubicacion = builder.ubicacion;
@@ -129,12 +125,7 @@ public class Alarma {
 		ubicacion = val;
 		Registro.guardarString("alarmaUbicacion" + id, val);
 	}
-
-	public void setRadio(int val) {
-		radio = val;
-		Registro.guardarInt("alarmaRadio" + id, val);
-	}
-
+	
 	public void setLatitud(float val) {
 		latitud = val;
 		Registro.guardarFloat("alarmaLatitud" + id, val);
@@ -160,10 +151,6 @@ public class Alarma {
 
 	public String getUbicacion() {
 		return ubicacion;
-	}
-
-	public int getRadio() {
-		return radio;
 	}
 
 	public float getLatitud() {
@@ -213,9 +200,6 @@ public class Alarma {
 		if (conUbicacion()) {
 			result.append(" - ");
 			result.append(ubicacion);
-			result.append(" (");
-			result.append(radio);
-			result.append("m)");
 		}
 		return result.toString();
 	}

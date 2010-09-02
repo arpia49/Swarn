@@ -25,12 +25,14 @@ public class VistaAlarmas extends Activity {
 	public static final int ACT_LISTA_EDITAR_ALARMA = 2;
 	public static final int ACT_LISTA_DEL_ALARMA = 3;
 	public static final int ACT_LISTA_NOTIFICACIONES = 4;
-	public static final int ACT_EDITAR_ALARMA = 5;
+	public static final int ACT_CONFIGURACION = 5;
+	public static final int ACT_EDITAR_ALARMA = 6;
 	static final private int ADD_ALARMA = Menu.FIRST;
 	static final private int EDITAR_ALARMA = Menu.FIRST + 1;
 	static final private int DEL_ALARMA = Menu.FIRST + 2;
 	static final private int LISTA_ALERTAS = Menu.FIRST + 3;
-	static final private int INFO = Menu.FIRST + 4;
+	static final private int CONFIG = Menu.FIRST + 4;
+	static final private int INFO = Menu.FIRST + 5;
 	private static splEngine engine = null;
 	public static Activity actividad = null;
 
@@ -59,6 +61,7 @@ public class VistaAlarmas extends Activity {
 				R.string.menu_del_alarma);
 		MenuItem itemLista = menu.add(0, LISTA_ALERTAS, Menu.NONE,
 				R.string.menu_lista_notificaciones);
+		MenuItem itemConfig = menu.add(0, CONFIG, Menu.NONE, R.string.menu_config);
 		MenuItem itemInfo = menu.add(0, INFO, Menu.NONE, R.string.menu_info);
 
 		// Assign icons
@@ -66,6 +69,7 @@ public class VistaAlarmas extends Activity {
 		itemEditar.setIcon(R.drawable.edit);
 		itemDel.setIcon(R.drawable.del);
 		itemLista.setIcon(R.drawable.list);
+		itemConfig.setIcon(R.drawable.config);
 		itemInfo.setIcon(R.drawable.help);
 
 		return true;
@@ -102,6 +106,11 @@ public class VistaAlarmas extends Activity {
 		case (LISTA_ALERTAS): {
 			Intent intent = new Intent(this, VistaNotificaciones.class);
 			startActivityForResult(intent, ACT_LISTA_NOTIFICACIONES);
+			return true;
+		}
+		case (CONFIG): {
+			Intent intent = new Intent(this, VistaConfiguracion.class);
+			startActivityForResult(intent, ACT_CONFIGURACION);
 			return true;
 		}
 		case (INFO): {
@@ -310,7 +319,6 @@ public class VistaAlarmas extends Activity {
 		alarmaActual.setNombre(data.getStringExtra("nombreAlarma"));
 		alarmaActual.setDescripcion(data.getStringExtra("descAlarma"));
 		alarmaActual.setUbicacion(data.getStringExtra("ubicAlarma"));
-		alarmaActual.setRadio(data.getIntExtra("radioAlarma",100));
 		alarmaActual.setLatitud(data.getFloatExtra("latAlarma", 0));
 		alarmaActual.setLongitud(data.getFloatExtra("lngAlarma", 0));
 		alarmaActual.setMuyFuerte(data.getBooleanExtra("sonidoFuerte", false));
@@ -339,7 +347,7 @@ public class VistaAlarmas extends Activity {
 
 		PendingIntent proximityIntent = PendingIntent.getBroadcast(
 				getApplicationContext(), id, intent, 0);
-		locationManager.addProximityAlert(val.getLatitud(), val.getLongitud(), val.getRadio(), expiration,
+		locationManager.addProximityAlert(val.getLatitud(), val.getLongitud(), Configuracion.getRadio(), expiration,
 				proximityIntent);
 
 		if (!val.getRegistrada()) {

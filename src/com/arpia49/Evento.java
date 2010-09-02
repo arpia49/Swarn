@@ -13,18 +13,14 @@ import android.widget.Toast;
 public class Evento {
 	private static Context contexto = null;
 	private int id;
-	private int fuerte;
+	private boolean fuerte;
 	private static Handler handler=null;
     private final int NOTIFICATION_ID = 1;
 
 	public Evento(final int id, final Boolean fuerte, Activity val) {
 		contexto = val.getApplicationContext();
 		this.id = id;
-		if(fuerte){
-			this.fuerte = 105;
-		}else{
-			this.fuerte = 80;
-		}
+		this.fuerte = fuerte;
 		if(handler==null){
 			handler = new Handler() {
 				@Override
@@ -47,7 +43,7 @@ public class Evento {
 		return id;
 	}
 
-	public int getFuerte() {
+	public boolean getMuyFuerte() {
 		return fuerte;
 	}
 

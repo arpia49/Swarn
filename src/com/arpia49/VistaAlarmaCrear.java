@@ -63,34 +63,21 @@ public class VistaAlarmaCrear extends Activity {
 
 		Button bt = (Button) findViewById(R.id.botonAceptar);
 		Button bt2 = (Button) findViewById(R.id.botonCancelar);
-		final Spinner sp = (Spinner) findViewById(R.id.sp_radio);
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-				this, R.array.radios, android.R.layout.simple_spinner_item);
-		adapter
-				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		Thread thread = new Thread(null, doBackgroundThreadProcessing, "Background");
-		
-		sp.setAdapter(adapter);
-
 		thread.start();
+		
 		bt.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Intent outData = new Intent();
 				String ubicacion = et_lugar.getText().toString();
 
 				if (cb_posicion.isChecked()) {
-					int metros = 100;
-					if (sp.getSelectedItemPosition() == 1) {
-						metros = 500;
-					}
 					outData.putExtra("ubicAlarma", ubicacion);
-					outData.putExtra("radioAlarma", metros);
 					outData.putExtra("latAlarma", lat);
 					outData.putExtra("lngAlarma", lng);
 				} else {
 					outData.putExtra("ubicAlarma", "Sin ubicación");
-					outData.putExtra("radioAlarma", 0);
 					outData.putExtra("latAlarma", 0);
 					outData.putExtra("lngAlarma", 0);
 				}

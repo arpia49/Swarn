@@ -19,7 +19,6 @@ public class Registro {
 		editor.putBoolean("alarmaMarcada" + val.getId(), val.getMarcada());
 		editor.putBoolean("alarmaActivada" + val.getId(), val.getActivada());
 		editor.putBoolean("alarmaRegistrada" + val.getId(), val.getRegistrada());
-		editor.putInt("alarmaRadio" + val.getId(), val.getRadio());
 		editor.putFloat("alarmaLatitud" + val.getId(), val.getLatitud());
 		editor.putFloat("alarmaLongitud" + val.getId(), val.getLongitud());
 		editor.putString("alarmaUbicacion" + val.getId(), val.getUbicacion());
@@ -63,6 +62,7 @@ public class Registro {
 			editor = settings.edit();
 			ListaAlarmas.inicializar(settings);
 			ListaNotificaciones.inicializar(settings);
+			Configuracion.inicializar(settings);
 		}
 	}
 }
