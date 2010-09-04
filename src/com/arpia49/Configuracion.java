@@ -13,9 +13,9 @@ public class Configuracion {
 	}
 
 	public static void inicializar(SharedPreferences settings) {
-		radio = settings.getInt("configRadio", 0);
-		fuerte = settings.getInt("configFuerte", 0);
-		muyFuerte = settings.getInt("configMuyFuerte", 0);
+		radio = settings.getInt("configRadio", 2);
+		fuerte = settings.getInt("configFuerte", 10);
+		muyFuerte = settings.getInt("configMuyFuerte", 10);
 }
 	public static void setRadio(int val) {
 		radio = val;

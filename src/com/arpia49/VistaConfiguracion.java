@@ -3,12 +3,13 @@ package com.arpia49;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 public class VistaConfiguracion extends Activity {
@@ -22,7 +23,8 @@ public class VistaConfiguracion extends Activity {
 		final SeekBar sb_fuerte = (SeekBar) findViewById(R.id.sb_fuerte);
 		final SeekBar sb_muyFuerte = (SeekBar) findViewById(R.id.sb_muyFuerte);
 		final Spinner sp_radio = (Spinner) findViewById(R.id.sp_radio);
-
+		final Button bt_restaurar = (Button) findViewById(R.id.bt_restaurar);
+		
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
 				this, R.array.radios, android.R.layout.simple_spinner_item);
 		adapter
@@ -82,6 +84,15 @@ public class VistaConfiguracion extends Activity {
 				});
 		sp_radio.setSelection(Configuracion.getRadio());
 		sp_radio.setOnItemSelectedListener(new MyOnItemSelectedListener());
+		
+		bt_restaurar.setOnClickListener(new OnClickListener() {
+		    @Override
+		    public void onClick(View v) {
+		    	sp_radio.setSelection(2);
+			    sb_fuerte.setProgress(10);
+			    sb_muyFuerte.setProgress(10);
+		    }
+		  });
 	}
 	
 	public class MyOnItemSelectedListener implements OnItemSelectedListener {
