@@ -1,9 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
-    <string-array name="radios">
-        <item>100</item>
-        <item>200</item>
-        <item>500</item>
-        <item>1000</item>
-    </string-array>
+	<string-array name="radios">
+		<item>100 metros</item>
+		<item>200 metros</item>
+		<item>500 metros</item>
+		<item>1 kilómetro</item>
+	</string-array>
+
+	<string-array name="valores_radios">
+		<item>100</item>
+		<item>200</item>
+		<item>500</item>
+		<item>1000</item>
+	</string-array>
+	
+	<string-array name="umbrales_fuerte">
+		<item>Bajo</item>
+		<item>Medio</item>
+		<item>Alto</item>
+	</string-array>
+
+	<string-array name="valores_umbrales_fuerte">
+		<item>75</item>
+		<item>87</item>
+		<item>92</item>
+	</string-array>
+	
+	<string-array name="umbrales_muy_fuerte">
+		<item>Medio</item>
+		<item>Alto</item>
+		<item>Muy alto</item>
+	</string-array>
+
+	<string-array name="valores_umbrales_muy_fuerte">
+		<item>87</item>
+		<item>92</item>
+		<item>100</item>
+	</string-array>
+
+
 </resources>

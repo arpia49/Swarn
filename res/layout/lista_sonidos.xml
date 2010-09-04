@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/ll_lista_sonidos"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<TextView android:text="@string/tv_addSonido" android:id="@+id/tv_addSonido"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+	<ScrollView android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+		<LinearLayout android:id="@+id/ll_lista_sonidos2"
+			android:orientation="vertical" android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonido1"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonido2"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonido3"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonido4"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonido5"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonido6"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonido7"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonido8"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonido9"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonido0"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonidoa"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonidos"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonidod"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonidof"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonidog"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonidoh"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonidoj"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonidok"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonidol"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonidoz"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonidox"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonidoc"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonidov"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonidob"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonidon"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonidom"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonido12"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonido23"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonido34"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonido45"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonido56"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonido67"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonido78"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonido89"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonido90"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<TextView android:text="@string/tv_sonidoPrueba" android:id="@+id/tv_addSonidoqw"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>

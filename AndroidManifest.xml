@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.arpia49" android:versionCode="1" android:versionName="0.1.8">
+	package="com.arpia49" android:versionCode="1" android:versionName="0.1.8.1">
 	<application android:icon="@drawable/icon" android:label="@string/app_name">
 		<activity android:name=".VistaAlarmas" android:label="@string/app_name"
 			android:configChanges="orientation|keyboardHidden">
@@ -48,6 +48,12 @@
 			</intent-filter>
 		</activity>
 		<activity android:name=".VistaConfiguracion" android:label="@string/menu_config" android:configChanges="orientation|keyboardHidden">
+			<intent-filter>
+				<action android:name="android.intent.action.CONFIGURACION" />
+				<category android:name="android.intent.category.CONFIGURACION" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".VistaListarSonidos" android:label="@string/menu_config" android:configChanges="orientation|keyboardHidden">
 			<intent-filter>
 				<action android:name="android.intent.action.CONFIGURACION" />
 				<category android:name="android.intent.category.CONFIGURACION" />

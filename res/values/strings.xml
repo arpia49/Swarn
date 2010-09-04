@@ -18,6 +18,8 @@
 	<string name="et_nombreAlarma">Sin nombre</string>
 	<string name="et_descAlarma">Sin descripción</string>
 	<string name="tv_descAlarma">Descripción:</string>
+	<string name="tv_addSonido">Añadir sonido</string>
+	<string name="tv_sonidoPrueba">Sonido de prueba</string>
 	<string name="tv_lugar">Lugar de la alarma:</string>
 	<string name="tv_radio">Radio de la alarma en metros:</string>
 	<string name="desc_locale">¿Utilizar ubicación?</string>
