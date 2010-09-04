@@ -17,12 +17,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 public class VistaAlarmaEditar extends Activity {
@@ -70,31 +68,17 @@ public class VistaAlarmaEditar extends Activity {
 		
 		Button bt = (Button) findViewById(R.id.botonAceptar);
 		Button bt2 = (Button) findViewById(R.id.botonCancelar);
-		final Spinner sp = (Spinner) findViewById(R.id.sp_radio);
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-				this, R.array.radios, android.R.layout.simple_spinner_item);
-		adapter
-				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-		sp.setAdapter(adapter);
-
-		sp.setSelection((alarmaActual.getMuyFuerte())?1:0);
 		
 		bt.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Intent outData = new Intent();
 				if (cb_posicion.isChecked()) {
 					int metros = 100;
-					if (sp.getSelectedItemPosition() == 1) {
-						metros = 500;
-					}
 					outData.putExtra("ubicAlarma", et_lugar.getText().toString());
-					outData.putExtra("radioAlarma", metros);
 					outData.putExtra("latAlarma", lat);
 					outData.putExtra("lngAlarma", lng);
 				} else {
 					outData.putExtra("ubicAlarma", "Sin ubicación");
-					outData.putExtra("radioAlarma", 0);
 					outData.putExtra("latAlarma", 0);
 					outData.putExtra("lngAlarma", 0);
 				}
