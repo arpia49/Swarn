@@ -27,12 +27,12 @@ public class VistaNotificacion extends MapActivity {
 		int lat = (int) (kk.getFloatExtra("lat", 0)*1000000);
 		int lng = (int) (kk.getFloatExtra("lng", 0)*1000000);
 		
-		setContentView(R.layout.vistanotificaciones);
+		setContentView(R.layout.vista_notificaciones);
 		MapView mapView = (MapView)findViewById(R.id.myMapView);
 		MapController mapController = mapView.getController();
 		
 		mapOverlays = mapView.getOverlays();
-		drawable = this.getResources().getDrawable(R.drawable.androidmarker);
+		drawable = this.getResources().getDrawable(R.drawable.aandroidmarker);
 		itemizedOverlay = new HelloItemizedOverlay(drawable);
 		
 		mapView.setSatellite(true);

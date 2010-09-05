@@ -33,8 +33,9 @@ public class VistaAlarmas extends Activity {
 	static final private int EDITAR_ALARMA = Menu.FIRST + 1;
 	static final private int DEL_ALARMA = Menu.FIRST + 2;
 	static final private int LISTA_ALERTAS = Menu.FIRST + 3;
-	static final private int CONFIG = Menu.FIRST + 4;
-	static final private int INFO = Menu.FIRST + 5;
+	static final private int SONIDOS = Menu.FIRST + 4;
+	static final private int CONFIG = Menu.FIRST + 5;
+	static final private int INFO = Menu.FIRST + 6;
 	private static splEngine engine = null;
 	public static Activity actividad = null;
 	SharedPreferences sp = null;
@@ -66,6 +67,7 @@ public class VistaAlarmas extends Activity {
 				R.string.menu_del_alarma);
 		MenuItem itemLista = menu.add(0, LISTA_ALERTAS, Menu.NONE,
 				R.string.menu_lista_notificaciones);
+		MenuItem itemSonidos = menu.add(0, SONIDOS, Menu.NONE, R.string.menu_sonidos);
 		MenuItem itemConfig = menu.add(0, CONFIG, Menu.NONE, R.string.menu_config);
 		MenuItem itemInfo = menu.add(0, INFO, Menu.NONE, R.string.menu_info);
 
@@ -74,8 +76,9 @@ public class VistaAlarmas extends Activity {
 		itemEditar.setIcon(R.drawable.edit);
 		itemDel.setIcon(R.drawable.del);
 		itemLista.setIcon(R.drawable.list);
-		itemConfig.setIcon(R.drawable.config);
-		itemInfo.setIcon(R.drawable.help);
+//		itemConfig.setIcon(R.drawable.config);
+		itemSonidos.setIcon(R.drawable.sound);
+//		itemInfo.setIcon(R.drawable.help);
 
 		return true;
 	}
@@ -115,6 +118,11 @@ public class VistaAlarmas extends Activity {
 		}
 		case (CONFIG): {
 			Intent intent = new Intent(this, VistaConfiguracion.class);
+			startActivityForResult(intent, ACT_CONFIGURACION);
+			return true;
+		}
+		case (SONIDOS): {
+			Intent intent = new Intent(this, VistaSonidos.class);
 			startActivityForResult(intent, ACT_CONFIGURACION);
 			return true;
 		}

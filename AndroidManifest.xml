@@ -53,9 +53,9 @@
 				<category android:name="android.intent.category.CONFIGURACION" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".VistaListarSonidos" android:label="@string/menu_config" android:configChanges="orientation|keyboardHidden">
+		<activity android:name=".VistaSonidos" android:label="@string/menu_sonidos" android:configChanges="orientation|keyboardHidden">
 			<intent-filter>
-				<action android:name="android.intent.action.CONFIGURACION" />
+				<action android:name="android.intent.action.SONIDOS" />
 				<category android:name="android.intent.category.CONFIGURACION" />
 			</intent-filter>
 		</activity>
