@@ -61,7 +61,6 @@ public class ListaAlarmas {
 					val.getString("alarmaNombre"+ i,""),
 					val.getString("alarmaDescripcion"+ i,""),
 					val.getString("alarmaUbicacion"+ i,""),
-					val.getInt("alarmaRadio"+ i,0),
 					val.getFloat("alarmaLatitud"+ i, 0),
 					val.getFloat("alarmaLongitud"+ i, 0),
 					val.getBoolean("alarmaMuyFuerte"+ i, false)).

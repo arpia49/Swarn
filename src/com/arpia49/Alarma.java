@@ -34,8 +34,7 @@ public class Alarma {
 		private boolean registrada;
 		private int clave;
 
-		public Builder(String nombre, String descripcion, String ubicacion,
-				int radio, float latitud, float longitud, boolean muyFuerte) {
+		public Builder(String nombre, String descripcion, String ubicacion, float latitud, float longitud, boolean muyFuerte) {
 			this.nombre = nombre;
 			this.descripcion = descripcion;
 			this.ubicacion = ubicacion;

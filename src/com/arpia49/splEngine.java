@@ -3,6 +3,7 @@ package com.arpia49;
 import java.math.BigDecimal;
 import java.util.Stack;
 
+import android.content.SharedPreferences;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
@@ -24,6 +25,7 @@ public class splEngine implements Runnable {
 	AudioRecord recordInstance = null;
 	long fecha = 0;
 	int ultimaId=0;
+	static SharedPreferences sp = null; 
 
 	protected splEngine() {
 		// Exists only to defeat instantiation.
@@ -37,6 +39,10 @@ public class splEngine implements Runnable {
 		return instance;
 	}
 
+	public static void setPreferences(SharedPreferences pref){
+		sp = pref;
+	}
+	
 	/**
 	 * starts the engine.
 	 */
@@ -77,7 +83,7 @@ public class splEngine implements Runnable {
 			while (this.isRunning) {
 				double splValue = 0.0;
 				double rmsValue = 0.0;
-
+				int comparar = Integer.parseInt(sp.getString("sonidoFuerte", "87"));
 				for (int i = 0; i < BUFFSIZE - 1; i++) {
 					tempBuffer[i] = 0;
 				}
@@ -93,10 +99,9 @@ public class splEngine implements Runnable {
 
 				splValue = 20 * Math.log10(rmsValue / P0);
 				splValue = round(splValue, 2);
-				splValue = splValue - 80;
+				splValue = splValue-80;
 
-				int comparar = Configuracion.getFuerte();
-				if(pila.peek().getMuyFuerte()) comparar = Configuracion.getMuyFuerte();
+				if(pila.peek().getMuyFuerte()) comparar = Integer.parseInt(sp.getString("sonidoMuyFuerte", "93"));
 				if (splValue >= comparar) {
 					if (ListaNotificaciones.size()==0 || 
 							ultimaId != pila.peek().getId()||
@@ -109,7 +114,7 @@ public class splEngine implements Runnable {
 				}
 			}
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 	}
 

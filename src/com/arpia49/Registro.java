@@ -62,7 +62,6 @@ public class Registro {
 			editor = settings.edit();
 			ListaAlarmas.inicializar(settings);
 			ListaNotificaciones.inicializar(settings);
-			Configuracion.inicializar(settings);
 		}
 	}
 }

@@ -3,7 +3,7 @@
 	<PreferenceCategory android:title="Opciones de Radio">
 		<ListPreference android:title="Radio de Precisión"
 			android:summary="Cuanto mayor sea el radio, más ahorro de batería."
-			android:key="listPref" android:defaultValue="1" android:entries="@array/radios"
+			android:key="radio" android:defaultValue="1" android:entries="@array/radios"
 			android:entryValues="@array/valores_radios" />
 	</PreferenceCategory>
 	<PreferenceCategory android:title="Umbrales de Sonido">

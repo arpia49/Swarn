@@ -23,8 +23,8 @@
 
 	<string-array name="valores_umbrales_fuerte">
 		<item>75</item>
-		<item>87</item>
-		<item>92</item>
+		<item>84</item>
+		<item>93</item>
 	</string-array>
 	
 	<string-array name="umbrales_muy_fuerte">
@@ -34,9 +34,9 @@
 	</string-array>
 
 	<string-array name="valores_umbrales_muy_fuerte">
-		<item>87</item>
-		<item>92</item>
-		<item>100</item>
+		<item>84</item>
+		<item>93</item>
+		<item>102</item>
 	</string-array>
 
 

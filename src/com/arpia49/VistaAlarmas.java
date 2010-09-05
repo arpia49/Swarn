@@ -7,9 +7,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,14 +37,17 @@ public class VistaAlarmas extends Activity {
 	static final private int INFO = Menu.FIRST + 5;
 	private static splEngine engine = null;
 	public static Activity actividad = null;
-
+	SharedPreferences sp = null;
+	
 	// Alerta de proximidad
 	private static String PROXIMITY_ALERT = "com.arpia49.action.proximityalert";
 
 	public void onCreate(Bundle savedInstanceState) {
 		actividad = this;
 		Registro.iniciar(actividad);
+		sp = PreferenceManager.getDefaultSharedPreferences(this);
 		engine = splEngine.getInstance();
+		splEngine.setPreferences(sp);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		cargarPosiciones((LinearLayout) findViewById(R.id.mainLay));
@@ -155,7 +160,6 @@ public class VistaAlarmas extends Activity {
 						data.getStringExtra("nombreAlarma"),
 						data.getStringExtra("descAlarma"),
 						data.getStringExtra("ubicAlarma"),
-						data.getIntExtra("radioAlarma",100),
 						data.getFloatExtra("latAlarma", 0),
 						data.getFloatExtra("lngAlarma", 0),
 						data.getBooleanExtra("sonidoFuerte", false))
@@ -347,7 +351,7 @@ public class VistaAlarmas extends Activity {
 
 		PendingIntent proximityIntent = PendingIntent.getBroadcast(
 				getApplicationContext(), id, intent, 0);
-		locationManager.addProximityAlert(val.getLatitud(), val.getLongitud(), Configuracion.getRadio(), expiration,
+		locationManager.addProximityAlert(val.getLatitud(), val.getLongitud(), Integer.parseInt(sp.getString("radio","500")), expiration,
 				proximityIntent);
 
 		if (!val.getRegistrada()) {
