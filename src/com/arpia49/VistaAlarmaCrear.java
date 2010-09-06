@@ -84,12 +84,12 @@ public class VistaAlarmaCrear extends Activity {
 				String nombre_alarma = et_nombreAlarma.getText()
 						.toString();
 				if (nombre_alarma.compareTo("") == 0)
-					nombre_alarma = getString(R.string.et_nombreAlarma);
+					nombre_alarma = getString(R.string.et_nombre);
 				outData.putExtra("nombreAlarma", nombre_alarma);
 				
 				String desc_alarma = et_descAlarma.getText().toString();
 				if (desc_alarma.compareTo("") == 0)
-					desc_alarma = getString(R.string.et_descAlarma);
+					desc_alarma = getString(R.string.et_desc);
 				outData.putExtra("descAlarma", desc_alarma);
 				setResult(Activity.RESULT_OK, outData);
 				finish();
@@ -106,7 +106,7 @@ public class VistaAlarmaCrear extends Activity {
 		et_nombreAlarma.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
-				String defecto = getString(R.string.et_nombreAlarma);
+				String defecto = getString(R.string.et_nombre);
 				String actual = et_nombreAlarma.getText().toString();
 
 				if (hasFocus && actual.compareTo(defecto) == 0)
@@ -120,7 +120,7 @@ public class VistaAlarmaCrear extends Activity {
 		et_descAlarma.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
-				String defecto = getString(R.string.et_descAlarma);
+				String defecto = getString(R.string.et_desc);
 				String actual = et_descAlarma.getText().toString();
 
 				if (hasFocus && actual.compareTo(defecto) == 0)

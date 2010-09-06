@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/mainLay"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<ScrollView android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+		<LinearLayout android:id="@+id/addSonido"
+			xmlns:android="http://schemas.android.com/apk/res/android"
+			android:orientation="vertical" android:layout_width="fill_parent"
+			android:layout_height="fill_parent">
+			<TextView android:text="@string/tv_nombre" android:id="@+id/tv_nombreSonido"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<EditText android:text="@string/et_nombre" android:id="@+id/et_nombreSonido"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:singleLine="true"></EditText>
+			<TextView android:text="@string/tv_desc" android:id="@+id/tv_descSonido"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<EditText android:text="@string/et_desc" android:id="@+id/et_descSonido"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+				android:singleLine="true"></EditText>
+			<TableLayout android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_alignParentBottom="true" android:stretchColumns="0,1">
+				<TableRow android:layout_width="fill_parent"
+					android:layout_height="wrap_content">
+					<Button android:id="@+id/bt_siguiente" android:layout_width="fill_parent"
+						android:layout_height="wrap_content" android:text="@string/bt_siguiente" />
+					<Button android:id="@+id/botonCancelar"
+						android:layout_width="fill_parent" android:layout_height="wrap_content"
+						android:text="@string/cancelar" />
+				</TableRow>
+			</TableLayout>
+		</LinearLayout>
+	</ScrollView>
+</LinearLayout>

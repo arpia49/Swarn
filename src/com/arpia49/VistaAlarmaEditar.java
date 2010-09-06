@@ -105,7 +105,7 @@ public class VistaAlarmaEditar extends Activity {
 		et_nombreAlarma.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
-				String defecto = getString(R.string.et_nombreAlarma);
+				String defecto = getString(R.string.et_nombre);
 				String actual = et_nombreAlarma.getText().toString();
 
 				if (hasFocus && actual.compareTo(defecto) == 0)
@@ -119,7 +119,7 @@ public class VistaAlarmaEditar extends Activity {
 		et_descAlarma.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
-				String defecto = getString(R.string.et_descAlarma);
+				String defecto = getString(R.string.et_desc);
 				String actual = et_descAlarma.getText().toString();
 
 				if (hasFocus && actual.compareTo(defecto) == 0)

@@ -7,7 +7,7 @@
 		android:layout_height="wrap_content" android:text="@string/ayudaSonidos" />
 	<ScrollView android:id="@+id/sv_main" android:layout_width="fill_parent"
 		android:layout_height="fill_parent">
-		<LinearLayout android:id="@+id/mainLay"
+		<LinearLayout android:id="@+id/ll_principal_sonido"
 			xmlns:android="http://schemas.android.com/apk/res/android"
 			android:orientation="vertical" android:layout_width="fill_parent"
 			android:layout_height="fill_parent">

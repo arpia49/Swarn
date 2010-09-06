@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class VistaSonidos extends Activity {
@@ -27,7 +29,7 @@ public class VistaSonidos extends Activity {
 		splEngine.setPreferences(sp);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.vista_sonidos);
-//OGT		cargarPosiciones((LinearLayout) findViewById(R.id.mainLay));
+		cargarPosiciones((LinearLayout) findViewById(R.id.ll_principal_sonido));
 	}
 
 	@Override
@@ -57,7 +59,7 @@ public class VistaSonidos extends Activity {
 		super.onOptionsItemSelected(item);
 		switch (item.getItemId()) {
 		case (ADD_SONIDO): {
-			Intent intent = new Intent(this, VistaAlarmaCrear.class); //OGT
+			Intent intent = new Intent(this, VistaSonidosCrear.class);
 			startActivityForResult(intent, ACT_ADD_SONIDO);
 			return true;
 		}
@@ -120,66 +122,32 @@ public class VistaSonidos extends Activity {
 		}
 	}
 
-//	OGT private void cargarPosiciones(LinearLayout lx) {
-//
-//		// Leemos el número de alarmas
-//		int numAlarmas = ListaAlarmas.size();
-//		for (int i = 1; i <= numAlarmas; i++) {
-//			Alarma alarmaActual = ListaAlarmas.element(i);
-//			addAlarma(alarmaActual);
-//			if(alarmaActual.getMarcada()){
-//				if (!alarmaActual.conUbicacion()) {
-//					engine.start_engine(new Evento(alarmaActual.getId(),alarmaActual.getMuyFuerte(), actividad));
-//				} else {
-//					setProximityAlert(alarmaActual);
-//				}
-//			}
-//		}
-//	}
-//	
-//	private void addAlarma(Alarma val) {
-//
-//		//Obtenemos los datos que se usarán más de una vez
-//
-//		LinearLayout lx = (LinearLayout) findViewById(R.id.mainLay);
-//		LinearLayout la = new LinearLayout(this);
-//		la.setId(val.getId());
-//		la.setOrientation(1);
-//
-//		// Creamos la alarma en la vista
-//		CheckBox cb = new CheckBox(this);
-//		cb.setId(val.getId());
-//		cb.setSingleLine(false);
-//		cb.setText(val.toString());
-//		if (val.getMarcada()) {
-//			setProximityAlert(val);
-//		}
-//		cb.setChecked(val.getMarcada());
-//
-//		cb.setOnClickListener(new OnClickListener() {
-//			public void onClick(View v) {
-//				int v_id = v.getId();
-//				Alarma alarmaActual = ListaAlarmas.element(v_id);
-//				if (((CheckBox) v).isChecked()) {
-//					alarmaActual.setMarcada(true);
-//					if (!alarmaActual.conUbicacion()) {
-//						engine.start_engine(new Evento(v_id,alarmaActual.getMuyFuerte(), actividad));
-//					} else {
-//						setProximityAlert(alarmaActual);
-//					}
-//				} else {
-//					alarmaActual.setMarcada(false);
-//					if (alarmaActual.conUbicacion()) {
-//						removeProximityAlert(alarmaActual);
-//					}else{
-//						engine.stop_engine();
-//					}
-//				}
-//			}
-//		});
-//		la.addView(cb);
-//		lx.addView(la);
-//	}
+private void cargarPosiciones(LinearLayout lx) {
+
+		// Leemos el número de sonidos
+		int numSonidos = ListaSonidos.size();
+		for (int i = 1; i <= numSonidos; i++) {
+			Sonido sonidoActual = ListaSonidos.element(i);
+			addSonido(sonidoActual);
+		}
+	}
+	
+	private void addSonido(Sonido val) {
+
+		//Obtenemos los datos que se usarán más de una vez
+
+		LinearLayout lx = (LinearLayout) findViewById(R.id.ll_principal_sonido);
+		LinearLayout la = new LinearLayout(this);
+		la.setId(val.getId());
+		la.setOrientation(1);
+
+		// Creamos la alarma en la vista
+		TextView tv = new TextView(this);
+		tv.setId(val.getId());
+		tv.setText(val.toString());
+		la.addView(tv);
+		lx.addView(la);
+	}
 	
 //	OGT private void delAlarma(int id) {
 //		Alarma alarmaABorrar = ListaAlarmas.element(id);

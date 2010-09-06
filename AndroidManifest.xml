@@ -56,7 +56,13 @@
 		<activity android:name=".VistaSonidos" android:label="@string/menu_sonidos" android:configChanges="orientation|keyboardHidden">
 			<intent-filter>
 				<action android:name="android.intent.action.SONIDOS" />
-				<category android:name="android.intent.category.CONFIGURACION" />
+				<category android:name="android.intent.category.SONIDO" />
+			</intent-filter>
+		</activity>		
+		<activity android:name=".VistaSonidosCrear" android:label="@string/menu_add_sonido1" android:configChanges="orientation|keyboardHidden">
+			<intent-filter>
+				<action android:name="android.intent.action.ADD_SONIDO" />
+				<category android:name="android.intent.category.SONIDO" />
 			</intent-filter>
 		</activity>
 		<uses-library android:name="com.google.android.maps" />
