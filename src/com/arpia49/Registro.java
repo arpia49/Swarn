@@ -35,6 +35,14 @@ public class Registro {
 		editor.commit();
 	}
 	
+	public static void guardarSonido (Sonido val){
+		editor.putInt("numeroSonidos", ListaSonidos.size()+1);
+		editor.putString("sonidoNombre" + val.getId(), val.getNombre());
+		editor.putString("sonidoDescripcion" + val.getId(), val.getDescripcion());
+		editor.putString("sonidoDatos" + val.getId(), val.getDatos());
+		editor.commit();
+	}
+	
 	public static void guardarBoolean(String clave, boolean valor){
 		editor.putBoolean(clave, valor);
 		editor.commit();
@@ -62,6 +70,7 @@ public class Registro {
 			editor = settings.edit();
 			ListaAlarmas.inicializar(settings);
 			ListaNotificaciones.inicializar(settings);
+			ListaSonidos.inicializar(settings);
 		}
 	}
 }
