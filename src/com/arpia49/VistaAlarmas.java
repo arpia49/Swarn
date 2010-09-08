@@ -184,9 +184,14 @@ public class VistaAlarmas extends Activity {
 		}
 		break;
 		case (ACT_LISTA_EDITAR_ALARMA): {
-			Intent intent = new Intent(this, VistaAlarmaEditar.class);
-			intent.putExtra("id", data.getIntExtra("idAlarma",0)+1);
-			startActivityForResult(intent, ACT_EDITAR_ALARMA);
+			if (resCode == Activity.RESULT_OK) {
+				Intent intent = new Intent(this, VistaAlarmaEditar.class);
+				intent.putExtra("id", data.getIntExtra("idAlarma",0)+1);
+				startActivityForResult(intent, ACT_EDITAR_ALARMA);
+			} else {
+				Toast.makeText(getApplicationContext(),
+						"La alarma no se ha editado", Toast.LENGTH_SHORT).show();
+			}
 		}
 		break;
 		case (ACT_EDITAR_ALARMA): {
