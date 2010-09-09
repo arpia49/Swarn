@@ -7,14 +7,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class VistaSonidosRuido extends Activity {
+public class VistaSonidosTimbre extends Activity {
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.ruido_sonido);
+		setContentView(R.layout.timbre_sonido);
 		
-		final Button bt = (Button) findViewById(R.id.bt_procesar_ruido);
+		final Button bt = (Button) findViewById(R.id.bt_procesar_sonido);
 		
 		bt.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {

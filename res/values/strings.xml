@@ -21,6 +21,8 @@
 	<string name="bt_sonidos">Configurar sonidos</string>
 	<string name="bt_restaurar">Restaurar valores iniciales</string>
 	<string name="bt_siguiente">Siguiente</string>
+	<string name="bt_procesar_ruido">Procesar Ruido de Fondo</string>
+	<string name="bt_procesar_sonido">Procesar Sonido</string>
 	<string name="tv_nombre">Nombre:</string>
 	<string name="et_nombre">Sin nombre</string>
 	<string name="et_desc">Sin descripción</string>
@@ -29,6 +31,14 @@
 	<string name="tv_sonidoPrueba">Sonido de prueba</string>
 	<string name="tv_lugar">Lugar de la alarma:</string>
 	<string name="tv_radio">Radio de la alarma en metros:</string>
+	<string name="tv_procesar_ruido">El paso 2 consiste en analizar el ruido de fondo,
+		haz clic en el botón \"Procesar Ruido de Fondo\" cuando creas que hay
+		el menor ruido de
+		fondo posible.\nEste proceso tardará unos segundos.</string>
+	<string name="tv_procesar_timbre">El paso 3 consiste en analizar el sonido en
+		concreto,
+		haz clic en el botón \"Procesar Sonido\" y acto seguido haz
+		que suene el sonido que quieras detectar.\nEste proceso tardará unos segundos.</string>
 	<string name="desc_locale">¿Utilizar ubicación?</string>
 	<string name="et_lugar">Ubicación actual</string>
 	<string name="desc_sonora">Opciones de la notificación</string>
@@ -38,6 +48,8 @@
 	<string name="tv_tipo2">Muy Fuerte</string>
 	<string name="tv_fuerte">Valor del umbral "Fuerte":</string>
 	<string name="tv_muyFuerte">Valor del umbral "Muy Fuerte":</string>
-	<string name="ayudaAlarmas">Haz clic en Menú para añadir, borrar, editar, ver notificaciones o acceder a la ayuda</string>
-	<string name="ayudaSonidos">Haz clic en Menú para añadir o borrar sonidos</string>
+	<string name="ayudaAlarmas">Haz clic en Menú para añadir, borrar, editar, ver
+		notificaciones o acceder a la ayuda</string>
+	<string name="ayudaSonidos">Haz clic en Menú para añadir o borrar sonidos
+	</string>
 </resources>

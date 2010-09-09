@@ -61,7 +61,19 @@
 		</activity>		
 		<activity android:name=".VistaSonidosCrear" android:label="@string/menu_add_sonido1" android:configChanges="orientation|keyboardHidden">
 			<intent-filter>
-				<action android:name="android.intent.action.ADD_SONIDO" />
+				<action android:name="android.intent.action.ADD_SONIDO1" />
+				<category android:name="android.intent.category.SONIDO" />
+			</intent-filter>
+		</activity>		
+		<activity android:name=".VistaSonidosRuido" android:label="@string/menu_add_sonido2" android:configChanges="orientation|keyboardHidden">
+			<intent-filter>
+				<action android:name="android.intent.action.ADD_SONIDO2" />
+				<category android:name="android.intent.category.SONIDO" />
+			</intent-filter>
+		</activity>		
+		<activity android:name=".VistaSonidosTimbre" android:label="@string/menu_add_sonido3" android:configChanges="orientation|keyboardHidden">
+			<intent-filter>
+				<action android:name="android.intent.action.ADD_SONIDO3" />
 				<category android:name="android.intent.category.SONIDO" />
 			</intent-filter>
 		</activity>

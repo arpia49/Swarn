@@ -10,28 +10,27 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class VistaSonidosCrear extends Activity {
-	
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.add_sonido);
-		
+
 		final EditText et_nombreSonido = (EditText) findViewById(R.id.et_nombreSonido);
 		final EditText et_descSonido = (EditText) findViewById(R.id.et_descSonido);
 
 		Button bt = (Button) findViewById(R.id.bt_siguiente);
 		Button bt2 = (Button) findViewById(R.id.botonCancelar);
-		
+
 		bt.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Intent outData = new Intent();
 
-				String nombre_sonido = et_nombreSonido.getText()
-						.toString();
+				String nombre_sonido = et_nombreSonido.getText().toString();
 				if (nombre_sonido.compareTo("") == 0)
 					nombre_sonido = getString(R.string.et_nombre);
 				outData.putExtra("nombreSonido", nombre_sonido);
-				
+
 				String desc_sonido = et_descSonido.getText().toString();
 				if (desc_sonido.compareTo("") == 0)
 					desc_sonido = getString(R.string.et_desc);

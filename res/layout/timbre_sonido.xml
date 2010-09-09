@@ -7,11 +7,11 @@
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:orientation="vertical" android:layout_width="fill_parent"
 		android:layout_height="fill_parent">
-		<TextView android:text="@string/tv_procesar_ruido"
-			android:id="@+id/tv_procesar_ruido" android:layout_width="wrap_content"
+		<TextView android:text="@string/tv_procesar_timbre"
+			android:id="@+id/tv_procesar_timbre" android:layout_width="wrap_content"
 			android:layout_height="wrap_content"></TextView>
-		<Button android:id="@+id/bt_procesar_ruido" android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:text="@string/bt_procesar_ruido" />
+		<Button android:id="@+id/bt_procesar_sonido" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:text="@string/bt_procesar_sonido" />
 		<TableLayout android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:layout_alignParentBottom="true" android:stretchColumns="0,1">

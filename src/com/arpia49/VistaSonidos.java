@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
@@ -14,19 +13,15 @@ import android.widget.Toast;
 public class VistaSonidos extends Activity {
 
 	// De los menús
-	public static final int ACT_ADD_SONIDO = 1;
-	public static final int ACT_LISTA_DEL_SONIDO = 2;
+	public static final int ACT_LISTA_DEL_SONIDO = 1;
+	public static final int ACT_ADD_SONIDO1 = 2;
+	public static final int ACT_ADD_SONIDO2 = 3;
+	public static final int ACT_ADD_SONIDO3 = 4;
 	static final private int ADD_SONIDO = Menu.FIRST;
 	static final private int DEL_SONIDO = Menu.FIRST + 2;
-	private static splEngine engine = null;
-	public static Activity actividad = null;
 	SharedPreferences sp = null;
 	
 	public void onCreate(Bundle savedInstanceState) {
-		actividad = this;
-		sp = PreferenceManager.getDefaultSharedPreferences(this);
-		engine = splEngine.getInstance();
-		splEngine.setPreferences(sp);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.vista_sonidos);
 		cargarPosiciones((LinearLayout) findViewById(R.id.ll_principal_sonido));
@@ -60,7 +55,7 @@ public class VistaSonidos extends Activity {
 		switch (item.getItemId()) {
 		case (ADD_SONIDO): {
 			Intent intent = new Intent(this, VistaSonidosCrear.class);
-			startActivityForResult(intent, ACT_ADD_SONIDO);
+			startActivityForResult(intent, ACT_ADD_SONIDO1);
 			return true;
 		}
 		case (DEL_SONIDO): {
@@ -76,20 +71,39 @@ public class VistaSonidos extends Activity {
 	public void onActivityResult(int reqCode, int resCode, final Intent data) {
 		super.onActivityResult(reqCode, resCode, data);
 		switch (reqCode) {
-		case (ACT_ADD_SONIDO): {
+		case (ACT_ADD_SONIDO1): {
 			if (resCode == Activity.RESULT_OK) {
-//	OGT			Alarma nuevaAlarma = new Alarma.Builder(
-//						data.getStringExtra("nombreAlarma"),
-//						data.getStringExtra("descAlarma"),
-//						data.getStringExtra("ubicAlarma"),
-//						data.getFloatExtra("latAlarma", 0),
-//						data.getFloatExtra("lngAlarma", 0),
-//						data.getBooleanExtra("sonidoFuerte", false))
-//						.build(true);
-//				addAlarma(nuevaAlarma);
-//				
-//				Toast.makeText(getApplicationContext(), "¡Alarma añadida!",
-//						Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "Paso 1 de 3 completado",
+						Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(this, VistaSonidosRuido.class);
+				startActivityForResult(intent, ACT_ADD_SONIDO2);
+			} else {
+				Toast.makeText(getApplicationContext(),
+						"El sonido no se ha creado", Toast.LENGTH_SHORT).show();
+			}
+		}
+		break;		
+		case (ACT_ADD_SONIDO2): {
+			if (resCode == Activity.RESULT_OK) {
+				Toast.makeText(getApplicationContext(), "Paso 2 de 3 completado",
+						Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(this, VistaSonidosTimbre.class);
+				startActivityForResult(intent, ACT_ADD_SONIDO3);
+			} else {
+				Toast.makeText(getApplicationContext(),
+						"El sonido no se ha creado", Toast.LENGTH_SHORT).show();
+			}
+		}
+		break;		
+		case (ACT_ADD_SONIDO3): {
+			if (resCode == Activity.RESULT_OK) {
+				Sonido nuevoSonido = new Sonido.Builder(
+						"nombreInventado","descripciónInventada",
+						"datos")
+						.build();
+				Toast.makeText(getApplicationContext(), "Paso 3 de 3 completado. Sonido creado.",
+						Toast.LENGTH_SHORT).show();
+				
 			} else {
 				Toast.makeText(getApplicationContext(),
 						"El sonido no se ha creado", Toast.LENGTH_SHORT).show();
@@ -137,16 +151,12 @@ private void cargarPosiciones(LinearLayout lx) {
 		//Obtenemos los datos que se usarán más de una vez
 
 		LinearLayout lx = (LinearLayout) findViewById(R.id.ll_principal_sonido);
-		LinearLayout la = new LinearLayout(this);
-		la.setId(val.getId());
-		la.setOrientation(1);
 
 		// Creamos la alarma en la vista
 		TextView tv = new TextView(this);
 		tv.setId(val.getId());
 		tv.setText(val.toString());
-		la.addView(tv);
-		lx.addView(la);
+		lx.addView(tv);
 	}
 	
 //	OGT private void delAlarma(int id) {

@@ -29,6 +29,7 @@ public class VistaAlarmas extends Activity {
 	public static final int ACT_LISTA_NOTIFICACIONES = 4;
 	public static final int ACT_CONFIGURACION = 5;
 	public static final int ACT_EDITAR_ALARMA = 6;
+	public static final int ACT_ADD_SONIDO = 7;
 	static final private int ADD_ALARMA = Menu.FIRST;
 	static final private int EDITAR_ALARMA = Menu.FIRST + 1;
 	static final private int DEL_ALARMA = Menu.FIRST + 2;
@@ -123,7 +124,7 @@ public class VistaAlarmas extends Activity {
 		}
 		case (SONIDOS): {
 			Intent intent = new Intent(this, VistaSonidos.class);
-			startActivityForResult(intent, ACT_CONFIGURACION);
+			startActivityForResult(intent, ACT_ADD_SONIDO);
 			return true;
 		}
 		case (INFO): {
@@ -266,7 +267,7 @@ public class VistaAlarmas extends Activity {
 						"No se han borrado notificaciones", Toast.LENGTH_SHORT).show();
 			}
 		}
-			break;
+		break;
 		}
 	}
 
