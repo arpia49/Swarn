@@ -20,7 +20,6 @@ public class VistaSonidosCrear extends Activity {
 		final EditText et_descSonido = (EditText) findViewById(R.id.et_descSonido);
 
 		Button bt = (Button) findViewById(R.id.bt_siguiente);
-		Button bt2 = (Button) findViewById(R.id.botonCancelar);
 
 		bt.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -36,13 +35,6 @@ public class VistaSonidosCrear extends Activity {
 					desc_sonido = getString(R.string.et_desc);
 				outData.putExtra("descSonido", desc_sonido);
 				setResult(Activity.RESULT_OK, outData);
-				finish();
-			}
-		});
-
-		bt2.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				setResult(Activity.RESULT_CANCELED, null);
 				finish();
 			}
 		});
