@@ -7,7 +7,7 @@
 	<string name="menu_add_sonido1">Añadir sonido (paso 1 de 3)</string>
 	<string name="menu_add_sonido2">Añadir sonido (paso 2 de 3)</string>
 	<string name="menu_add_sonido3">Añadir sonido (paso 3 de 3)</string>
-	<string name="menu_del_sonido">Borrar sonido</string>
+	<string name="menu_del_sonidos">Borrar todos los sonidos</string>
 	<string name="menu_edit_alarma">Editar alarma</string>
 	<string name="menu_del_todas_alarmas">Borrar todas alarmas</string>
 	<string name="menu_del_notificaciones">Borrar notificaciones</string>

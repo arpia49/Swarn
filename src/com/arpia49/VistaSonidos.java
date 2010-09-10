@@ -23,7 +23,7 @@ public class VistaSonidos extends ListActivity {
 	public static final int ACT_ADD_SONIDO2 = 3;
 	public static final int ACT_ADD_SONIDO3 = 4;
 	static final private int ADD_SONIDO = Menu.FIRST;
-	static final private int DEL_SONIDO = Menu.FIRST + 2;
+	static final private int DEL_SONIDOS = Menu.FIRST + 2;
 	String tempNombre;
 	String tempDescripcion;
 	ArrayAdapter<String> miArray = null;
@@ -43,7 +43,7 @@ public class VistaSonidos extends ListActivity {
 		if(numSonidos>0) sb.append("\nLos sonidos de la lista siguiente ya están en el sistema.");
 		else sb.append("\nAún no hay sonidos en el sistema.");
 		TextView tv = new TextView(this);
-		tv.setId(1);
+		tv.setId(100);
 		tv.setText(sb.toString());
 		tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
 		tv.setTypeface(Typeface.DEFAULT, 2);
@@ -63,8 +63,8 @@ public class VistaSonidos extends ListActivity {
 		// Create and add new menu items.
 		MenuItem itemAdd = menu.add(0, ADD_SONIDO, Menu.NONE,
 				R.string.menu_add_sonido);
-		MenuItem itemDel = menu.add(0, DEL_SONIDO, Menu.NONE,
-				R.string.menu_del_sonido);
+		MenuItem itemDel = menu.add(0, DEL_SONIDOS, Menu.NONE,
+				R.string.menu_del_sonidos);
 
 		// Assign icons
 		itemAdd.setIcon(R.drawable.add);
@@ -81,10 +81,28 @@ public class VistaSonidos extends ListActivity {
 			startActivityForResult(intent, ACT_ADD_SONIDO1);
 			return true;
 		}
-		case (DEL_SONIDO): {
-			Intent intent = new Intent(this, VistaListarAlarmasBorrar.class); //OGT
-			startActivityForResult(intent, ACT_LISTA_DEL_SONIDO	);
-			return true;
+		case (DEL_SONIDOS): {
+			ListaSonidos.borrar();
+			
+			int numSonidos = ListaSonidos.size();
+			sonidos = new String[numSonidos];
+			for (int i = 0; i < numSonidos; i++) {
+				sonidos[i] = ListaSonidos.elementAt(i).toString();
+			}
+				
+			StringBuilder sb = new StringBuilder(getString(R.string.ayudaSonidos));
+			if(numSonidos>0) sb.append("\nLos sonidos de la lista siguiente ya están en el sistema.");
+			else sb.append("\nAún no hay sonidos en el sistema.");
+			TextView tv = (TextView) findViewById(100);
+			tv.setText(sb.toString());
+			
+			miArray= new ArrayAdapter<String>(this, R.layout.del_alarma,
+					sonidos);
+	        getListView().setAdapter(miArray);
+	        miArray.notifyDataSetChanged();
+			
+			Toast.makeText(getApplicationContext(),
+					"¡Sonidos eliminados!", Toast.LENGTH_SHORT).show();
 		}
 		}
 		return false;
@@ -132,12 +150,17 @@ public class VistaSonidos extends ListActivity {
 				tempNombre = null;
 				tempDescripcion = null;
 
-				
 				int numSonidos = ListaSonidos.size();
 				sonidos = new String[numSonidos];
 				for (int i = 0; i < numSonidos; i++) {
 					sonidos[i] = ListaSonidos.elementAt(i).toString();
 				}
+				
+				StringBuilder sb = new StringBuilder(getString(R.string.ayudaSonidos));
+				if(numSonidos>0) sb.append("\nLos sonidos de la lista siguiente ya están en el sistema.");
+				else sb.append("\nAún no hay sonidos en el sistema.");
+				TextView tv = (TextView) findViewById(100);
+				tv.setText(sb.toString());
 				
 				miArray= new ArrayAdapter<String>(this, R.layout.del_alarma,
 						sonidos);

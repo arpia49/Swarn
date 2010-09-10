@@ -42,4 +42,10 @@ public class ListaSonidos {
 					.build();
 		}
 	}
+	
+	public static void borrar() {
+		listaSonidos.clear();
+		Registro.guardarInt("numeroSonidos", size());
+	}
+	
 }
