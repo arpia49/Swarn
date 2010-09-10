@@ -49,7 +49,7 @@
 	<string name="tv_fuerte">Valor del umbral "Fuerte":</string>
 	<string name="tv_muyFuerte">Valor del umbral "Muy Fuerte":</string>
 	<string name="ayudaAlarmas">Haz clic en Menú para añadir, borrar, editar, ver
-		notificaciones o acceder a la ayuda</string>
-	<string name="ayudaSonidos">Haz clic en Menú para añadir o borrar sonidos
-	</string>
+		notificaciones o acceder a la ayuda.</string>
+	<string name="ayudaSonidos">Haz clic en Menú para añadir o borrar sonidos.</string>
+	<string name="ayudaNotificaciones">Haz clic en Menú para borrar las notificaciones o copiarlas a la tarjeta de memoria.</string>
 </resources>

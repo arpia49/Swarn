@@ -28,6 +28,10 @@ public class ListaSonidos {
 		return listaSonidos.elementAt(id-1);
 	}
 
+	public static Sonido elementAt(int val){
+		return listaSonidos.elementAt(val);
+	}
+	
 	public static void inicializar(SharedPreferences val){
 		int total = val.getInt("numeroSonidos", 0);
 		for(int i = 1; i<=total; i++){

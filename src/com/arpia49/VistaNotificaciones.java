@@ -5,12 +5,15 @@ import android.app.ListActivity;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class VistaNotificaciones extends ListActivity {
@@ -27,6 +30,16 @@ public class VistaNotificaciones extends ListActivity {
 		for (int i = 0; i < numNotificaciones; i++) {
 			lugares[i] = ListaNotificaciones.elementAt(i).toString();
 		}
+		
+		StringBuilder sb = new StringBuilder(getString(R.string.ayudaNotificaciones));
+		TextView tv = new TextView(this);
+		tv.setId(1);
+		tv.setText(sb.toString());
+		tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
+		tv.setTypeface(Typeface.DEFAULT, 2);
+		ListView lv = getListView();
+		lv.addHeaderView(tv);
+		
 		setListAdapter(new ArrayAdapter<String>(this, R.layout.del_alarma,
 				lugares));
 		String svcName = Context.NOTIFICATION_SERVICE;
