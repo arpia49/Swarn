@@ -13,28 +13,26 @@ import android.media.MediaRecorder;
  * @author Hashir N A <hashir@mobware4u.com>
  * 
  */
-public class splEngine implements Runnable {
+public class DetectorRuido implements Runnable {
 	private static final int FREQUENCY = 8000;
 	private static final int CHANNEL = AudioFormat.CHANNEL_CONFIGURATION_MONO;
 	private static final int ENCODING = AudioFormat.ENCODING_PCM_16BIT;
 	private int BUFFSIZE = 320;
 	private static final double P0 = 0.000002;
 	public volatile boolean isRunning = false;
-	public volatile static Stack<Evento> pila;
-	private static splEngine instance = null;
+	public volatile static Stack<String> ruidos;
+	private static DetectorRuido instance = null;
 	AudioRecord recordInstance = null;
-	long fecha = 0;
-	int ultimaId = 0;
 	static SharedPreferences sp = null;
 
-	protected splEngine() {
+	protected DetectorRuido() {
 		// Exists only to defeat instantiation.
 	}
 
-	public static splEngine getInstance() {
+	public static DetectorRuido getInstance() {
 		if (instance == null) {
-			instance = new splEngine();
-			pila = new Stack<Evento>();
+			instance = new DetectorRuido();
+			ruidos = new Stack<String>();
 		}
 		return instance;
 	}
@@ -46,8 +44,7 @@ public class splEngine implements Runnable {
 	/**
 	 * starts the engine.
 	 */
-	public void start_engine(Evento evento) {
-		pila.push(evento);
+	public void comienza_prueba() {
 		if (!this.isRunning) {
 			this.isRunning = true;
 			Thread t = new Thread(this);
@@ -59,32 +56,12 @@ public class splEngine implements Runnable {
 	 * stops the engine
 	 */
 	public void stop_engine() {
-		pila.pop();
-		if (pila.size() == 0) {
-			this.isRunning = false;
-		}
-	}
-
-	/**
-	 * pause the engine
-	 */
-	public void pause_engine() {
 		if (this.isRunning) {
 			this.isRunning = false;
 			recordInstance.stop();
 		}
 	}
 
-	/**
-	 * unpause the engine
-	 */
-	public void unpause_engine() {
-		if (!this.isRunning) {
-			this.isRunning = true;
-			Thread t = new Thread(this);
-			t.start();
-		}
-	}
 
 	/*
 	 * The main thread. Records audio and calculates the SPL The heart of the
@@ -103,8 +80,7 @@ public class splEngine implements Runnable {
 			while (this.isRunning) {
 				double splValue = 0.0;
 				double rmsValue = 0.0;
-				int comparar = Integer.parseInt(sp.getString("sonidoFuerte",
-						"87"));
+
 				for (int i = 0; i < BUFFSIZE - 1; i++) {
 					tempBuffer[i] = 0;
 				}
@@ -122,21 +98,8 @@ public class splEngine implements Runnable {
 				splValue = round(splValue, 2);
 				splValue = splValue - 80;
 
-				if (pila.peek().getMuyFuerte())
-					comparar = Integer.parseInt(sp.getString("sonidoMuyFuerte",
-							"93"));
-				if (splValue >= comparar) {
-					if (ListaNotificaciones.size() == 0
-							|| ultimaId != pila.peek().getId()
-							|| (System.currentTimeMillis() - fecha > 10000)) {
-						fecha = System.currentTimeMillis();
-						ultimaId = pila.peek().getId();
-						Evento.getHandler().sendEmptyMessage(
-								pila.peek().getId());
-					}
-				}
+				
 			}
-			recordInstance.stop();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

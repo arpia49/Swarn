@@ -23,15 +23,10 @@ public class VistaSonidosRuido extends Activity {
 				bt.setEnabled(false);
 				
 				Intent outData = new Intent();
-//
-//				String nombre_sonido = et_nombreSonido.getText().toString();
-//				if (nombre_sonido.compareTo("") == 0)
-//					nombre_sonido = getString(R.string.et_nombre);
-//				outData.putExtra("nombreSonido", nombre_sonido);
-//
-//				String desc_sonido = et_descSonido.getText().toString();
-//				if (desc_sonido.compareTo("") == 0)
-//					desc_sonido = getString(R.string.et_desc);
+
+
+				splEngine engine = splEngine.getInstance();
+				
 				outData.putExtra("descSonido", "yeah");
 				setResult(Activity.RESULT_OK, outData);
 				finish();
