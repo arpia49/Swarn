@@ -13,7 +13,7 @@ import android.media.MediaRecorder;
  * @author Hashir N A <hashir@mobware4u.com>
  * 
  */
-public class DetectorRuido implements Runnable {
+public class DetectorSonido implements Runnable {
 	private static final int FREQUENCY = 8000;
 	private static final int CHANNEL = AudioFormat.CHANNEL_CONFIGURATION_MONO;
 	private static final int ENCODING = AudioFormat.ENCODING_PCM_16BIT;
@@ -21,22 +21,18 @@ public class DetectorRuido implements Runnable {
 	private static final double P0 = 0.000002;
 	public volatile boolean isRunning = false;
 	public volatile static Stack<short[]> ruidos;
-	private static DetectorRuido instance = null;
+	private static DetectorSonido instance = null;
 	AudioRecord recordInstance = null;
 	static SharedPreferences sp = null;
 	private String valorFinal = null;
-
-	public String getValorFinal(){
-		return valorFinal;
-	}
 	
-	protected DetectorRuido() {
+	protected DetectorSonido() {
 		// Exists only to defeat instantiation.
 	}
 
-	public static DetectorRuido getInstance() {
+	public static DetectorSonido getInstance() {
 		if (instance == null) {
-			instance = new DetectorRuido();
+			instance = new DetectorSonido();
 			ruidos = new Stack<short[]>();
 		}
 		return instance;
@@ -66,13 +62,13 @@ public class DetectorRuido implements Runnable {
 			recordInstance.stop();
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i< BUFFSIZE - 1; i++){
-				short menor = ruidos.get(0)[i];
+				short mayor = ruidos.get(0)[i];
 				for (int k = 0; k < ruidos.size(); k++){
-					if(ruidos.get(k)[i]<menor){
-						menor=ruidos.get(k)[i];
+					if(ruidos.get(k)[i]>mayor){
+						mayor=ruidos.get(k)[i];
 					}
 				}
-				sb.append(menor+",");
+				sb.append(mayor+",");
 			}
 			valorFinal = sb.toString();
 		}

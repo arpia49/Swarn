@@ -24,10 +24,17 @@ public class VistaSonidosRuido extends Activity {
 				
 				Intent outData = new Intent();
 
-
-				splEngine engine = splEngine.getInstance();
+				DetectorRuido detector = DetectorRuido.getInstance();
+				detector.comienza_prueba();
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				String tmp = detector.stop_engine();
 				
-				outData.putExtra("descSonido", "yeah");
+				outData.putExtra("Ruido", tmp);
 				setResult(Activity.RESULT_OK, outData);
 				finish();
 			}

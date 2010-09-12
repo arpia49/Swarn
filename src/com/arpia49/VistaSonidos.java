@@ -26,6 +26,8 @@ public class VistaSonidos extends ListActivity {
 	static final private int DEL_SONIDOS = Menu.FIRST + 2;
 	String tempNombre;
 	String tempDescripcion;
+	String tempRuido;
+	String tempSonido;
 	ArrayAdapter<String> miArray = null;
 	SharedPreferences sp = null;
 	String[] sonidos = null;
@@ -110,6 +112,7 @@ return true;
 			if (resCode == Activity.RESULT_OK) {
 				Toast.makeText(getApplicationContext(), "Paso 2 de 3 completado",
 						Toast.LENGTH_SHORT).show();
+				tempRuido = data.getStringExtra("Ruido");
 				Intent intent = new Intent(this, VistaSonidosTimbre.class);
 				startActivityForResult(intent, ACT_ADD_SONIDO3);
 			} else {
@@ -122,6 +125,7 @@ return true;
 		break;		
 		case (ACT_ADD_SONIDO3): {
 			if (resCode == Activity.RESULT_OK) {
+				tempSonido = data.getStringExtra("Sonido");
 				Sonido nuevoSonido = new Sonido.Builder(
 						tempNombre.toString(),tempDescripcion.toString(),
 						"datos")
