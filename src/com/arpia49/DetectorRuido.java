@@ -65,7 +65,7 @@ public class DetectorRuido implements Runnable {
 			this.isRunning = false;
 			recordInstance.stop();
 			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i< BUFFSIZE - 1; i++){
+			for (int i = 0; i< BUFFSIZE-1; i++){
 				short menor = ruidos.get(0)[i];
 				for (int k = 0; k < ruidos.size(); k++){
 					if(ruidos.get(k)[i]<menor){
@@ -98,7 +98,7 @@ public class DetectorRuido implements Runnable {
 				double splValue = 0.0;
 				double rmsValue = 0.0;
 
-				for (int i = 0; i < BUFFSIZE - 1; i++) {
+				for (int i = 0; i < BUFFSIZE; i++) {
 					tempBuffer[i] = 0;
 				}
 

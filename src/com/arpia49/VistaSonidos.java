@@ -26,8 +26,8 @@ public class VistaSonidos extends ListActivity {
 	static final private int DEL_SONIDOS = Menu.FIRST + 2;
 	String tempNombre;
 	String tempDescripcion;
-	short[] tempRuido = new short[320];
-	short[] tempSonido = new short[320];
+	short[] tempRuido = new short[319];
+	short[] tempSonido = new short[319];
 
 	ArrayAdapter<String> miArray = null;
 	SharedPreferences sp = null;
@@ -87,6 +87,12 @@ public class VistaSonidos extends ListActivity {
 			return true;
 		}
 		case (DEL_SONIDOS): {
+			ListaSonidos.borrar();
+			sonidos=new String[0];
+			miArray = new ArrayAdapter<String>(this, R.layout.del_alarma,
+					sonidos);
+			getListView().setAdapter(miArray);
+			miArray.notifyDataSetChanged();
 			return true;
 		}
 		}
@@ -116,7 +122,7 @@ public class VistaSonidos extends ListActivity {
 				Toast.makeText(getApplicationContext(),
 						"Paso 2 de 3 completado", Toast.LENGTH_SHORT).show();
 				String[] tempString = data.getStringExtra("Ruido").split(",");
-				for (int i = 0; i < 320; i++) {
+				for (int i = 0; i < 319; i++) {
 					tempRuido[i] = Short.parseShort(tempString[i]);
 				}
 				Intent intent = new Intent(this, VistaSonidosTimbre.class);
@@ -130,20 +136,20 @@ public class VistaSonidos extends ListActivity {
 		case (ACT_ADD_SONIDO3): {
 			if (resCode == Activity.RESULT_OK) {
 				String[] tempString = data.getStringExtra("Sonido").split(",");
-				for (int i = 0; i < 320; i++) {
+				for (int i = 0; i < 319; i++) {
 					tempSonido[i] = Short.parseShort(tempString[i]);
 				}
 
-				short[] tempFinal = new short[320];
-				for (int i = 0; i < 320; i++) {
-					if (tempRuido[i] - tempSonido[i] > 0)
-						tempFinal[i] = (short) (tempRuido[i] - tempSonido[i]);
+				short[] tempFinal = new short[319];
+				for (int i = 0; i < 319; i++) {
+					if (Math.abs(tempRuido[i]) - Math.abs(tempSonido[i]) > 0)
+						tempFinal[i] = (short) (0.7*(Math.abs(tempRuido[i]) - Math.abs(tempSonido[i])));
 				}
 
 				StringBuilder sb = new StringBuilder();
 				
-				for (int i = 0; i < 320; i++){
-					sb.append(Short.toString(tempSonido[i])+",");
+				for (int i = 0; i < 319; i++){
+					sb.append(Short.toString(tempFinal[i])+",");
 				}
 				
 				Sonido nuevoSonido = new Sonido.Builder(tempNombre.toString(),
