@@ -35,6 +35,8 @@
 				android:scaleType="fitXY" />
 			<TextView android:text="@string/tv_tipo" android:id="@+id/tv_sonido"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			<Spinner android:id="@+id/sp_sonido" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:prompt="@string/sp_sonido"></Spinner>
 			<RadioGroup android:id="@+id/RadioGroup01"
 				android:layout_width="wrap_content" android:layout_height="wrap_content">
 				<RadioButton android:text="@string/tv_tipo1" android:id="@+id/rb_fuerte"
@@ -55,6 +57,7 @@
 						android:text="@string/cancelar" />
 				</TableRow>
 			</TableLayout>
-		</LinearLayout>
+		
+</LinearLayout>
 	</ScrollView>
 </LinearLayout>

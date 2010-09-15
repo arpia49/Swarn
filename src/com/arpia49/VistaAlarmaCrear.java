@@ -17,10 +17,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 public class VistaAlarmaCrear extends Activity {
@@ -51,6 +53,19 @@ public class VistaAlarmaCrear extends Activity {
 		provider = locationManager.getBestProvider(criteria, true);
 		locationManager.requestLocationUpdates(provider, 30000, 100,
 				locationListener);
+		
+		  Spinner sp_sonido = (Spinner) findViewById(R.id.sp_sonido);
+		    ArrayAdapter adapter = ArrayAdapter.createFromResource(
+		            this, R.array.sonidos, android.R.layout.simple_spinner_item);
+		    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		    sp_sonido.setAdapter(adapter);
+		
+		
+		
+		
+		
+		
+		
 		
 		final EditText et_nombreAlarma = (EditText) findViewById(R.id.et_nombreAlarma);
 		final EditText et_descAlarma = (EditText) findViewById(R.id.et_descAlarma);

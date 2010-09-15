@@ -27,6 +27,7 @@
 	<string name="et_nombre">Sin nombre</string>
 	<string name="et_desc">Sin descripción</string>
 	<string name="tv_desc">Descripción:</string>
+	<string name="sp_sonido">Elige un sonido</string>
 	<string name="tv_addSonido">Añadir sonido</string>
 	<string name="tv_sonidoPrueba">Sonido de prueba</string>
 	<string name="tv_lugar">Lugar de la alarma:</string>
