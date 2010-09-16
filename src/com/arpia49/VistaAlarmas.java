@@ -304,7 +304,7 @@ public class VistaAlarmas extends Activity {
 			addAlarma(alarmaActual);
 			if (alarmaActual.getMarcada()) {
 				if (!alarmaActual.conUbicacion()) {
-					engine.start_engine(new Evento(alarmaActual.getId(),
+					engine.start_engine(new Evento(alarmaActual.getClave(),
 							alarmaActual.getMuyFuerte(), actividad));
 				} else {
 					setProximityAlert(alarmaActual);
@@ -378,7 +378,7 @@ public class VistaAlarmas extends Activity {
 	}
 
 	private void setProximityAlert(Alarma val) {
-		int id = val.getId();
+		int clave = val.getId();
 
 		String locService = Context.LOCATION_SERVICE;
 		LocationManager locationManager;
@@ -386,39 +386,39 @@ public class VistaAlarmas extends Activity {
 
 		long expiration = -1; // do not expire
 		Intent intent = new Intent(PROXIMITY_ALERT);
-		intent.putExtra("id", id);
-		intent.setData((Uri.parse(id + "://" + id)));
+		intent.putExtra("clave", clave);
+		intent.setData((Uri.parse(clave + "://" + clave)));
 
 		PendingIntent proximityIntent = PendingIntent.getBroadcast(
-				getApplicationContext(), id, intent, 0);
+				getApplicationContext(), clave, intent, 0);
 		locationManager.addProximityAlert(val.getLatitud(), val.getLongitud(),
 				Integer.parseInt(sp.getString("radio", "500")), expiration,
 				proximityIntent);
 
 		if (!val.getRegistrada()) {
 			IntentFilter filter = new IntentFilter(PROXIMITY_ALERT);
-			filter.addDataScheme(Integer.toString(id));
+			filter.addDataScheme(Integer.toString(clave));
 			registerReceiver(new AlertaEntrante(), filter);
 			val.setRegistrada(true);
 		}
 
-		Toast.makeText(getApplicationContext(), "¡Alerta añadida!" + id,
+		Toast.makeText(getApplicationContext(), "¡Alerta añadida!",
 				Toast.LENGTH_SHORT).show();
 	}
 
 	private void removeProximityAlert(Alarma val) {
-		int id = val.getId();
+		int clave = val.getClave();
 
 		String locService = Context.LOCATION_SERVICE;
 		LocationManager locationManager;
 		locationManager = (LocationManager) getSystemService(locService);
 
 		Intent intent = new Intent(PROXIMITY_ALERT);
-		intent.putExtra("id", id);
-		intent.setData((Uri.parse(id + "://" + id)));
+		intent.putExtra("clave", clave);
+		intent.setData((Uri.parse(clave + "://" + clave)));
 
 		PendingIntent proximityIntent = PendingIntent.getBroadcast(
-				getApplicationContext(), id, intent, 0);
+				getApplicationContext(), clave, intent, 0);
 
 		locationManager.removeProximityAlert(proximityIntent);
 

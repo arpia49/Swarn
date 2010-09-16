@@ -32,7 +32,7 @@ public class Registro {
 		editor.putLong("notificacionFecha" + val.getId(), val.getFecha());
 		editor.putString("notificacionNombre" + val.getId(), val.getNombre());
 		editor.putString("notificacionUbicacion" + val.getId(), val.getUbicacion());
-		editor.putInt("notificacionIdAlarma" + val.getId(), val.getClaveAlarma());
+		editor.putInt("notificacionClaveAlarma" + val.getId(), val.getClaveAlarma());
 		editor.commit();
 	}
 	

@@ -6,6 +6,8 @@ import java.util.Vector;
 import android.content.SharedPreferences;
 
 public class ListaSonidos {
+	private static int ultimaClave=0;
+	
 	private static Vector<Sonido> listaSonidos = new Vector<Sonido>();
 
 	public static int size(){
@@ -31,21 +33,21 @@ public class ListaSonidos {
 	public static Sonido elementAt(int val){
 		return listaSonidos.elementAt(val);
 	}
-	
-	public static int lastElementClave(){
-		if(listaSonidos.size()>0){
-			return listaSonidos.lastElement().getClave();
-		}
-		return 0;
+	public static int siguienteClave(){
+		ultimaClave++;
+		Registro.guardarInt("sonidoUltimaClave", ultimaClave);
+		return ultimaClave;
 	}
 	
 	public static void inicializar(SharedPreferences val){
+		ultimaClave = val.getInt("sonidoUltimaClave", 0);
 		int total = val.getInt("numeroSonidos", 0);
 		for(int i = 1; i<=total; i++){
 			Sonido nuevoSonido = new Sonido.Builder(
 					val.getString("sonidoNombre"+ i,""),
 					val.getString("sonidoDescripcion"+ i,""),
-					val.getString("sonidoDatos"+ i,""))
+					val.getString("sonidoDatos"+ i,""),
+					val.getInt("sonidoClave"+ i, 0))
 					.build();
 		}
 	}	

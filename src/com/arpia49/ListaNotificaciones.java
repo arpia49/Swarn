@@ -45,7 +45,7 @@ public class ListaNotificaciones {
 					val.getLong("notificacionFecha"+ i,0),
 					val.getString("notificacionNombre"+ i,""),
 					val.getString("notificacionUbicacion"+ i,""),
-					val.getInt("notificacionIdAlarma"+ i,0))
+					val.getInt("notificacionClaveAlarma"+ i,0))
 					.build(false);
 		}
 	}

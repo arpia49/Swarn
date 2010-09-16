@@ -153,7 +153,7 @@ public class VistaSonidos extends ListActivity {
 				}
 				
 				Sonido nuevoSonido = new Sonido.Builder(tempNombre.toString(),
-						tempDescripcion.toString(), sb.toString()).build();
+						tempDescripcion.toString(), sb.toString(),ListaSonidos.siguienteClave()).build();
 
 				int numSonidos = ListaSonidos.size();
 				sonidos = new String[numSonidos];
