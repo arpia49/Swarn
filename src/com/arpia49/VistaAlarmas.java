@@ -40,7 +40,7 @@ public class VistaAlarmas extends Activity {
 	private static splEngine engine = null;
 	public static Activity actividad = null;
 	SharedPreferences sp = null;
-	
+
 	// Alerta de proximidad
 	private static String PROXIMITY_ALERT = "com.arpia49.action.proximityalert";
 
@@ -68,8 +68,10 @@ public class VistaAlarmas extends Activity {
 				R.string.menu_del_alarma);
 		MenuItem itemLista = menu.add(0, LISTA_ALERTAS, Menu.NONE,
 				R.string.menu_lista_notificaciones);
-		MenuItem itemSonidos = menu.add(0, SONIDOS, Menu.NONE, R.string.menu_sonidos);
-		MenuItem itemConfig = menu.add(0, CONFIG, Menu.NONE, R.string.menu_config);
+		MenuItem itemSonidos = menu.add(0, SONIDOS, Menu.NONE,
+				R.string.menu_sonidos);
+		MenuItem itemConfig = menu.add(0, CONFIG, Menu.NONE,
+				R.string.menu_config);
 		MenuItem itemInfo = menu.add(0, INFO, Menu.NONE, R.string.menu_info);
 
 		// Assign icons
@@ -77,9 +79,9 @@ public class VistaAlarmas extends Activity {
 		itemEditar.setIcon(R.drawable.edit);
 		itemDel.setIcon(R.drawable.del);
 		itemLista.setIcon(R.drawable.list);
-//		itemConfig.setIcon(R.drawable.config);
+		// itemConfig.setIcon(R.drawable.config);
 		itemSonidos.setIcon(R.drawable.sound);
-//		itemInfo.setIcon(R.drawable.help);
+		// itemInfo.setIcon(R.drawable.help);
 
 		return true;
 	}
@@ -88,9 +90,9 @@ public class VistaAlarmas extends Activity {
 		MenuItem itemEditar = menu.getItem(1);
 		MenuItem itemDel = menu.getItem(2);
 		MenuItem itemLista = menu.getItem(3);
-		itemEditar.setEnabled(ListaAlarmas.size()>0);
-		itemDel.setEnabled(ListaAlarmas.size()>0);
-		itemLista.setEnabled(ListaNotificaciones.size()>0);
+		itemEditar.setEnabled(ListaAlarmas.size() > 0);
+		itemDel.setEnabled(ListaAlarmas.size() > 0);
+		itemLista.setEnabled(ListaNotificaciones.size() > 0);
 		return true;
 	}
 
@@ -145,92 +147,111 @@ public class VistaAlarmas extends Activity {
 		switch (reqCode) {
 		case (ACT_ADD_ALARMA): {
 			if (resCode == Activity.RESULT_OK) {
-				final int idSobreescribir = ListaAlarmas.existe(data.getStringExtra("ubicAlarma"), data.getBooleanExtra("sonidoFuerte", false));
-				if(idSobreescribir>0){
+				final int idSobreescribir = ListaAlarmas.existe(data
+						.getStringExtra("ubicAlarma"), data.getBooleanExtra(
+						"sonidoFuerte", false));
+				if (idSobreescribir > 0) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(this);
-					builder.setMessage("Ya existe una alarma con esa ubicación y tipo de sonido. ¿Quieres sustituírla?")
-					       .setCancelable(false)
-					       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-					           public void onClick(DialogInterface dialog, int id) {
-					                editarAlarma(data, idSobreescribir);
-					        		setContentView(R.layout.main);
-					        		cargarPosiciones((LinearLayout) findViewById(R.id.mainLay));
-					           }
-					       })
-					       .setNegativeButton("No", new DialogInterface.OnClickListener() {
-					           public void onClick(DialogInterface dialog, int id) {
-					                dialog.cancel();
-					           }
-					       });
+					builder
+							.setMessage(
+									"Ya existe una alarma con esa ubicación y tipo de sonido. ¿Quieres sustituírla?")
+							.setCancelable(false).setPositiveButton("Yes",
+									new DialogInterface.OnClickListener() {
+										public void onClick(
+												DialogInterface dialog, int id) {
+											editarAlarma(data, idSobreescribir);
+											setContentView(R.layout.main);
+											cargarPosiciones((LinearLayout) findViewById(R.id.mainLay));
+										}
+									}).setNegativeButton("No",
+									new DialogInterface.OnClickListener() {
+										public void onClick(
+												DialogInterface dialog, int id) {
+											dialog.cancel();
+										}
+									});
 					AlertDialog alert = builder.create();
 					alert.show();
-				}else{
-				Alarma nuevaAlarma = new Alarma.Builder(
-						data.getStringExtra("nombreAlarma"),
-						data.getStringExtra("descAlarma"),
-						data.getStringExtra("ubicAlarma"),
-						data.getFloatExtra("latAlarma", 0),
-						data.getFloatExtra("lngAlarma", 0),
-						data.getBooleanExtra("sonidoFuerte", false),
-						data.getIntExtra("claveSonido", 0))
-						.build(true);
-				addAlarma(nuevaAlarma);
-				
-				Toast.makeText(getApplicationContext(), "¡Alarma añadida!",
-						Toast.LENGTH_SHORT).show();
+				} else {
+					Alarma nuevaAlarma = new Alarma.Builder(data
+							.getStringExtra("nombreAlarma"), data
+							.getStringExtra("descAlarma"), data
+							.getStringExtra("ubicAlarma"), data.getFloatExtra(
+							"latAlarma", 0),
+							data.getFloatExtra("lngAlarma", 0), data
+									.getBooleanExtra("sonidoFuerte", false),
+									ListaAlarmas.siguienteClave(),
+									data.getIntExtra("claveSonido", 0)).
+//									clave(ListaAlarmas.siguienteClave()).
+//									claveSonido(data.getIntExtra("claveSonido", 0)).
+									build(true);
+					addAlarma(nuevaAlarma);
+
+					Toast.makeText(getApplicationContext(), "¡Alarma añadida!",
+							Toast.LENGTH_SHORT).show();
 				}
 			} else {
 				Toast.makeText(getApplicationContext(),
 						"La alarma no se ha creado", Toast.LENGTH_SHORT).show();
 			}
 		}
-		break;
+			break;
 		case (ACT_LISTA_EDITAR_ALARMA): {
 			if (resCode == Activity.RESULT_OK) {
 				Intent intent = new Intent(this, VistaAlarmaEditar.class);
-				intent.putExtra("id", data.getIntExtra("idAlarma",0)+1);
+				intent.putExtra("id", data.getIntExtra("idAlarma", 0) + 1);
 				startActivityForResult(intent, ACT_EDITAR_ALARMA);
 			} else {
 				Toast.makeText(getApplicationContext(),
-						"La alarma no se ha editado", Toast.LENGTH_SHORT).show();
+						"La alarma no se ha editado", Toast.LENGTH_SHORT)
+						.show();
 			}
 		}
-		break;
+			break;
 		case (ACT_EDITAR_ALARMA): {
 			if (resCode == Activity.RESULT_OK) {
-				final int idSobreescribir = ListaAlarmas.existe(data.getStringExtra("ubicAlarma"), data.getBooleanExtra("sonidoFuerte", false));
-				if(idSobreescribir>0 && idSobreescribir!=data.getIntExtra("id",0)){
+				final int idSobreescribir = ListaAlarmas.existe(data
+						.getStringExtra("ubicAlarma"), data.getBooleanExtra(
+						"sonidoFuerte", false));
+				if (idSobreescribir > 0
+						&& idSobreescribir != data.getIntExtra("id", 0)) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(this);
-					builder.setMessage("Ya existe una alarma con esa ubicación y tipo de sonido. ¿Quieres sustituírla?")
-					       .setCancelable(false)
-					       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-					           public void onClick(DialogInterface dialog, int id) {
-					                editarAlarma(data, idSobreescribir);
-					                ListaAlarmas.del(data.getIntExtra("id",0));
-					        		setContentView(R.layout.main);
-					        		cargarPosiciones((LinearLayout) findViewById(R.id.mainLay));
-					           }
-					       })
-					       .setNegativeButton("No", new DialogInterface.OnClickListener() {
-					           public void onClick(DialogInterface dialog, int id) {
-					                dialog.cancel();
-					           }
-					       });
+					builder
+							.setMessage(
+									"Ya existe una alarma con esa ubicación y tipo de sonido. ¿Quieres sustituírla?")
+							.setCancelable(false).setPositiveButton("Yes",
+									new DialogInterface.OnClickListener() {
+										public void onClick(
+												DialogInterface dialog, int id) {
+											editarAlarma(data, idSobreescribir);
+											ListaAlarmas.del(data.getIntExtra(
+													"id", 0));
+											setContentView(R.layout.main);
+											cargarPosiciones((LinearLayout) findViewById(R.id.mainLay));
+										}
+									}).setNegativeButton("No",
+									new DialogInterface.OnClickListener() {
+										public void onClick(
+												DialogInterface dialog, int id) {
+											dialog.cancel();
+										}
+									});
 					AlertDialog alert = builder.create();
 					alert.show();
-				}else{
-					editarAlarma(data, data.getIntExtra("id",0));
-	        		setContentView(R.layout.main);
-	        		cargarPosiciones((LinearLayout) findViewById(R.id.mainLay));
+				} else {
+					editarAlarma(data, data.getIntExtra("id", 0));
+					setContentView(R.layout.main);
+					cargarPosiciones((LinearLayout) findViewById(R.id.mainLay));
 					Toast.makeText(getApplicationContext(), "¡Alarma editada!",
 							Toast.LENGTH_SHORT).show();
 				}
 			} else {
 				Toast.makeText(getApplicationContext(),
-						"La alarma no se ha editado", Toast.LENGTH_SHORT).show();
+						"La alarma no se ha editado", Toast.LENGTH_SHORT)
+						.show();
 			}
 		}
-		break;
+			break;
 		case (ACT_LISTA_DEL_ALARMA): {
 			if (resCode == Activity.RESULT_OK) {
 				if (data.getBooleanExtra("todas", false)) {
@@ -242,7 +263,7 @@ public class VistaAlarmas extends Activity {
 							"¡Eliminadas todas las alarmas!",
 							Toast.LENGTH_SHORT).show();
 				} else {
-					delAlarma(data.getIntExtra("idAlarma",0)+1);
+					delAlarma(data.getIntExtra("idAlarma", 0) + 1);
 					Toast.makeText(getApplicationContext(),
 							"¡Alarma  eliminada!", Toast.LENGTH_SHORT).show();
 				}
@@ -253,22 +274,24 @@ public class VistaAlarmas extends Activity {
 						"No se han borrado alarmas", Toast.LENGTH_SHORT).show();
 			}
 		}
-		break;
+			break;
 		case (ACT_LISTA_NOTIFICACIONES): {
 			if (resCode == Activity.RESULT_OK) {
 				if (data.getBooleanExtra("todas", false)) {
 					ListaNotificaciones.borrar();
 					Toast.makeText(getApplicationContext(),
-							"¡Notificaciones eliminadas!", Toast.LENGTH_SHORT).show();
+							"¡Notificaciones eliminadas!", Toast.LENGTH_SHORT)
+							.show();
 				}
 				setContentView(R.layout.main);
 				cargarPosiciones((LinearLayout) findViewById(R.id.mainLay));
 			} else {
 				Toast.makeText(getApplicationContext(),
-						"No se han borrado notificaciones", Toast.LENGTH_SHORT).show();
+						"No se han borrado notificaciones", Toast.LENGTH_SHORT)
+						.show();
 			}
 		}
-		break;
+			break;
 		}
 	}
 
@@ -279,19 +302,20 @@ public class VistaAlarmas extends Activity {
 		for (int i = 1; i <= numAlarmas; i++) {
 			Alarma alarmaActual = ListaAlarmas.element(i);
 			addAlarma(alarmaActual);
-			if(alarmaActual.getMarcada()){
+			if (alarmaActual.getMarcada()) {
 				if (!alarmaActual.conUbicacion()) {
-					engine.start_engine(new Evento(alarmaActual.getId(),alarmaActual.getMuyFuerte(), actividad));
+					engine.start_engine(new Evento(alarmaActual.getId(),
+							alarmaActual.getMuyFuerte(), actividad));
 				} else {
 					setProximityAlert(alarmaActual);
 				}
 			}
 		}
 	}
-	
+
 	private void addAlarma(Alarma val) {
 
-		//Obtenemos los datos que se usarán más de una vez
+		// Obtenemos los datos que se usarán más de una vez
 
 		LinearLayout lx = (LinearLayout) findViewById(R.id.mainLay);
 		LinearLayout la = new LinearLayout(this);
@@ -315,7 +339,8 @@ public class VistaAlarmas extends Activity {
 				if (((CheckBox) v).isChecked()) {
 					alarmaActual.setMarcada(true);
 					if (!alarmaActual.conUbicacion()) {
-						engine.start_engine(new Evento(v_id,alarmaActual.getMuyFuerte(), actividad));
+						engine.start_engine(new Evento(v_id, alarmaActual
+								.getMuyFuerte(), actividad));
 					} else {
 						setProximityAlert(alarmaActual);
 					}
@@ -323,7 +348,7 @@ public class VistaAlarmas extends Activity {
 					alarmaActual.setMarcada(false);
 					if (alarmaActual.conUbicacion()) {
 						removeProximityAlert(alarmaActual);
-					}else{
+					} else {
 						engine.stop_engine();
 					}
 				}
@@ -333,7 +358,7 @@ public class VistaAlarmas extends Activity {
 		lx.addView(la);
 	}
 
-	private void editarAlarma(Intent data, int id){
+	private void editarAlarma(Intent data, int id) {
 		Alarma alarmaActual = ListaAlarmas.element(id);
 		alarmaActual.setNombre(data.getStringExtra("nombreAlarma"));
 		alarmaActual.setDescripcion(data.getStringExtra("descAlarma"));
@@ -342,19 +367,19 @@ public class VistaAlarmas extends Activity {
 		alarmaActual.setLongitud(data.getFloatExtra("lngAlarma", 0));
 		alarmaActual.setMuyFuerte(data.getBooleanExtra("sonidoFuerte", false));
 	}
-	
+
 	private void delAlarma(int id) {
 		Alarma alarmaABorrar = ListaAlarmas.element(id);
 		ListaAlarmas.del(id);
-		
-		if(alarmaABorrar.getRegistrada()){
+
+		if (alarmaABorrar.getRegistrada()) {
 			removeProximityAlert(alarmaABorrar);
 		}
 	}
 
 	private void setProximityAlert(Alarma val) {
 		int id = val.getId();
-		
+
 		String locService = Context.LOCATION_SERVICE;
 		LocationManager locationManager;
 		locationManager = (LocationManager) getSystemService(locService);
@@ -366,7 +391,8 @@ public class VistaAlarmas extends Activity {
 
 		PendingIntent proximityIntent = PendingIntent.getBroadcast(
 				getApplicationContext(), id, intent, 0);
-		locationManager.addProximityAlert(val.getLatitud(), val.getLongitud(), Integer.parseInt(sp.getString("radio","500")), expiration,
+		locationManager.addProximityAlert(val.getLatitud(), val.getLongitud(),
+				Integer.parseInt(sp.getString("radio", "500")), expiration,
 				proximityIntent);
 
 		if (!val.getRegistrada()) {
@@ -375,14 +401,14 @@ public class VistaAlarmas extends Activity {
 			registerReceiver(new AlertaEntrante(), filter);
 			val.setRegistrada(true);
 		}
-		
+
 		Toast.makeText(getApplicationContext(), "¡Alerta añadida!" + id,
 				Toast.LENGTH_SHORT).show();
 	}
 
 	private void removeProximityAlert(Alarma val) {
 		int id = val.getId();
-		
+
 		String locService = Context.LOCATION_SERVICE;
 		LocationManager locationManager;
 		locationManager = (LocationManager) getSystemService(locService);
@@ -398,7 +424,7 @@ public class VistaAlarmas extends Activity {
 
 		Toast.makeText(getApplicationContext(), "Alerta borrada",
 				Toast.LENGTH_SHORT).show();
-		if(val.getActivada()){
+		if (val.getActivada()) {
 			engine.stop_engine();
 			val.setActivada(false);
 		}

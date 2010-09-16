@@ -6,6 +6,9 @@ import java.util.Vector;
 import android.content.SharedPreferences;
 
 public class ListaAlarmas {
+	
+	private static int ultimaClave=0;
+	
 	private static Vector<Alarma> listaAlarmas = new Vector<Alarma>();
 
 	public static int size(){
@@ -28,11 +31,10 @@ public class ListaAlarmas {
 		return listaAlarmas.elementAt(id-1);
 	}
 
-	public static int lastElementClave(){
-		if(listaAlarmas.size()>0){
-			return listaAlarmas.lastElement().getClave();
-		}
-		return 0;
+	public static int siguienteClave(){
+		ultimaClave++;
+		Registro.guardarInt("alarmaUltimaClave", ultimaClave);
+		return ultimaClave;
 	}
 	
 	public static Alarma obtenerDesdeClave(int clave) {
@@ -56,6 +58,7 @@ public class ListaAlarmas {
 	
 	public static void inicializar(SharedPreferences val){
 		int total = val.getInt("numeroAlarmas", 0);
+		ultimaClave = val.getInt("alarmaUltimaClave", 0);
 		for(int i = 1; i<=total; i++){
 			Alarma nuevaAlarma = new Alarma.Builder(
 					val.getString("alarmaNombre"+ i,""),
@@ -64,12 +67,14 @@ public class ListaAlarmas {
 					val.getFloat("alarmaLatitud"+ i, 0),
 					val.getFloat("alarmaLongitud"+ i, 0),
 					val.getBoolean("alarmaMuyFuerte"+ i, false),
+					val.getInt("alarmaClave"+ i, 0),
 					val.getInt("alarmaClaveSonido"+ i, 0)).
 					registrada(val.getBoolean("alarmaRegistrada" + i, false)).
 					marcada(val.getBoolean("alarmaMarcada"+ i, false)).
 					activada(val.getBoolean("alarmaActivada"+ i, false)).
-					clave(val.getInt("alarmaClave"+ i, 0))
-					.build(false);
+//					clave(val.getInt("alarmaClave"+ i, 0)).
+//					claveSonido(val.getInt("alarmaClaveSonido"+ i, 0)).
+					build(false);
 		}
 	}
 }

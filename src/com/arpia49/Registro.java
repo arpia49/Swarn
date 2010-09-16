@@ -23,7 +23,7 @@ public class Registro {
 		editor.putFloat("alarmaLongitud" + val.getId(), val.getLongitud());
 		editor.putString("alarmaUbicacion" + val.getId(), val.getUbicacion());
 		editor.putBoolean("alarmaMuyFuerte" + val.getId(), val.getMuyFuerte());
-		editor.putInt("alarmaClaveSonido" + val.getId(), val.getClave());
+		editor.putInt("alarmaClaveSonido" + val.getId(), val.getClaveSonido());
 		editor.commit();
 	}	
 	

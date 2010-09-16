@@ -4,7 +4,6 @@ public class Alarma {
 
 	// Sin builder
 	private int id;
-	private int clave;
 
 	// Obligatorias
 	private String nombre;
@@ -13,6 +12,7 @@ public class Alarma {
 	private float latitud;
 	private float longitud;
 	private boolean muyFuerte;
+	private int clave;
 	private int claveSonido;
 
 	// Opcionales
@@ -28,28 +28,34 @@ public class Alarma {
 		private float latitud;
 		private float longitud;
 		private boolean muyFuerte;
+		private int clave;
 		private int claveSonido;
 
 		// Opcionales
 		private boolean marcada = false;
 		private boolean activada = false;
 		private boolean registrada;
-		private int clave;
 
-		public Builder(String nombre, String descripcion, String ubicacion, float latitud, float longitud, boolean muyFuerte, int claveSOnido) {
+		public Builder(String nombre, String descripcion, String ubicacion, float latitud, float longitud, boolean muyFuerte,
+				int clave, int claveSonido) {
 			this.nombre = nombre;
 			this.descripcion = descripcion;
 			this.ubicacion = ubicacion;
 			this.latitud = latitud;
 			this.longitud = longitud;
-			this.muyFuerte = muyFuerte;
+			this.clave = clave;
 			this.claveSonido = claveSonido;
 		}
 
-		public Builder clave(int val) {
-			clave = val;
-			return this;
-		}
+//		public Builder clave(int val) {
+//			clave = val;
+//			return this;
+//		}
+//		
+//		public Builder claveSonido(int val) {
+//			claveSonido = val;
+//			return this;
+//		}
 
 		public Builder registrada(boolean val) {
 			registrada = val;
@@ -77,7 +83,7 @@ public class Alarma {
 
 		// Guardamos en memoria
 		id = ListaAlarmas.size() + 1;
-		clave = ListaAlarmas.lastElementClave() + 1;
+		clave = builder.clave;
 		nombre = builder.nombre;
 		descripcion = builder.descripcion;
 		marcada = builder.marcada;
@@ -150,6 +156,10 @@ public class Alarma {
 
 	public int getClave() {
 		return clave;
+	}
+	
+	public int getClaveSonido() {
+		return claveSonido;
 	}
 
 	public String getUbicacion() {
