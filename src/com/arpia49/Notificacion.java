@@ -11,20 +11,20 @@ public class Notificacion {
 	private long fecha;
 	private String nombre;
 	private String ubicacion;
-	private int idAlarma;
+	private int claveAlarma;
 
 	public static class Builder {
 		// Obligatorias
 		private long fecha;
 		private String nombre;
 		private String ubicacion;
-		private int idAlarma;
+		private int claveAlarma;
 
-		public Builder(long fecha, String nombre, String ubicacion, int idAlarma) {
+		public Builder(long fecha, String nombre, String ubicacion, int claveAlarma) {
 			this.fecha = fecha;
 			this.nombre = nombre;
 			this.ubicacion = ubicacion;
-			this.idAlarma = idAlarma;
+			this.claveAlarma = claveAlarma;
 		}
 
 		public Notificacion build(Boolean guardar) {
@@ -40,7 +40,7 @@ public class Notificacion {
 		fecha = builder.fecha;
 		nombre = builder.nombre;
 		ubicacion = builder.ubicacion;
-		idAlarma = builder.idAlarma;
+		claveAlarma = builder.claveAlarma;
 		if (guardar) {
 			Registro.guardarNotificacion(this);
 		}
@@ -62,8 +62,8 @@ public class Notificacion {
 		return ubicacion;
 	}
 
-	public int getIdAlarma() {
-		return idAlarma;
+	public int getClaveAlarma() {
+		return claveAlarma;
 	}
 	
 	@Override
