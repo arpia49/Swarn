@@ -32,6 +32,13 @@ public class ListaSonidos {
 		return listaSonidos.elementAt(val);
 	}
 	
+	public static int lastElementClave(){
+		if(listaSonidos.size()>0){
+			return listaSonidos.lastElement().getClave();
+		}
+		return 0;
+	}
+	
 	public static void inicializar(SharedPreferences val){
 		int total = val.getInt("numeroSonidos", 0);
 		for(int i = 1; i<=total; i++){
@@ -41,6 +48,16 @@ public class ListaSonidos {
 					val.getString("sonidoDatos"+ i,""))
 					.build();
 		}
+	}	
+	
+	public static String[] arrayString(){
+		int total = listaSonidos.size()+1;
+		String[] sonidos = new String[total];
+		sonidos[0] = "Predeterminado";
+		for(int i = 1; i<total; i++){
+			sonidos[i] = element(i).getNombre();
+		}
+		return sonidos;
 	}
 	
 	public static void borrar() {

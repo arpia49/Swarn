@@ -171,7 +171,8 @@ public class VistaAlarmas extends Activity {
 						data.getStringExtra("ubicAlarma"),
 						data.getFloatExtra("latAlarma", 0),
 						data.getFloatExtra("lngAlarma", 0),
-						data.getBooleanExtra("sonidoFuerte", false))
+						data.getBooleanExtra("sonidoFuerte", false),
+						data.getIntExtra("claveSonido", 0))
 						.build(true);
 				addAlarma(nuevaAlarma);
 				

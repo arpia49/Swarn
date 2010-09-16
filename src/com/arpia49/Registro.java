@@ -23,6 +23,7 @@ public class Registro {
 		editor.putFloat("alarmaLongitud" + val.getId(), val.getLongitud());
 		editor.putString("alarmaUbicacion" + val.getId(), val.getUbicacion());
 		editor.putBoolean("alarmaMuyFuerte" + val.getId(), val.getMuyFuerte());
+		editor.putInt("alarmaClaveSonido" + val.getId(), val.getClave());
 		editor.commit();
 	}	
 	
@@ -37,6 +38,7 @@ public class Registro {
 	
 	public static void guardarSonido (Sonido val){
 		editor.putInt("numeroSonidos", ListaSonidos.size()+1);
+		editor.putInt("sonidoClave" + val.getId(), val.getClave());
 		editor.putString("sonidoNombre" + val.getId(), val.getNombre());
 		editor.putString("sonidoDescripcion" + val.getId(), val.getDescripcion());
 		editor.putString("sonidoDatos" + val.getId(), val.getDatos());

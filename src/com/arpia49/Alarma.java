@@ -13,6 +13,7 @@ public class Alarma {
 	private float latitud;
 	private float longitud;
 	private boolean muyFuerte;
+	private int claveSonido;
 
 	// Opcionales
 	private boolean marcada; // Tiene el tic
@@ -27,6 +28,7 @@ public class Alarma {
 		private float latitud;
 		private float longitud;
 		private boolean muyFuerte;
+		private int claveSonido;
 
 		// Opcionales
 		private boolean marcada = false;
@@ -34,13 +36,14 @@ public class Alarma {
 		private boolean registrada;
 		private int clave;
 
-		public Builder(String nombre, String descripcion, String ubicacion, float latitud, float longitud, boolean muyFuerte) {
+		public Builder(String nombre, String descripcion, String ubicacion, float latitud, float longitud, boolean muyFuerte, int claveSOnido) {
 			this.nombre = nombre;
 			this.descripcion = descripcion;
 			this.ubicacion = ubicacion;
 			this.latitud = latitud;
 			this.longitud = longitud;
 			this.muyFuerte = muyFuerte;
+			this.claveSonido = claveSonido;
 		}
 
 		public Builder clave(int val) {
@@ -84,6 +87,7 @@ public class Alarma {
 		longitud = builder.longitud;
 		ubicacion = builder.ubicacion;
 		muyFuerte = builder.muyFuerte;
+		claveSonido = builder.claveSonido;
 
 		if (guardar) {
 			Registro.guardarAlarma(this);

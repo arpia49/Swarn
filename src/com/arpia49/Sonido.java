@@ -1,9 +1,12 @@
 package com.arpia49;
 
+import com.arpia49.Alarma.Builder;
+
 public class Sonido {
 
 	// Sin builder
 	private int id;
+	private int clave;
 
 	// Obligatorias
 	private String nombre;
@@ -16,10 +19,17 @@ public class Sonido {
 		private String descripcion;
 		private String datos;
 
+		private int clave;
+
 		public Builder(String nombre, String descripcion, String datos) {
 			this.nombre = nombre;
 			this.descripcion = descripcion;
 			this.datos = datos;
+		}
+		
+		public Builder clave(int val) {
+			clave = val;
+			return this;
 		}
 
 		public Sonido build() {
@@ -33,6 +43,7 @@ public class Sonido {
 
 		// Guardamos en memoria
 		id = ListaSonidos.size() + 1;
+		clave = ListaSonidos.lastElementClave() + 1;
 		nombre = builder.nombre;
 		descripcion = builder.descripcion;
 		datos = builder.datos;
@@ -65,6 +76,10 @@ public class Sonido {
 
 	public int getId() {
 		return id;
+	}
+	
+	public int getClave() {
+		return clave;
 	}
 
 	public String getNombre() {

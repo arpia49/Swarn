@@ -63,7 +63,8 @@ public class ListaAlarmas {
 					val.getString("alarmaUbicacion"+ i,""),
 					val.getFloat("alarmaLatitud"+ i, 0),
 					val.getFloat("alarmaLongitud"+ i, 0),
-					val.getBoolean("alarmaMuyFuerte"+ i, false)).
+					val.getBoolean("alarmaMuyFuerte"+ i, false),
+					val.getInt("alarmaClaveSonido"+ i, 0)).
 					registrada(val.getBoolean("alarmaRegistrada" + i, false)).
 					marcada(val.getBoolean("alarmaMarcada"+ i, false)).
 					activada(val.getBoolean("alarmaActivada"+ i, false)).

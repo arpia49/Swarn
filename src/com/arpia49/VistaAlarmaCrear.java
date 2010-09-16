@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -24,6 +25,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 public class VistaAlarmaCrear extends Activity {
 
@@ -34,7 +36,10 @@ public class VistaAlarmaCrear extends Activity {
 	Location location = null;
 	float lat = 0;
 	float lng = 0;
-	
+	int sonido = 0;
+	ArrayAdapter adapter;
+	Spinner sp_sonido;
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
@@ -49,24 +54,18 @@ public class VistaAlarmaCrear extends Activity {
 		criteria.setBearingRequired(false);
 		criteria.setCostAllowed(true);
 		criteria.setPowerRequirement(Criteria.POWER_LOW);
-		
+
 		provider = locationManager.getBestProvider(criteria, true);
 		locationManager.requestLocationUpdates(provider, 30000, 100,
 				locationListener);
-		
-		  Spinner sp_sonido = (Spinner) findViewById(R.id.sp_sonido);
-		    ArrayAdapter adapter = ArrayAdapter.createFromResource(
-		            this, R.array.sonidos, android.R.layout.simple_spinner_item);
-		    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		    sp_sonido.setAdapter(adapter);
-		
-		
-		
-		
-		
-		
-		
-		
+
+		sp_sonido = (Spinner) findViewById(R.id.sp_sonido);
+		adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item,
+				ListaSonidos.arrayString());
+		adapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		sp_sonido.setAdapter(adapter);
+
 		final EditText et_nombreAlarma = (EditText) findViewById(R.id.et_nombreAlarma);
 		final EditText et_descAlarma = (EditText) findViewById(R.id.et_descAlarma);
 		final EditText et_lugar = (EditText) findViewById(R.id.et_lugar);
@@ -77,9 +76,10 @@ public class VistaAlarmaCrear extends Activity {
 		Button bt = (Button) findViewById(R.id.botonAceptar);
 		Button bt2 = (Button) findViewById(R.id.botonCancelar);
 
-		Thread thread = new Thread(null, doBackgroundThreadProcessing, "Background");
+		Thread thread = new Thread(null, doBackgroundThreadProcessing,
+				"Background");
 		thread.start();
-		
+
 		bt.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Intent outData = new Intent();
@@ -96,16 +96,16 @@ public class VistaAlarmaCrear extends Activity {
 				}
 
 				outData.putExtra("sonidoFuerte", !rb.isChecked());
-				String nombre_alarma = et_nombreAlarma.getText()
-						.toString();
+				String nombre_alarma = et_nombreAlarma.getText().toString();
 				if (nombre_alarma.compareTo("") == 0)
 					nombre_alarma = getString(R.string.et_nombre);
 				outData.putExtra("nombreAlarma", nombre_alarma);
-				
+
 				String desc_alarma = et_descAlarma.getText().toString();
 				if (desc_alarma.compareTo("") == 0)
 					desc_alarma = getString(R.string.et_desc);
 				outData.putExtra("descAlarma", desc_alarma);
+				outData.putExtra("claveSonido", sonido);
 				setResult(Activity.RESULT_OK, outData);
 				finish();
 			}
@@ -186,6 +186,19 @@ public class VistaAlarmaCrear extends Activity {
 			}
 		});
 
+		sp_sonido.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parentView,
+					View selectedItemView, int position, long id) {
+				sonido = position;
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parentView) {
+			}
+
+		});
+
 	}
 
 	private String updateWithLocation(Location location) {
@@ -215,7 +228,7 @@ public class VistaAlarmaCrear extends Activity {
 			lng = 0;
 			sb.append("Sin ubicación");
 		}
-		return(sb.toString());
+		return (sb.toString());
 	}
 
 	private final LocationListener locationListener = new LocationListener() {
@@ -235,9 +248,9 @@ public class VistaAlarmaCrear extends Activity {
 	private Runnable doBackgroundThreadProcessing = new Runnable() {
 		public void run() {
 			EditText et_lugar = (EditText) findViewById(R.id.et_lugar);
-			try{
-			et_lugar.setText(updateWithLocation(location));
-			}catch(Exception e){
+			try {
+				et_lugar.setText(updateWithLocation(location));
+			} catch (Exception e) {
 			}
 		}
 	};
