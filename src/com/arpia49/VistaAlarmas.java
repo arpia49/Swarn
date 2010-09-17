@@ -366,6 +366,7 @@ public class VistaAlarmas extends Activity {
 		alarmaActual.setLatitud(data.getFloatExtra("latAlarma", 0));
 		alarmaActual.setLongitud(data.getFloatExtra("lngAlarma", 0));
 		alarmaActual.setMuyFuerte(data.getBooleanExtra("sonidoFuerte", false));
+		alarmaActual.setClaveSonido(data.getIntExtra("claveSonido", 0));
 	}
 
 	private void delAlarma(int id) {

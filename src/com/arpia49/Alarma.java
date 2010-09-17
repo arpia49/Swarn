@@ -150,6 +150,11 @@ public class Alarma {
 		Registro.guardarBoolean("alarmaMuyFuerte" + id, val);
 	}
 
+	public void setClaveSonido(int val) {
+		claveSonido = val;
+		Registro.guardarInt("alarmaClaveSonido" + id, val);
+	}
+
 	public int getId() {
 		return id;
 	}

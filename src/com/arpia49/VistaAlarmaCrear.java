@@ -37,7 +37,7 @@ public class VistaAlarmaCrear extends Activity {
 	float lat = 0;
 	float lng = 0;
 	int sonido = 0;
-	ArrayAdapter adapter;
+	ArrayAdapter<String> adapter;
 	Spinner sp_sonido;
 
 	public void onCreate(Bundle savedInstanceState) {

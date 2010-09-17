@@ -33,6 +33,16 @@ public class ListaSonidos {
 	public static Sonido elementAt(int val){
 		return listaSonidos.elementAt(val);
 	}
+	
+	public static int obtenerIdDesdeClave(int clave) {
+		for (int i = 1; i <= ListaSonidos.size(); i++) {
+			if (element(i).getClave() == clave) {
+				return i;
+			}
+		}
+		return 0;
+	}	
+	
 	public static int siguienteClave(){
 		ultimaClave++;
 		Registro.guardarInt("sonidoUltimaClave", ultimaClave);
