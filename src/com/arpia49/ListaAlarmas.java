@@ -45,7 +45,7 @@ public class ListaAlarmas {
 		}
 		return null;
 	}	
-	
+
 	public static int existe(String ubicacion, boolean fuerte) {
 		for (int i = 1; i <= ListaAlarmas.size(); i++) {
 			if (element(i).getUbicacion().compareTo(ubicacion)==0 &&
@@ -54,6 +54,15 @@ public class ListaAlarmas {
 			}
 		}
 		return 0;
+	}
+	
+	public static boolean contienSonido(int claveSonido) {
+		for (int i = 1; i <= ListaAlarmas.size(); i++) {
+			if (element(i).getClaveSonido()==claveSonido) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public static void inicializar(SharedPreferences val){
