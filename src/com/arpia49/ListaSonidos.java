@@ -19,7 +19,7 @@ public class ListaSonidos {
 	}
 
 	public static void del(int id){
-		for (int i = id+1; i <= size(); i++) {
+		for (int i = id; i <= size(); i++) {
 			ListaSonidos.element(i).setId(i-1);
 		}
 		listaSonidos.remove(id-1);

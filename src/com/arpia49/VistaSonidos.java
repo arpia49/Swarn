@@ -1,7 +1,9 @@
 package com.arpia49;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -88,7 +90,7 @@ public class VistaSonidos extends ListActivity {
 		}
 		case (DEL_SONIDOS): {
 			ListaSonidos.borrar();
-			sonidos=new String[0];
+			sonidos = new String[0];
 			miArray = new ArrayAdapter<String>(this, R.layout.del_alarma,
 					sonidos);
 			getListView().setAdapter(miArray);
@@ -143,17 +145,19 @@ public class VistaSonidos extends ListActivity {
 				short[] tempFinal = new short[319];
 				for (int i = 0; i < 319; i++) {
 					if (Math.abs(tempRuido[i]) - Math.abs(tempSonido[i]) > 0)
-						tempFinal[i] = (short) (0.7*(Math.abs(tempRuido[i]) - Math.abs(tempSonido[i])));
+						tempFinal[i] = (short) (0.7 * (Math.abs(tempRuido[i]) - Math
+								.abs(tempSonido[i])));
 				}
 
 				StringBuilder sb = new StringBuilder();
-				
-				for (int i = 0; i < 319; i++){
-					sb.append(Short.toString(tempFinal[i])+",");
+
+				for (int i = 0; i < 319; i++) {
+					sb.append(Short.toString(tempFinal[i]) + ",");
 				}
-				
+
 				Sonido nuevoSonido = new Sonido.Builder(tempNombre.toString(),
-						tempDescripcion.toString(), sb.toString(),ListaSonidos.siguienteClave()).build();
+						tempDescripcion.toString(), sb.toString(), ListaSonidos
+								.siguienteClave()).build();
 
 				int numSonidos = ListaSonidos.size();
 				sonidos = new String[numSonidos];
@@ -225,9 +229,35 @@ public class VistaSonidos extends ListActivity {
 	}
 
 	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		if (id != -1)
-			Toast.makeText(getApplicationContext(),
-					"¿Quieres borrar esta alarma?", Toast.LENGTH_SHORT).show();
+	protected void onListItemClick(ListView l, View v, int position, final long id) {
+		if (id != -1) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder
+					.setMessage(
+							"¿Quieres borrar "+ListaSonidos.elementAt((int)id).toString()+"?")
+					.setCancelable(false).setPositiveButton("Sí",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int dialogId) {
+									ListaSonidos.del((int)id+1);
+									sonidos = new String[0];
+									miArray = new ArrayAdapter<String>(getApplicationContext(), R.layout.del_alarma,
+											sonidos);
+									getListView().setAdapter(miArray);
+									miArray.notifyDataSetChanged();
+//									editarAlarma(data, idSobreescribir);
+//									setContentView(R.layout.main);
+//									cargarPosiciones((LinearLayout) findViewById(R.id.mainLay));
+								}
+							}).setNegativeButton("No",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.cancel();
+								}
+							});
+			AlertDialog alert = builder.create();
+			alert.show();
+		}
 	}
 }
