@@ -51,7 +51,7 @@ public class VistaSonidos extends ListActivity {
 		else
 			sb.append("\nAún no hay sonidos en el sistema.");
 		TextView tv = new TextView(this);
-		tv.setId(100);
+		tv.setId(0);
 		tv.setText(sb.toString());
 		tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
 		tv.setTypeface(Typeface.DEFAULT, 2);
@@ -171,7 +171,7 @@ public class VistaSonidos extends ListActivity {
 							.append("\nLos sonidos de la lista siguiente ya están en el sistema.");
 				else
 					sb2.append("\nAún no hay sonidos en el sistema.");
-				TextView tv = (TextView) findViewById(100);
+				TextView tv = (TextView) findViewById(0);
 				tv.setText(sb2.toString());
 
 				miArray = new ArrayAdapter<String>(this, R.layout.del_alarma,
@@ -208,7 +208,7 @@ public class VistaSonidos extends ListActivity {
 							.append("\nLos sonidos de la lista siguiente ya están en el sistema.");
 				else
 					sb.append("\nAún no hay sonidos en el sistema.");
-				TextView tv = (TextView) findViewById(100);
+				TextView tv = (TextView) findViewById(0);
 				tv.setText(sb.toString());
 
 				miArray = new ArrayAdapter<String>(this, R.layout.del_alarma,
@@ -228,25 +228,38 @@ public class VistaSonidos extends ListActivity {
 	}
 
 	@Override
-	protected void onListItemClick(ListView l, View v, int position, final long id) {
-		if (id != -1 && !ListaAlarmas.contienSonido(ListaSonidos.elementAt((int)id).getClave())) {
+	protected void onListItemClick(ListView l, View v, int position,
+			final long id) {
+		if (id != -1
+				&& !ListaAlarmas.contienSonido(ListaSonidos.elementAt((int) id)
+						.getClave())) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder
 					.setMessage(
-							"¿Quieres borrar "+ListaSonidos.elementAt((int)id).toString()+"?")
-					.setCancelable(false).setPositiveButton("Sí",
+							"¿Quieres borrar "
+									+ ListaSonidos.elementAt((int) id)
+											.toString() + "?").setCancelable(
+							false).setPositiveButton("Sí",
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int dialogId) {
-										ListaSonidos.del((int)id+1);
-										sonidos = new String[0];
-										miArray = new ArrayAdapter<String>(getApplicationContext(), R.layout.del_alarma,
-												sonidos);
-										getListView().setAdapter(miArray);
-										miArray.notifyDataSetChanged();
-	//									editarAlarma(data, idSobreescribir);
-	//									setContentView(R.layout.main);
-	//									cargarPosiciones((LinearLayout) findViewById(R.id.mainLay));
+									ListaSonidos.del((int) id + 1);
+									int numSonidos = ListaSonidos.size();
+									sonidos = new String[numSonidos];
+
+									for (int i = 0; i < numSonidos; i++) {
+										sonidos[i] = ListaSonidos.elementAt(i)
+												.toString();
+									}
+									miArray = new ArrayAdapter<String>(
+											getApplicationContext(),
+											R.layout.del_alarma, sonidos);
+									getListView().setAdapter(miArray);
+									miArray.notifyDataSetChanged();
+									// editarAlarma(data, idSobreescribir);
+									// setContentView(R.layout.main);
+									// cargarPosiciones((LinearLayout)
+									// findViewById(R.id.mainLay));
 								}
 							}).setNegativeButton("No",
 							new DialogInterface.OnClickListener() {
@@ -257,9 +270,10 @@ public class VistaSonidos extends ListActivity {
 							});
 			AlertDialog alert = builder.create();
 			alert.show();
-		}else{
+		} else if (id != -1) {
 			Toast.makeText(getApplicationContext(),
-					"No se puede borrar el sonido, alguna alarma lo necesita", Toast.LENGTH_SHORT).show();
+					"No se puede borrar el sonido, alguna alarma lo necesita",
+					Toast.LENGTH_SHORT).show();
 		}
 	}
 }
