@@ -107,7 +107,7 @@ public class VistaAlarmaEditar extends Activity {
 				final String desc_alarma = et_descAlarma.getText().toString();
 				outData.putExtra("descAlarma", desc_alarma);
 				outData.putExtra("id", getIntent().getExtras().getInt("id"));
-				outData.putExtra("claveSonido", sonido);
+				outData.putExtra("idSonido", sonido);
 				setResult(Activity.RESULT_OK, outData);
 				finish();
 			}

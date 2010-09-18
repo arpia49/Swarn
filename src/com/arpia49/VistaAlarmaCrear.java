@@ -105,7 +105,7 @@ public class VistaAlarmaCrear extends Activity {
 				if (desc_alarma.compareTo("") == 0)
 					desc_alarma = getString(R.string.et_desc);
 				outData.putExtra("descAlarma", desc_alarma);
-				outData.putExtra("claveSonido", sonido);
+				outData.putExtra("idSonido", sonido);
 				setResult(Activity.RESULT_OK, outData);
 				finish();
 			}

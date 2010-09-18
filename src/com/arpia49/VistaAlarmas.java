@@ -180,8 +180,9 @@ public class VistaAlarmas extends Activity {
 							"latAlarma", 0),
 							data.getFloatExtra("lngAlarma", 0), data
 									.getBooleanExtra("sonidoFuerte", false),
-							ListaAlarmas.siguienteClave(), data.getIntExtra(
-									"claveSonido", 0)).
+							ListaAlarmas.siguienteClave(), ListaSonidos
+									.obtenerClaveDesdeId(data.getIntExtra(
+											"claveSonido", 0))).
 					// clave(ListaAlarmas.siguienteClave()).
 							// claveSonido(data.getIntExtra("claveSonido", 0)).
 							build(true);
@@ -368,7 +369,9 @@ public class VistaAlarmas extends Activity {
 		alarmaActual.setLatitud(data.getFloatExtra("latAlarma", 0));
 		alarmaActual.setLongitud(data.getFloatExtra("lngAlarma", 0));
 		alarmaActual.setMuyFuerte(data.getBooleanExtra("sonidoFuerte", false));
-		alarmaActual.setClaveSonido(data.getIntExtra("claveSonido", 0));
+		alarmaActual.setClaveSonido(ListaSonidos
+				.obtenerClaveDesdeId(data.getIntExtra(
+						"idSonido", 0)));
 	}
 
 	private void delAlarma(int id) {
