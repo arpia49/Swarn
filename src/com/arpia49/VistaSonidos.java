@@ -144,9 +144,8 @@ public class VistaSonidos extends ListActivity {
 
 				short[] tempFinal = new short[319];
 				for (int i = 0; i < 319; i++) {
-					if (Math.abs(tempRuido[i]) - Math.abs(tempSonido[i]) > 0)
-						tempFinal[i] = (short) (0.7 * (Math.abs(tempRuido[i]) - Math
-								.abs(tempSonido[i])));
+					if (tempSonido[i] + tempRuido[i] > 0)
+						tempFinal[i] = (short) (0.7 * (tempSonido[i] + tempRuido[i]));
 				}
 
 				StringBuilder sb = new StringBuilder();

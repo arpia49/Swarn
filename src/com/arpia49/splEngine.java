@@ -110,7 +110,7 @@ public class splEngine implements Runnable {
 				}
 
 				recordInstance.read(tempBuffer, 0, BUFFSIZE);
-
+				
 				for (int i = 0; i < BUFFSIZE - 1; i++) {
 					rmsValue += tempBuffer[i] * tempBuffer[i];
 
@@ -129,10 +129,14 @@ public class splEngine implements Runnable {
 					if (ListaNotificaciones.size() == 0
 							|| ultimaId != pila.peek().getId()
 							|| (System.currentTimeMillis() - fecha > 10000)) {
-						fecha = System.currentTimeMillis();
-						ultimaId = pila.peek().getId();
-						Evento.getHandler().sendEmptyMessage(
-								pila.peek().getId());
+
+						if(pila.peek().getSonidoId()==0){
+
+							fecha = System.currentTimeMillis();
+							ultimaId = pila.peek().getId();
+							Evento.getHandler().sendEmptyMessage(
+									pila.peek().getId());
+						}
 					}
 				}
 			}

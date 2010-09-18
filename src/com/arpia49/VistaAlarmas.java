@@ -180,11 +180,11 @@ public class VistaAlarmas extends Activity {
 							"latAlarma", 0),
 							data.getFloatExtra("lngAlarma", 0), data
 									.getBooleanExtra("sonidoFuerte", false),
-									ListaAlarmas.siguienteClave(),
-									data.getIntExtra("claveSonido", 0)).
-//									clave(ListaAlarmas.siguienteClave()).
-//									claveSonido(data.getIntExtra("claveSonido", 0)).
-									build(true);
+							ListaAlarmas.siguienteClave(), data.getIntExtra(
+									"claveSonido", 0)).
+					// clave(ListaAlarmas.siguienteClave()).
+							// claveSonido(data.getIntExtra("claveSonido", 0)).
+							build(true);
 					addAlarma(nuevaAlarma);
 
 					Toast.makeText(getApplicationContext(), "¡Alarma añadida!",
@@ -305,7 +305,8 @@ public class VistaAlarmas extends Activity {
 			if (alarmaActual.getMarcada()) {
 				if (!alarmaActual.conUbicacion()) {
 					engine.start_engine(new Evento(alarmaActual.getClave(),
-							alarmaActual.getMuyFuerte(), actividad));
+							alarmaActual.getClaveSonido(), alarmaActual
+									.getMuyFuerte(), actividad));
 				} else {
 					setProximityAlert(alarmaActual);
 				}
@@ -340,7 +341,8 @@ public class VistaAlarmas extends Activity {
 					alarmaActual.setMarcada(true);
 					if (!alarmaActual.conUbicacion()) {
 						engine.start_engine(new Evento(v_id, alarmaActual
-								.getMuyFuerte(), actividad));
+								.getClaveSonido(), alarmaActual.getMuyFuerte(),
+								actividad));
 					} else {
 						setProximityAlert(alarmaActual);
 					}

@@ -23,7 +23,6 @@ public class AlertaEntrante extends BroadcastReceiver {
 		if (entering) {
 			Toast.makeText(context, "Has entrado en " + alarmaActual.getUbicacion(),
 					Toast.LENGTH_SHORT).show();
-				engine.start_engine(new Evento(id, alarmaActual.getMuyFuerte(),VistaAlarmas.actividad));
 				alarmaActual.setActivada(true);
 		} else {
 			// Aquí deberemos parar/rearrancar el servicio
