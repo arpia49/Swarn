@@ -11,6 +11,7 @@
 	<string name="menu_edit_alarma">Editar alarma</string>
 	<string name="menu_del_todas_alarmas">Borrar todas alarmas</string>
 	<string name="menu_del_notificaciones">Borrar notificaciones</string>
+	<string name="menu_copiar_notificaciones">Copiar notificaciones a la SD</string>
 	<string name="menu_lista_notificaciones">Lista de notificaciones</string>
 	<string name="menu_detalle_notificacion">Detalles de la notificación</string>
 	<string name="menu_config">Configuración</string>

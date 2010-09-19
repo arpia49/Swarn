@@ -51,9 +51,12 @@ public class splEngine implements Runnable {
 		pila.push(evento);
 		if (!this.isRunning) {
 			this.isRunning = true;
-			String tmp[] =ListaSonidos.element(ListaSonidos.obtenerIdDesdeClave(pila.peek().getClaveSonido())).getDatos().split(",");
-			for(int i = 0;i<319;i++){
-				datos[i]=Integer.parseInt(tmp[i]);
+			int clave = pila.peek().getClaveSonido();
+			if(clave!=0){
+				String tmp[] =ListaSonidos.element(ListaSonidos.obtenerIdDesdeClave(clave)).getDatos().split(",");
+				for(int i = 0;i<319;i++){
+					datos[i]=Integer.parseInt(tmp[i]);
+				}
 			}
 			Thread t = new Thread(this);
 			t.start();

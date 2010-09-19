@@ -18,8 +18,10 @@ import android.widget.Toast;
 
 public class VistaNotificaciones extends ListActivity {
 
-	public static final int ACT_DEL_NOTIFICACIONES = 3;
 	static final private int DEL_NOTIFICACIONES = Menu.FIRST;
+	static final private int COPIAR_NOTIFICACIONES = Menu.FIRST+1;
+	public static final int ACT_DEL_NOTIFICACIONES = 1;
+	public static final int ACT_COPIAR_NOTIFICACIONES = 2;
 	NotificationManager notificationManager;
 
 	@Override
@@ -53,17 +55,26 @@ public class VistaNotificaciones extends ListActivity {
 		// Create and add new menu items.
 		MenuItem itemDel = menu.add(0, DEL_NOTIFICACIONES, Menu.NONE,
 				R.string.menu_del_notificaciones);
+		MenuItem itemUsb = menu.add(0, COPIAR_NOTIFICACIONES, Menu.NONE,
+				R.string.menu_copiar_notificaciones);
 		// Assign icons
 		itemDel.setIcon(R.drawable.del);
+		itemUsb.setIcon(R.drawable.usb);
 		return true;
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item) {
 		super.onOptionsItemSelected(item);
 		switch (item.getItemId()) {
-		case (DEL_NOTIFICACIONES): {
+		case (ACT_DEL_NOTIFICACIONES): {
 			Intent outData = new Intent();
 			outData.putExtra("todas", true);
+			setResult(Activity.RESULT_OK, outData);
+			finish();
+		}
+		case (ACT_COPIAR_NOTIFICACIONES): {
+			Intent outData = new Intent();
+			outData.putExtra("usb", true);
 			setResult(Activity.RESULT_OK, outData);
 			finish();
 		}

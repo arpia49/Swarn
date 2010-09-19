@@ -1,5 +1,10 @@
 package com.arpia49;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -11,7 +16,9 @@ import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -283,6 +290,42 @@ public class VistaAlarmas extends Activity {
 					Toast.makeText(getApplicationContext(),
 							"¡Notificaciones eliminadas!", Toast.LENGTH_SHORT)
 							.show();
+
+				}else if (data.getBooleanExtra("usb", false)) {
+
+					try {
+						String nombreArchivo = "/notificaciones";
+						File newfile = new File(Environment
+								.getExternalStorageDirectory()
+								+ nombreArchivo+".html");
+						int i = 1;
+						while (newfile.exists()){
+							newfile = new File(Environment
+									.getExternalStorageDirectory()
+									+ nombreArchivo+i+".html");
+							i++;
+						}
+						newfile.createNewFile();
+						FileOutputStream fileos = null;
+						fileos = new FileOutputStream(newfile);
+						StringBuilder str = new StringBuilder();
+						str.append("<html><head><title>Notificaciones timbre</title></head><body><ul>");
+						for (int j=0; j<ListaNotificaciones.size();j++){
+							Notificacion actual = ListaNotificaciones.elementAt(j);
+							str.append("<li>"+actual.toString()+"</li>");
+						}
+						str.append("</ul></body></html>");
+						fileos.write(str.toString().getBytes());
+						fileos.close();
+						Toast.makeText(getApplicationContext(),
+								"¡Notificaciones copiadas con éxito!", Toast.LENGTH_SHORT)
+								.show();
+					} catch (Exception e) {
+						e.printStackTrace();
+						Toast.makeText(getApplicationContext(),
+								"Las notificaciones no se han podido copiar.", Toast.LENGTH_SHORT)
+								.show();
+					}
 				}
 				setContentView(R.layout.main);
 				cargarPosiciones((LinearLayout) findViewById(R.id.mainLay));
@@ -369,9 +412,8 @@ public class VistaAlarmas extends Activity {
 		alarmaActual.setLatitud(data.getFloatExtra("latAlarma", 0));
 		alarmaActual.setLongitud(data.getFloatExtra("lngAlarma", 0));
 		alarmaActual.setMuyFuerte(data.getBooleanExtra("sonidoFuerte", false));
-		alarmaActual.setClaveSonido(ListaSonidos
-				.obtenerClaveDesdeId(data.getIntExtra(
-						"idSonido", 0)));
+		alarmaActual.setClaveSonido(ListaSonidos.obtenerClaveDesdeId(data
+				.getIntExtra("idSonido", 0)));
 	}
 
 	private void delAlarma(int id) {
