@@ -14,14 +14,14 @@ public class Evento {
 	private static Context contexto = null;
 	private int id;
 	private boolean fuerte;
-	private int idSonido;
+	private int claveSonido;
 	private static Handler handler=null;
     private final int NOTIFICATION_ID = 1;
 
-	public Evento(final int id, int idSonido, final Boolean fuerte, Activity val) {
+	public Evento(final int id, int claveSonido, final Boolean fuerte, Activity val) {
 		contexto = val.getApplicationContext();
 		this.id = id;
-		this.idSonido = idSonido;
+		this.claveSonido = claveSonido;
 		this.fuerte = fuerte;
 		if(handler==null){
 			handler = new Handler() {
@@ -49,8 +49,8 @@ public class Evento {
 		return fuerte;
 	}
 
-	public int getSonidoId() {
-		return idSonido;
+	public int getClaveSonido() {
+		return claveSonido;
 	}
 
 	public static Handler getHandler() {

@@ -182,7 +182,7 @@ public class VistaAlarmas extends Activity {
 									.getBooleanExtra("sonidoFuerte", false),
 							ListaAlarmas.siguienteClave(), ListaSonidos
 									.obtenerClaveDesdeId(data.getIntExtra(
-											"claveSonido", 0))).
+											"idSonido", 0))).
 					// clave(ListaAlarmas.siguienteClave()).
 							// claveSonido(data.getIntExtra("claveSonido", 0)).
 							build(true);

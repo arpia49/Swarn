@@ -26,6 +26,7 @@ public class splEngine implements Runnable {
 	long fecha = 0;
 	int ultimaId = 0;
 	static SharedPreferences sp = null;
+	int datos[] = new int[319];
 
 	protected splEngine() {
 		// Exists only to defeat instantiation.
@@ -50,9 +51,14 @@ public class splEngine implements Runnable {
 		pila.push(evento);
 		if (!this.isRunning) {
 			this.isRunning = true;
+			String tmp[] =ListaSonidos.element(ListaSonidos.obtenerIdDesdeClave(pila.peek().getClaveSonido())).getDatos().split(",");
+			for(int i = 0;i<319;i++){
+				datos[i]=Integer.parseInt(tmp[i]);
+			}
 			Thread t = new Thread(this);
 			t.start();
 		}
+			
 	}
 
 	/**
@@ -62,6 +68,11 @@ public class splEngine implements Runnable {
 		pila.pop();
 		if (pila.size() == 0) {
 			this.isRunning = false;
+		}else{
+			String tmp[] =ListaSonidos.element(ListaSonidos.obtenerIdDesdeClave(pila.peek().getClaveSonido())).getDatos().split(",");
+			for(int i = 0;i<319;i++){
+				datos[i]=Integer.parseInt(tmp[i]);
+			}
 		}
 	}
 
@@ -130,12 +141,25 @@ public class splEngine implements Runnable {
 							|| ultimaId != pila.peek().getId()
 							|| (System.currentTimeMillis() - fecha > 10000)) {
 
-						if(pila.peek().getSonidoId()==0){
+						if(pila.peek().getClaveSonido()==0){
 
 							fecha = System.currentTimeMillis();
 							ultimaId = pila.peek().getId();
 							Evento.getHandler().sendEmptyMessage(
 									pila.peek().getId());
+						}else{
+							int contador = 0;
+							for(int l=0;l<319;l++){
+								if(datos[l]>tempBuffer[l]){
+									contador++;
+								}
+							}
+							if(contador>150){
+								fecha = System.currentTimeMillis();
+								ultimaId = pila.peek().getId();
+								Evento.getHandler().sendEmptyMessage(
+										pila.peek().getId());
+							}
 						}
 					}
 				}
