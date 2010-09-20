@@ -46,10 +46,10 @@ public class ListaAlarmas {
 		return null;
 	}	
 
-	public static int existe(String ubicacion, boolean fuerte) {
+	public static int existe(String ubicacion, boolean fuerte, int idSonido) {
 		for (int i = 1; i <= ListaAlarmas.size(); i++) {
 			if (element(i).getUbicacion().compareTo(ubicacion)==0 &&
-					element(i).getMuyFuerte()==fuerte) {
+					element(i).getMuyFuerte()==fuerte && ListaSonidos.obtenerClaveDesdeId(idSonido)==element(i).getClaveSonido()) {
 				return element(i).getId();
 			}
 		}

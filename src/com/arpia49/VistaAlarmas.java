@@ -156,7 +156,7 @@ public class VistaAlarmas extends Activity {
 			if (resCode == Activity.RESULT_OK) {
 				final int idSobreescribir = ListaAlarmas.existe(data
 						.getStringExtra("ubicAlarma"), data.getBooleanExtra(
-						"sonidoFuerte", false));
+						"sonidoFuerte", false),data.getIntExtra("idSonido", 0));
 				if (idSobreescribir > 0) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(this);
 					builder
@@ -220,7 +220,7 @@ public class VistaAlarmas extends Activity {
 			if (resCode == Activity.RESULT_OK) {
 				final int idSobreescribir = ListaAlarmas.existe(data
 						.getStringExtra("ubicAlarma"), data.getBooleanExtra(
-						"sonidoFuerte", false));
+						"sonidoFuerte", false), data.getIntExtra("idSonido", 0));
 				if (idSobreescribir > 0
 						&& idSobreescribir != data.getIntExtra("id", 0)) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(this);
