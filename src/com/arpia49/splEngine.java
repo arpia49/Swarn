@@ -71,6 +71,7 @@ public class splEngine implements Runnable {
 		pila.pop();
 		if (pila.size() == 0) {
 			this.isRunning = false;
+			recordInstance.stop();
 		}else{
 			String tmp[] =ListaSonidos.element(ListaSonidos.obtenerIdDesdeClave(pila.peek().getClaveSonido())).getDatos().split(",");
 			for(int i = 0;i<319;i++){
@@ -167,7 +168,6 @@ public class splEngine implements Runnable {
 					}
 				}
 			}
-			recordInstance.stop();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
