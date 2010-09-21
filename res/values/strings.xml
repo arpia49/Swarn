@@ -54,4 +54,5 @@
 	<string name="ayudaNotificacion">Haz clic en la lista para ver el lugar de la alarma oMenú para ver las opciones.</string>
 	<string name="ayudaSonidos">Haz clic en el sonido para borrarlo o en Menú para ver las opciones.</string>
 	<string name="ayudaLista">Haz clic en la lista para borrar o en Menú para ver las opciones.</string>
+	<string name="ayudaEditar">Haz clic en la lista para editar.</string>
 </resources>
