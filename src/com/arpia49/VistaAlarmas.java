@@ -1,9 +1,7 @@
 package com.arpia49;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,18 +11,20 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class VistaAlarmas extends Activity {
@@ -343,6 +343,9 @@ public class VistaAlarmas extends Activity {
 
 		// Leemos el número de alarmas
 		int numAlarmas = ListaAlarmas.size();
+		TextView tv = (TextView) findViewById(R.id.indicaciones);
+		LinearLayout asdd = (LinearLayout) findViewById(R.id.ll_principal);
+		if (numAlarmas > 0) asdd.removeView(tv);
 		for (int i = 1; i <= numAlarmas; i++) {
 			Alarma alarmaActual = ListaAlarmas.element(i);
 			addAlarma(alarmaActual);
@@ -360,6 +363,10 @@ public class VistaAlarmas extends Activity {
 
 	private void addAlarma(Alarma val) {
 
+		int numAlarmas = ListaAlarmas.size();
+		TextView tv = (TextView) findViewById(R.id.indicaciones);
+		LinearLayout asdd = (LinearLayout) findViewById(R.id.ll_principal);
+		if (numAlarmas > 0) asdd.removeView(tv);
 		// Obtenemos los datos que se usarán más de una vez
 
 		LinearLayout lx = (LinearLayout) findViewById(R.id.mainLay);

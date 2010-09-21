@@ -32,11 +32,9 @@ public class VistaNotificaciones extends ListActivity {
 		for (int i = 0; i < numNotificaciones; i++) {
 			lugares[i] = ListaNotificaciones.elementAt(i).toString();
 		}
-		
-		StringBuilder sb = new StringBuilder(getString(R.string.ayudaNotificaciones));
 		TextView tv = new TextView(this);
 		tv.setId(1);
-		tv.setText(sb.toString());
+		tv.setText(getString(R.string.ayuda));
 		tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
 		tv.setTypeface(Typeface.DEFAULT, 2);
 		ListView lv = getListView();

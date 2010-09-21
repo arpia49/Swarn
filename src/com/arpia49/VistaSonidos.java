@@ -43,16 +43,9 @@ public class VistaSonidos extends ListActivity {
 		for (int i = 0; i < numSonidos; i++) {
 			sonidos[i] = ListaSonidos.elementAt(i).toString();
 		}
-
-		StringBuilder sb = new StringBuilder(getString(R.string.ayudaSonidos));
-		if (numSonidos > 0)
-			sb
-					.append("\nLos sonidos de la lista siguiente ya están en el sistema.");
-		else
-			sb.append("\nAún no hay sonidos en el sistema.");
 		TextView tv = new TextView(this);
 		tv.setId(0);
-		tv.setText(sb.toString());
+		if (numSonidos == 0) tv.setText(getString(R.string.ayuda));
 		tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
 		tv.setTypeface(Typeface.DEFAULT, 2);
 		ListView lv = getListView();
@@ -163,16 +156,8 @@ public class VistaSonidos extends ListActivity {
 				for (int i = 0; i < numSonidos; i++) {
 					sonidos[i] = ListaSonidos.elementAt(i).toString();
 				}
-
-				StringBuilder sb2 = new StringBuilder(
-						getString(R.string.ayudaSonidos));
-				if (numSonidos > 0)
-					sb2
-							.append("\nLos sonidos de la lista siguiente ya están en el sistema.");
-				else
-					sb2.append("\nAún no hay sonidos en el sistema.");
 				TextView tv = (TextView) findViewById(0);
-				tv.setText(sb2.toString());
+				if (numSonidos == 0) tv.setText(getString(R.string.ayuda));
 
 				miArray = new ArrayAdapter<String>(this, R.layout.del_alarma,
 						sonidos);
@@ -200,17 +185,8 @@ public class VistaSonidos extends ListActivity {
 				for (int i = 0; i < numSonidos; i++) {
 					sonidos[i] = ListaSonidos.elementAt(i).toString();
 				}
-
-				StringBuilder sb = new StringBuilder(
-						getString(R.string.ayudaSonidos));
-				if (numSonidos > 0)
-					sb
-							.append("\nLos sonidos de la lista siguiente ya están en el sistema.");
-				else
-					sb.append("\nAún no hay sonidos en el sistema.");
 				TextView tv = (TextView) findViewById(0);
-				tv.setText(sb.toString());
-
+				if (numSonidos == 0) tv.setText(getString(R.string.ayuda));
 				miArray = new ArrayAdapter<String>(this, R.layout.del_alarma,
 						sonidos);
 				getListView().setAdapter(miArray);
