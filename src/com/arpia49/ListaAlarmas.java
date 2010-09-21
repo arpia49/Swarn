@@ -29,6 +29,10 @@ public class ListaAlarmas {
 	
 	public static Alarma element(int id){
 		return listaAlarmas.elementAt(id-1);
+	}	
+	
+	public static Alarma elementAt(int id){
+		return listaAlarmas.elementAt(id);
 	}
 
 	public static int siguienteClave(){

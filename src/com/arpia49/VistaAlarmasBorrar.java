@@ -1,7 +1,9 @@
 package com.arpia49;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -39,13 +41,34 @@ public class VistaAlarmasBorrar extends ListActivity {
 	}
 
 	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		if (id >= 0) {
+	protected void onListItemClick(ListView l, View v, int position,
+			final long id) {
+		if (id > -1) {
 			super.onListItemClick(l, v, position, id);
-			Intent outData = new Intent();
-			outData.putExtra("idAlarma", (int) id);
-			setResult(Activity.RESULT_OK, outData);
-			finish();
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder
+					.setMessage(
+							"¿Quieres borrar "
+									+ ListaAlarmas.elementAt((int) id)
+											.toString() + "?").setCancelable(
+							false).setPositiveButton("Sí",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int dialogId) {
+									Intent outData = new Intent();
+									outData.putExtra("idAlarma", (int) id);
+									setResult(Activity.RESULT_OK, outData);
+									finish();
+								}
+							}).setNegativeButton("No",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int id) {
+									dialog.cancel();
+								}
+							});
+			AlertDialog alert = builder.create();
+			alert.show();
 		}
 	}
 
