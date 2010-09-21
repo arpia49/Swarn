@@ -112,12 +112,12 @@ public class VistaAlarmas extends Activity {
 			return true;
 		}
 		case (EDITAR_ALARMA): {
-			Intent intent = new Intent(this, VistaListarAlarmasEditar.class);
+			Intent intent = new Intent(this, VistaAlarmasEditar.class);
 			startActivityForResult(intent, ACT_LISTA_EDITAR_ALARMA);
 			return true;
 		}
 		case (DEL_ALARMA): {
-			Intent intent = new Intent(this, VistaListarAlarmasBorrar.class);
+			Intent intent = new Intent(this, VistaAlarmasBorrar.class);
 			startActivityForResult(intent, ACT_LISTA_DEL_ALARMA);
 			return true;
 		}

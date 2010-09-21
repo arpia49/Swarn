@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class VistaListarAlarmasEditar extends ListActivity {
+public class VistaAlarmasEditar extends ListActivity {
 
 	static final private int DEL_ALARMAS = Menu.FIRST;
 

@@ -21,14 +21,14 @@
 				<category android:name="android.intent.category.ALARMAS" />
 			</intent-filter>
 		</activity>
-		<activity android:name="VistaListarAlarmasBorrar"
+		<activity android:name="VistaAlarmasBorrar"
 			android:label="@string/menu_del_alarma" android:configChanges="orientation|keyboardHidden">
 			<intent-filter>
 				<action android:name="android.intent.action.LISTAR_ALARMAS_BORRAR" />
 				<category android:name="android.intent.category.ALARMAS" />
 			</intent-filter>
 		</activity>
-		<activity android:name="VistaListarAlarmasEditar"
+		<activity android:name="VistaAlarmasEditar"
 			android:label="@string/menu_edit_alarma" android:configChanges="orientation|keyboardHidden">
 			<intent-filter>
 				<action android:name="android.intent.action.LISTAR_ALARMAS_EDITAR" />
