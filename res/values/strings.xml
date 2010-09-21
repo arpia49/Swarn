@@ -51,5 +51,6 @@
 	<string name="tv_fuerte">Valor del umbral "Fuerte":</string>
 	<string name="tv_muyFuerte">Valor del umbral "Muy Fuerte":</string>
 	<string name="ayuda">Haz clic en Menú para ver las opciones.</string>
+	<string name="ayudaSonidos">Haz clic en el sonido para borrarlo o en Menú para ver las opciones.</string>
 	<string name="ayudaLista">Haz clic en la lista para borrar o en Menú para ver las opciones.</string>
 </resources>

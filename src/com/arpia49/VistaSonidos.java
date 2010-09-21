@@ -45,7 +45,7 @@ public class VistaSonidos extends ListActivity {
 		}
 		TextView tv = new TextView(this);
 		tv.setId(0);
-		if (numSonidos == 0) tv.setText(getString(R.string.ayuda));
+		tv.setText(getString(R.string.ayudaSonidos));
 		tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
 		tv.setTypeface(Typeface.DEFAULT, 2);
 		ListView lv = getListView();
