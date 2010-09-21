@@ -19,7 +19,7 @@ import android.widget.Toast;
 public class VistaNotificaciones extends ListActivity {
 
 	static final private int DEL_NOTIFICACIONES = Menu.FIRST;
-	static final private int COPIAR_NOTIFICACIONES = Menu.FIRST+1;
+	static final private int COPIAR_NOTIFICACIONES = Menu.FIRST + 1;
 	public static final int ACT_DEL_NOTIFICACIONES = 1;
 	public static final int ACT_COPIAR_NOTIFICACIONES = 2;
 	NotificationManager notificationManager;
@@ -33,14 +33,14 @@ public class VistaNotificaciones extends ListActivity {
 			lugares[i] = ListaNotificaciones.elementAt(i).toString();
 		}
 		TextView tv = new TextView(this);
-		tv.setId(1);
-		tv.setText(getString(R.string.ayuda));
+		tv.setId(-1);
+		tv.setText(getString(R.string.ayudaNotificacion));
 		tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
 		tv.setTypeface(Typeface.DEFAULT, 2);
 		ListView lv = getListView();
 		lv.addHeaderView(tv);
-		
-		setListAdapter(new ArrayAdapter<String>(this, R.layout.del_alarma,
+
+		setListAdapter(new ArrayAdapter<String>(this, R.layout.lista_con_texto,
 				lugares));
 		String svcName = Context.NOTIFICATION_SERVICE;
 		notificationManager = (NotificationManager) getSystemService(svcName);
@@ -82,15 +82,19 @@ public class VistaNotificaciones extends ListActivity {
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		Alarma actual = ListaAlarmas.obtenerDesdeClave(ListaNotificaciones.elementAt((int)id).getClaveAlarma());
-			if(actual.conUbicacion()){
+		if (id > -1) {
+			Alarma actual = ListaAlarmas.obtenerDesdeClave(ListaNotificaciones
+					.elementAt((int) id).getClaveAlarma());
+			if (actual.conUbicacion()) {
 				Intent intent = new Intent(this, VistaNotificacion.class);
 				intent.putExtra("lat", actual.getLatitud());
 				intent.putExtra("lng", actual.getLongitud());
 				startActivity(intent);
-			}else{
-				Toast.makeText(getApplicationContext(), "Esta alerta no tiene una ubicación concreta",
+			} else {
+				Toast.makeText(getApplicationContext(),
+						"Esta alerta no tiene una ubicación concreta",
 						Toast.LENGTH_SHORT).show();
 			}
+		}
 	}
 }

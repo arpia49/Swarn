@@ -36,7 +36,7 @@ public class VistaAlarmasBorrar extends ListActivity {
 		ListView lv = getListView();
 		lv.addHeaderView(tv);
 
-		setListAdapter(new ArrayAdapter<String>(this, R.layout.del_alarma,
+		setListAdapter(new ArrayAdapter<String>(this, R.layout.lista_con_texto,
 				alarmas));
 	}
 

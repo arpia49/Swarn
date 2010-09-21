@@ -51,7 +51,7 @@ public class VistaSonidos extends ListActivity {
 		ListView lv = getListView();
 		lv.addHeaderView(tv);
 
-		miArray = new ArrayAdapter<String>(this, R.layout.del_alarma, sonidos);
+		miArray = new ArrayAdapter<String>(this, R.layout.lista_con_texto, sonidos);
 
 		setListAdapter(miArray);
 	}
@@ -84,7 +84,7 @@ public class VistaSonidos extends ListActivity {
 		case (DEL_SONIDOS): {
 			ListaSonidos.borrar();
 			sonidos = new String[0];
-			miArray = new ArrayAdapter<String>(this, R.layout.del_alarma,
+			miArray = new ArrayAdapter<String>(this, R.layout.lista_con_texto,
 					sonidos);
 			getListView().setAdapter(miArray);
 			miArray.notifyDataSetChanged();
@@ -159,7 +159,7 @@ public class VistaSonidos extends ListActivity {
 				TextView tv = (TextView) findViewById(0);
 				if (numSonidos == 0) tv.setText(getString(R.string.ayuda));
 
-				miArray = new ArrayAdapter<String>(this, R.layout.del_alarma,
+				miArray = new ArrayAdapter<String>(this, R.layout.lista_con_texto,
 						sonidos);
 				getListView().setAdapter(miArray);
 				miArray.notifyDataSetChanged();
@@ -187,7 +187,7 @@ public class VistaSonidos extends ListActivity {
 				}
 				TextView tv = (TextView) findViewById(0);
 				if (numSonidos == 0) tv.setText(getString(R.string.ayuda));
-				miArray = new ArrayAdapter<String>(this, R.layout.del_alarma,
+				miArray = new ArrayAdapter<String>(this, R.layout.lista_con_texto,
 						sonidos);
 				getListView().setAdapter(miArray);
 				miArray.notifyDataSetChanged();
@@ -229,7 +229,7 @@ public class VistaSonidos extends ListActivity {
 									}
 									miArray = new ArrayAdapter<String>(
 											getApplicationContext(),
-											R.layout.del_alarma, sonidos);
+											R.layout.lista_con_texto, sonidos);
 									getListView().setAdapter(miArray);
 									miArray.notifyDataSetChanged();
 									// editarAlarma(data, idSobreescribir);

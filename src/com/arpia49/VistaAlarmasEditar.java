@@ -22,7 +22,7 @@ public class VistaAlarmasEditar extends ListActivity {
 		for (int i = 1; i <= numAlarmas; i++) {
 			alarmas[i-1] = ListaAlarmas.element(i).getNombre();
 		}
-		setListAdapter(new ArrayAdapter<String>(this, R.layout.del_alarma,
+		setListAdapter(new ArrayAdapter<String>(this, R.layout.lista_con_texto,
 				alarmas));
 	}
 
