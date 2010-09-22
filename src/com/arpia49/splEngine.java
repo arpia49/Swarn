@@ -24,7 +24,7 @@ public class splEngine implements Runnable {
 	private static splEngine instance = null;
 	AudioRecord recordInstance = null;
 	long fecha = 0;
-	int ultimaId = 0;
+	int ultimaClave = 0;
 	static SharedPreferences sp = null;
 	int datos[] = new int[319];
 
@@ -142,15 +142,15 @@ public class splEngine implements Runnable {
 							"93"));
 				if (splValue >= comparar) {
 					if (ListaNotificaciones.size() == 0
-							|| ultimaId != pila.peek().getId()
+							|| ultimaClave != pila.peek().getClave()
 							|| (System.currentTimeMillis() - fecha > 10000)) {
 
 						if(pila.peek().getClaveSonido()==0){
 
 							fecha = System.currentTimeMillis();
-							ultimaId = pila.peek().getId();
+							ultimaClave = pila.peek().getClave();
 							Evento.getHandler().sendEmptyMessage(
-									pila.peek().getId());
+									pila.peek().getClave());
 						}else{
 							int contador = 0;
 							for(int l=0;l<319;l++){
@@ -160,9 +160,9 @@ public class splEngine implements Runnable {
 							}
 							if(contador>150){
 								fecha = System.currentTimeMillis();
-								ultimaId = pila.peek().getId();
+								ultimaClave = pila.peek().getClave();
 								Evento.getHandler().sendEmptyMessage(
-										pila.peek().getId());
+										pila.peek().getClave());
 							}
 						}
 					}

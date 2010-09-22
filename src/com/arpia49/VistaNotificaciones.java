@@ -83,7 +83,7 @@ public class VistaNotificaciones extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		if (id > -1) {
-			Alarma actual = ListaAlarmas.obtenerDesdeClave(ListaNotificaciones
+			Alarma actual = ListaAlarmas.obtenerDesdeId(ListaNotificaciones
 					.elementAt((int) id).getClaveAlarma());
 			if (actual.conUbicacion()) {
 				Intent intent = new Intent(this, VistaNotificacion.class);

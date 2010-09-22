@@ -2,7 +2,6 @@ package com.arpia49;
 
 import java.util.Vector;
 
-
 import android.content.SharedPreferences;
 
 public class ListaAlarmas {
@@ -44,6 +43,15 @@ public class ListaAlarmas {
 	public static Alarma obtenerDesdeClave(int clave) {
 		for (int i = 1; i <= ListaAlarmas.size(); i++) {
 			if (element(i).getClave() == clave) {
+				return element(i);
+			}
+		}
+		return null;
+	}	
+	
+	public static Alarma obtenerDesdeId(int id) {
+		for (int i = 1; i <= ListaAlarmas.size(); i++) {
+			if (element(i).getId() == id) {
 				return element(i);
 			}
 		}
