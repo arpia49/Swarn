@@ -20,6 +20,10 @@ public class ListaNotificaciones {
 		listaNotificaciones.remove(val);
 	}
 	
+	public static Notificacion element(int id){
+		return listaNotificaciones.elementAt(id-1);
+	}	
+	
 	public static Notificacion elementAt(int val){
 		return listaNotificaciones.elementAt(val);
 	}
@@ -36,6 +40,15 @@ public class ListaNotificaciones {
 	public static void borrar() {
 		listaNotificaciones.clear();
 		Registro.guardarInt("numeroNotificaciones", size());
+	}
+	
+	public static boolean contienAlarma(int claveAlarma) {
+		for (int i = 1; i <= ListaNotificaciones.size(); i++) {
+			if (element(i).getClaveAlarma()==claveAlarma) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public static void inicializar(SharedPreferences val){

@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class VistaAlarmasBorrar extends ListActivity {
 
@@ -43,7 +44,9 @@ public class VistaAlarmasBorrar extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position,
 			final long id) {
-		if (id > -1) {
+		if (id > -1 
+				&& !ListaNotificaciones.contienAlarma(ListaAlarmas.elementAt((int) id)
+						.getClave())) {
 			super.onListItemClick(l, v, position, id);
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder
@@ -69,6 +72,10 @@ public class VistaAlarmasBorrar extends ListActivity {
 							});
 			AlertDialog alert = builder.create();
 			alert.show();
+		} else if (id != -1) {
+			Toast.makeText(getApplicationContext(),
+					"No se puede borrar la alarma, alguna notificación la necesita",
+					Toast.LENGTH_SHORT).show();
 		}
 	}
 

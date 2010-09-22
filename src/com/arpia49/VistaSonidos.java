@@ -25,7 +25,7 @@ public class VistaSonidos extends ListActivity {
 	public static final int ACT_ADD_SONIDO2 = 3;
 	public static final int ACT_ADD_SONIDO3 = 4;
 	static final private int ADD_SONIDO = Menu.FIRST;
-	static final private int DEL_SONIDOS = Menu.FIRST + 2;
+	static final private int DEL_SONIDOS = Menu.FIRST + 1;
 	String tempNombre;
 	String tempDescripcion;
 	short[] tempRuido = new short[319];
@@ -70,6 +70,12 @@ public class VistaSonidos extends ListActivity {
 		itemAdd.setIcon(R.drawable.add);
 		itemDel.setIcon(R.drawable.del);
 
+		return true;
+	}
+	
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		MenuItem itemDel = menu.getItem(1);
+		itemDel.setEnabled(ListaSonidos.size() > 0);
 		return true;
 	}
 
