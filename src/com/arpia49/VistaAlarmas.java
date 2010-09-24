@@ -389,7 +389,7 @@ public class VistaAlarmas extends Activity {
 				if (((CheckBox) v).isChecked()) {
 					alarmaActual.setMarcada(true);
 					if (!alarmaActual.conUbicacion()) {
-						engine.start_engine(new Evento(v_id, alarmaActual
+						engine.start_engine(new Evento(alarmaActual.getClave(), alarmaActual
 								.getClaveSonido(), alarmaActual.getMuyFuerte(),
 								actividad));
 					} else {
@@ -423,11 +423,16 @@ public class VistaAlarmas extends Activity {
 
 	private void delAlarma(int id) {
 		Alarma alarmaABorrar = ListaAlarmas.element(id);
+		
 		ListaAlarmas.del(id);
 
 		if (alarmaABorrar.getRegistrada()) {
 			removeProximityAlert(alarmaABorrar);
 		}
+		if(alarmaABorrar.getActivada()){
+			engine.stop_engine();
+		}
+		
 	}
 
 	private void setProximityAlert(Alarma val) {

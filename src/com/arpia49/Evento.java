@@ -12,15 +12,15 @@ import android.widget.Toast;
 
 public class Evento {
 	private static Context contexto = null;
-	private int clave;
+	private int claveAlarma;
 	private boolean fuerte;
 	private int claveSonido;
 	private static Handler handler=null;
     private final int NOTIFICATION_ID = 1;
 
-	public Evento(final int clave, int claveSonido, final Boolean fuerte, Activity val) {
+	public Evento(final int claveAlarma, int claveSonido, final Boolean fuerte, Activity val) {
 		contexto = val.getApplicationContext();
-		this.clave = clave;
+		this.claveAlarma = claveAlarma;
 		this.claveSonido = claveSonido;
 		this.fuerte = fuerte;
 		if(handler==null){
@@ -42,7 +42,7 @@ public class Evento {
 	}
 
 	public int getClave() {
-		return clave;
+		return claveAlarma;
 	}
 
 	public boolean getMuyFuerte() {

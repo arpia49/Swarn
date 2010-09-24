@@ -10,6 +10,7 @@ public class Registro {
 	private static SharedPreferences settings = null;
 	private static SharedPreferences.Editor editor = null;
 	public static final String PREFS_NAME = "PrefTimbre";
+	public static Activity actividad = null;
 	
 	public static void guardarAlarma (Alarma val){
 		editor.putInt("numeroAlarmas", val.getId());
@@ -70,6 +71,7 @@ public class Registro {
 			contexto = val.getApplicationContext();
 			settings = contexto.getSharedPreferences(PREFS_NAME, 0);
 			editor = settings.edit();
+			actividad=val;
 			ListaAlarmas.inicializar(settings);
 			ListaNotificaciones.inicializar(settings);
 			ListaSonidos.inicializar(settings);
