@@ -152,9 +152,10 @@ public class VistaAlarmas extends Activity {
 		switch (reqCode) {
 		case (ACT_ADD_ALARMA): {
 			if (resCode == Activity.RESULT_OK) {
-				final int idSobreescribir = ListaAlarmas.existe(data
-						.getStringExtra("ubicAlarma"), data.getBooleanExtra(
-						"sonidoFuerte", false),data.getIntExtra("idSonido", 0));
+				final int idSobreescribir = ListaAlarmas
+						.existe(data.getStringExtra("ubicAlarma"), data
+								.getBooleanExtra("sonidoFuerte", false), data
+								.getIntExtra("idSonido", 0));
 				if (idSobreescribir > 0) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(this);
 					builder
@@ -216,9 +217,10 @@ public class VistaAlarmas extends Activity {
 			break;
 		case (ACT_EDITAR_ALARMA): {
 			if (resCode == Activity.RESULT_OK) {
-				final int idSobreescribir = ListaAlarmas.existe(data
-						.getStringExtra("ubicAlarma"), data.getBooleanExtra(
-						"sonidoFuerte", false), data.getIntExtra("idSonido", 0));
+				final int idSobreescribir = ListaAlarmas
+						.existe(data.getStringExtra("ubicAlarma"), data
+								.getBooleanExtra("sonidoFuerte", false), data
+								.getIntExtra("idSonido", 0));
 				if (idSobreescribir > 0
 						&& idSobreescribir != data.getIntExtra("id", 0)) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -266,7 +268,7 @@ public class VistaAlarmas extends Activity {
 						delAlarma(i);
 					}
 					Toast.makeText(getApplicationContext(),
-							"¡Eliminadas todas las alarmas!",
+							"¡Eliminadas todas las alarmas posibles!",
 							Toast.LENGTH_SHORT).show();
 				} else {
 					delAlarma(data.getIntExtra("idAlarma", 0) + 1);
@@ -289,40 +291,42 @@ public class VistaAlarmas extends Activity {
 							"¡Notificaciones eliminadas!", Toast.LENGTH_SHORT)
 							.show();
 
-				}else if (data.getBooleanExtra("usb", false)) {
+				} else if (data.getBooleanExtra("usb", false)) {
 
 					try {
 						String nombreArchivo = "/notificaciones";
 						File newfile = new File(Environment
 								.getExternalStorageDirectory()
-								+ nombreArchivo+".html");
+								+ nombreArchivo + ".html");
 						int i = 1;
-						while (newfile.exists()){
+						while (newfile.exists()) {
 							newfile = new File(Environment
 									.getExternalStorageDirectory()
-									+ nombreArchivo+i+".html");
+									+ nombreArchivo + i + ".html");
 							i++;
 						}
 						newfile.createNewFile();
 						FileOutputStream fileos = null;
 						fileos = new FileOutputStream(newfile);
 						StringBuilder str = new StringBuilder();
-						str.append("<html><head><title>Notificaciones timbre</title></head><body><ul>");
-						for (int j=0; j<ListaNotificaciones.size();j++){
-							Notificacion actual = ListaNotificaciones.elementAt(j);
-							str.append("<li>"+actual.toString()+"</li>");
+						str
+								.append("<html><head><title>Notificaciones timbre</title></head><body><ul>");
+						for (int j = 0; j < ListaNotificaciones.size(); j++) {
+							Notificacion actual = ListaNotificaciones
+									.elementAt(j);
+							str.append("<li>" + actual.toString() + "</li>");
 						}
 						str.append("</ul></body></html>");
 						fileos.write(str.toString().getBytes());
 						fileos.close();
 						Toast.makeText(getApplicationContext(),
-								"¡Notificaciones copiadas con éxito!", Toast.LENGTH_SHORT)
-								.show();
+								"¡Notificaciones copiadas con éxito!",
+								Toast.LENGTH_SHORT).show();
 					} catch (Exception e) {
 						e.printStackTrace();
 						Toast.makeText(getApplicationContext(),
-								"Las notificaciones no se han podido copiar.", Toast.LENGTH_SHORT)
-								.show();
+								"Las notificaciones no se han podido copiar.",
+								Toast.LENGTH_SHORT).show();
 					}
 				}
 				setContentView(R.layout.main);
@@ -343,7 +347,8 @@ public class VistaAlarmas extends Activity {
 		int numAlarmas = ListaAlarmas.size();
 		TextView tv = (TextView) findViewById(R.id.indicaciones);
 		LinearLayout asdd = (LinearLayout) findViewById(R.id.ll_principal);
-		if (numAlarmas > 0) asdd.removeView(tv);
+		if (numAlarmas > 0)
+			asdd.removeView(tv);
 		for (int i = 1; i <= numAlarmas; i++) {
 			Alarma alarmaActual = ListaAlarmas.element(i);
 			addAlarma(alarmaActual);
@@ -364,7 +369,8 @@ public class VistaAlarmas extends Activity {
 		int numAlarmas = ListaAlarmas.size();
 		TextView tv = (TextView) findViewById(R.id.indicaciones);
 		LinearLayout asdd = (LinearLayout) findViewById(R.id.ll_principal);
-		if (numAlarmas > 0) asdd.removeView(tv);
+		if (numAlarmas > 0)
+			asdd.removeView(tv);
 		// Obtenemos los datos que se usarán más de una vez
 
 		LinearLayout lx = (LinearLayout) findViewById(R.id.mainLay);
@@ -389,9 +395,9 @@ public class VistaAlarmas extends Activity {
 				if (((CheckBox) v).isChecked()) {
 					alarmaActual.setMarcada(true);
 					if (!alarmaActual.conUbicacion()) {
-						engine.start_engine(new Evento(alarmaActual.getClave(), alarmaActual
-								.getClaveSonido(), alarmaActual.getMuyFuerte(),
-								actividad));
+						engine.start_engine(new Evento(alarmaActual.getClave(),
+								alarmaActual.getClaveSonido(), alarmaActual
+										.getMuyFuerte(), actividad));
 					} else {
 						setProximityAlert(alarmaActual);
 					}
@@ -423,16 +429,17 @@ public class VistaAlarmas extends Activity {
 
 	private void delAlarma(int id) {
 		Alarma alarmaABorrar = ListaAlarmas.element(id);
-		
-		ListaAlarmas.del(id);
 
-		if (alarmaABorrar.getRegistrada()) {
-			removeProximityAlert(alarmaABorrar);
+		if (!ListaNotificaciones.contienAlarma(alarmaABorrar.getClave())
+				&& !alarmaABorrar.getMarcada()) {
+			if (alarmaABorrar.getRegistrada()) {
+				removeProximityAlert(alarmaABorrar);
+			}
+			if (alarmaABorrar.getActivada()) {
+				engine.stop_engine();
+			}
+			ListaAlarmas.del(id);
 		}
-		if(alarmaABorrar.getActivada()){
-			engine.stop_engine();
-		}
-		
 	}
 
 	private void setProximityAlert(Alarma val) {

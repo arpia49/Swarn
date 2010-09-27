@@ -46,7 +46,7 @@ public class VistaAlarmasBorrar extends ListActivity {
 			final long id) {
 		if (id > -1 
 				&& !ListaNotificaciones.contienAlarma(ListaAlarmas.elementAt((int) id)
-						.getClave())) {
+						.getClave()) && !ListaAlarmas.elementAt((int) id).getMarcada()) {
 			super.onListItemClick(l, v, position, id);
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder
@@ -74,7 +74,7 @@ public class VistaAlarmasBorrar extends ListActivity {
 			alert.show();
 		} else if (id != -1) {
 			Toast.makeText(getApplicationContext(),
-					"No se puede borrar la alarma, alguna notificación la necesita",
+					"No se puede borrar la alarma, está en uso o alguna notificación la necesita",
 					Toast.LENGTH_SHORT).show();
 		}
 	}
