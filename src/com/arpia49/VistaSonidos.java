@@ -51,7 +51,8 @@ public class VistaSonidos extends ListActivity {
 		ListView lv = getListView();
 		lv.addHeaderView(tv);
 
-		miArray = new ArrayAdapter<String>(this, R.layout.lista_con_texto, sonidos);
+		miArray = new ArrayAdapter<String>(this, R.layout.lista_con_texto,
+				sonidos);
 
 		setListAdapter(miArray);
 	}
@@ -72,7 +73,7 @@ public class VistaSonidos extends ListActivity {
 
 		return true;
 	}
-	
+
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		MenuItem itemDel = menu.getItem(1);
 		itemDel.setEnabled(ListaSonidos.size() > 0);
@@ -88,12 +89,25 @@ public class VistaSonidos extends ListActivity {
 			return true;
 		}
 		case (DEL_SONIDOS): {
-			ListaSonidos.borrar();
-			sonidos = new String[0];
-			miArray = new ArrayAdapter<String>(this, R.layout.lista_con_texto,
-					sonidos);
+			for (int i = ListaSonidos.size(); i > 0; i--) {
+				if (!ListaAlarmas.contienSonido(ListaSonidos.element(
+						(int) i).getClave())) {
+					ListaSonidos.del((int) i);
+				}
+			}
+			int numSonidos = ListaSonidos.size();
+			sonidos = new String[numSonidos];
+
+			for (int i = 0; i < numSonidos; i++) {
+				sonidos[i] = ListaSonidos.elementAt(i).toString();
+			}
+			miArray = new ArrayAdapter<String>(
+					getApplicationContext(),
+					R.layout.lista_con_texto, sonidos);
 			getListView().setAdapter(miArray);
 			miArray.notifyDataSetChanged();
+			Toast.makeText(getApplicationContext(), "¡Eliminados todos los sonidos posibles!",
+					Toast.LENGTH_SHORT).show();
 			return true;
 		}
 		}
@@ -163,10 +177,11 @@ public class VistaSonidos extends ListActivity {
 					sonidos[i] = ListaSonidos.elementAt(i).toString();
 				}
 				TextView tv = (TextView) findViewById(0);
-				if (numSonidos == 0) tv.setText(getString(R.string.ayuda));
+				if (numSonidos == 0)
+					tv.setText(getString(R.string.ayuda));
 
-				miArray = new ArrayAdapter<String>(this, R.layout.lista_con_texto,
-						sonidos);
+				miArray = new ArrayAdapter<String>(this,
+						R.layout.lista_con_texto, sonidos);
 				getListView().setAdapter(miArray);
 				miArray.notifyDataSetChanged();
 
@@ -179,30 +194,6 @@ public class VistaSonidos extends ListActivity {
 				tempDescripcion = null;
 				Toast.makeText(getApplicationContext(),
 						"El sonido no se ha creado", Toast.LENGTH_SHORT).show();
-			}
-		}
-			break;
-		case (ACT_LISTA_DEL_SONIDO): {
-			if (resCode == Activity.RESULT_OK) {
-				ListaSonidos.borrar();
-
-				int numSonidos = ListaSonidos.size();
-				sonidos = new String[numSonidos];
-				for (int i = 0; i < numSonidos; i++) {
-					sonidos[i] = ListaSonidos.elementAt(i).toString();
-				}
-				TextView tv = (TextView) findViewById(0);
-				if (numSonidos == 0) tv.setText(getString(R.string.ayuda));
-				miArray = new ArrayAdapter<String>(this, R.layout.lista_con_texto,
-						sonidos);
-				getListView().setAdapter(miArray);
-				miArray.notifyDataSetChanged();
-
-				Toast.makeText(getApplicationContext(), "¡Sonidos eliminados!",
-						Toast.LENGTH_SHORT).show();
-			} else {
-				Toast.makeText(getApplicationContext(),
-						"No se han borrado sonidos", Toast.LENGTH_SHORT).show();
 			}
 		}
 			break;
