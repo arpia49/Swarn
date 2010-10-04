@@ -26,14 +26,14 @@ public class AlertaEntrante extends BroadcastReceiver {
 					Toast.LENGTH_SHORT).show();
 			engine.start_engine(new Evento(alarmaActual.getClave(),
 					alarmaActual.getClaveSonido(), alarmaActual.getMuyFuerte(),
-					Registro.actividad));
+					Registro.actividad), false);
 			alarmaActual.setActivada(true);
 		} else {
 			// Aquí deberemos parar/rearrancar el servicio
 			Toast.makeText(context,
 					"Has salido de " + alarmaActual.getUbicacion(),
 					Toast.LENGTH_SHORT).show();
-			engine.stop_engine();
+			engine.stop_engine(false);
 			alarmaActual.setActivada(false);
 		}
 	}

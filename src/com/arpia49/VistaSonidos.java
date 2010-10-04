@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,10 +35,14 @@ public class VistaSonidos extends ListActivity {
 	ArrayAdapter<String> miArray = null;
 	SharedPreferences sp = null;
 	String[] sonidos = null;
+	private static splEngine engine = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		sp = PreferenceManager.getDefaultSharedPreferences(this);
+		engine = splEngine.getInstance();
+		splEngine.setPreferences(sp);
 		int numSonidos = ListaSonidos.size();
 		sonidos = new String[numSonidos];
 		for (int i = 0; i < numSonidos; i++) {
@@ -124,6 +129,7 @@ public class VistaSonidos extends ListActivity {
 				tempDescripcion = data.getStringExtra("descSonido");
 				Toast.makeText(getApplicationContext(),
 						"Paso 1 de 3 completado", Toast.LENGTH_SHORT).show();
+				engine.stop_engine(true);
 				Intent intent = new Intent(this, VistaSonidosRuido.class);
 				startActivityForResult(intent, ACT_ADD_SONIDO2);
 			} else {
@@ -143,6 +149,7 @@ public class VistaSonidos extends ListActivity {
 				Intent intent = new Intent(this, VistaSonidosTimbre.class);
 				startActivityForResult(intent, ACT_ADD_SONIDO3);
 			} else {
+				engine.start_engine(null,true);
 				Toast.makeText(getApplicationContext(),
 						"El sonido no se ha creado", Toast.LENGTH_SHORT).show();
 			}
@@ -195,6 +202,8 @@ public class VistaSonidos extends ListActivity {
 				Toast.makeText(getApplicationContext(),
 						"El sonido no se ha creado", Toast.LENGTH_SHORT).show();
 			}
+
+			engine.start_engine(null,true);
 		}
 			break;
 		}

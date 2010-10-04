@@ -356,7 +356,7 @@ public class VistaAlarmas extends Activity {
 				if (!alarmaActual.conUbicacion()) {
 					engine.start_engine(new Evento(alarmaActual.getClave(),
 							alarmaActual.getClaveSonido(), alarmaActual
-									.getMuyFuerte(), actividad));
+									.getMuyFuerte(), actividad), false);
 				} else {
 					setProximityAlert(alarmaActual);
 				}
@@ -397,7 +397,7 @@ public class VistaAlarmas extends Activity {
 					if (!alarmaActual.conUbicacion()) {
 						engine.start_engine(new Evento(alarmaActual.getClave(),
 								alarmaActual.getClaveSonido(), alarmaActual
-										.getMuyFuerte(), actividad));
+										.getMuyFuerte(), actividad), false);
 					} else {
 						setProximityAlert(alarmaActual);
 					}
@@ -406,7 +406,7 @@ public class VistaAlarmas extends Activity {
 					if (alarmaActual.conUbicacion()) {
 						removeProximityAlert(alarmaActual);
 					} else {
-						engine.stop_engine();
+						engine.stop_engine(false);
 					}
 				}
 			}
@@ -436,7 +436,7 @@ public class VistaAlarmas extends Activity {
 				removeProximityAlert(alarmaABorrar);
 			}
 			if (alarmaABorrar.getActivada()) {
-				engine.stop_engine();
+				engine.stop_engine(false);
 			}
 			ListaAlarmas.del(id);
 		}
@@ -490,7 +490,7 @@ public class VistaAlarmas extends Activity {
 		Toast.makeText(getApplicationContext(), "Alerta borrada",
 				Toast.LENGTH_SHORT).show();
 		if (val.getActivada()) {
-			engine.stop_engine();
+			engine.stop_engine(false);
 			val.setActivada(false);
 		}
 		val.setRegistrada(false);

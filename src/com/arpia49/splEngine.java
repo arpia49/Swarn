@@ -47,57 +47,47 @@ public class splEngine implements Runnable {
 	/**
 	 * starts the engine.
 	 */
-	public void start_engine(Evento evento) {
-		pila.push(evento);
-		if (!this.isRunning) {
-			this.isRunning = true;
-			int clave = pila.peek().getClaveSonido();
-			if(clave!=0){
-				String tmp[] =ListaSonidos.element(ListaSonidos.obtenerIdDesdeClave(clave)).getDatos().split(",");
-				for(int i = 0;i<319;i++){
-					datos[i]=Integer.parseInt(tmp[i]);
+	public void start_engine(Evento evento, boolean unpause) {
+		if(!unpause){
+			pila.push(evento);
+			if (!this.isRunning) {
+				this.isRunning = true;
+				int clave = pila.peek().getClaveSonido();
+				if(clave!=0){
+					String tmp[] =ListaSonidos.element(ListaSonidos.obtenerIdDesdeClave(clave)).getDatos().split(",");
+					for(int i = 0;i<319;i++){
+						datos[i]=Integer.parseInt(tmp[i]);
+					}
 				}
+				Thread t = new Thread(this);
+				t.start();
 			}
+		}
+		else{
+			this.isRunning = true;
 			Thread t = new Thread(this);
 			t.start();
-		}
-			
+		}	
 	}
 
 	/**
 	 * stops the engine
 	 */
-	public void stop_engine() {
-		pila.pop();
-		if (pila.size() == 0) {
-			this.isRunning = false;
-			recordInstance.stop();
-		}else{
-			String tmp[] =ListaSonidos.element(ListaSonidos.obtenerIdDesdeClave(pila.peek().getClaveSonido())).getDatos().split(",");
-			for(int i = 0;i<319;i++){
-				datos[i]=Integer.parseInt(tmp[i]);
+	public void stop_engine(boolean pause) {
+		if(!pause){
+			pila.pop();
+			if (pila.size() == 0) {
+				this.isRunning = false;
+				recordInstance.stop();
+			}else{
+				String tmp[] =ListaSonidos.element(ListaSonidos.obtenerIdDesdeClave(pila.peek().getClaveSonido())).getDatos().split(",");
+				for(int i = 0;i<319;i++){
+					datos[i]=Integer.parseInt(tmp[i]);
+				}
 			}
-		}
-	}
-
-	/**
-	 * pause the engine
-	 */
-	public void pause_engine() {
-		if (this.isRunning) {
+		}else{
 			this.isRunning = false;
 			recordInstance.stop();
-		}
-	}
-
-	/**
-	 * unpause the engine
-	 */
-	public void unpause_engine() {
-		if (!this.isRunning) {
-			this.isRunning = true;
-			Thread t = new Thread(this);
-			t.start();
 		}
 	}
 
