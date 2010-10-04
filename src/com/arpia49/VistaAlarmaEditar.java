@@ -156,6 +156,20 @@ public class VistaAlarmaEditar extends Activity {
 			}
 		});
 
+		et_lugar.setOnFocusChangeListener(new OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				String defecto = getString(R.string.et_lugar);
+				String actual = et_lugar.getText().toString();
+
+				if (hasFocus && actual.compareTo(defecto) == 0)
+					et_lugar.setText("");
+
+				else if (!hasFocus && actual.compareTo("") == 0)
+					et_lugar.setText(defecto);
+			}
+		});
+
 		cb_posicion.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (((CheckBox) v).isChecked()) {
