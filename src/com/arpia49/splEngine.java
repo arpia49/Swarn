@@ -64,18 +64,25 @@ public class splEngine implements Runnable {
 			}
 		}
 		else{
-			this.isRunning = true;
-			Thread t = new Thread(this);
-			t.start();
+			if(!isRunning){
+				this.isRunning = true;
+				Thread t = new Thread(this);
+				t.start();
+			}
 		}	
 	}
 
 	/**
 	 * stops the engine
 	 */
-	public void stop_engine(boolean pause, int idAlarma) {
+	public void stop_engine(boolean pause, int claveAlarma) {
 		if(!pause){
-			pila.pop();
+			for(int i=0;i<pila.size();i++){
+				if(claveAlarma==pila.elementAt(i).getClave()){
+					pila.remove(i);
+					break;
+				}
+			}
 			if (pila.size() == 0) {
 				this.isRunning = false;
 				recordInstance.stop();
@@ -86,8 +93,10 @@ public class splEngine implements Runnable {
 				}
 			}
 		}else{
-			this.isRunning = false;
-			recordInstance.stop();
+			if(isRunning){
+				isRunning = false;
+				recordInstance.stop();
+			}
 		}
 	}
 

@@ -394,6 +394,7 @@ public class VistaAlarmas extends Activity {
 				Alarma alarmaActual = ListaAlarmas.element(v_id);
 				if (((CheckBox) v).isChecked()) {
 					alarmaActual.setMarcada(true);
+					alarmaActual.setActivada(true);
 					if (!alarmaActual.conUbicacion()) {
 						engine.start_engine(new Evento(alarmaActual.getClave(),
 								alarmaActual.getClaveSonido(), alarmaActual
@@ -403,6 +404,7 @@ public class VistaAlarmas extends Activity {
 					}
 				} else {
 					alarmaActual.setMarcada(false);
+					alarmaActual.setActivada(false);
 					if (alarmaActual.conUbicacion()) {
 						removeProximityAlert(alarmaActual);
 					} else {
@@ -443,7 +445,7 @@ public class VistaAlarmas extends Activity {
 	}
 
 	private void setProximityAlert(Alarma val) {
-		int clave = val.getId();
+		int clave = ListaAlarmas.obtenerDesdeId(val.getId()).getClave();
 
 		String locService = Context.LOCATION_SERVICE;
 		LocationManager locationManager;
@@ -487,12 +489,13 @@ public class VistaAlarmas extends Activity {
 
 		locationManager.removeProximityAlert(proximityIntent);
 
+		val.setRegistrada(false);
 		Toast.makeText(getApplicationContext(), "Alerta borrada",
 				Toast.LENGTH_SHORT).show();
+		
 		if (val.getActivada()) {
-			engine.stop_engine(false,clave);
 			val.setActivada(false);
+			engine.stop_engine(false,clave);
 		}
-		val.setRegistrada(false);
 	}
 }
