@@ -73,7 +73,7 @@ public class splEngine implements Runnable {
 	/**
 	 * stops the engine
 	 */
-	public void stop_engine(boolean pause) {
+	public void stop_engine(boolean pause, int idAlarma) {
 		if(!pause){
 			pila.pop();
 			if (pila.size() == 0) {

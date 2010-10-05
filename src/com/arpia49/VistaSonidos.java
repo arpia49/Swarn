@@ -129,7 +129,7 @@ public class VistaSonidos extends ListActivity {
 				tempDescripcion = data.getStringExtra("descSonido");
 				Toast.makeText(getApplicationContext(),
 						"Paso 1 de 3 completado", Toast.LENGTH_SHORT).show();
-				engine.stop_engine(true);
+				engine.stop_engine(true, 0);
 				Intent intent = new Intent(this, VistaSonidosRuido.class);
 				startActivityForResult(intent, ACT_ADD_SONIDO2);
 			} else {

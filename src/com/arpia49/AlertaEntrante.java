@@ -18,13 +18,13 @@ public class AlertaEntrante extends BroadcastReceiver {
 		Boolean entering = intent.getBooleanExtra(key, false);
 
 		engine = splEngine.getInstance();
-		int id = intent.getExtras().getInt("id");
-		Alarma alarmaActual = ListaAlarmas.obtenerDesdeClave(id);
+		int clave = intent.getExtras().getInt("clave");
+		Alarma alarmaActual = ListaAlarmas.obtenerDesdeClave(clave);
 		if (entering) {
 			Toast.makeText(context,
 					"Has entrado en " + alarmaActual.getUbicacion(),
 					Toast.LENGTH_SHORT).show();
-			engine.start_engine(new Evento(alarmaActual.getClave(),
+			engine.start_engine(new Evento(clave,
 					alarmaActual.getClaveSonido(), alarmaActual.getMuyFuerte(),
 					Registro.actividad), false);
 			alarmaActual.setActivada(true);
@@ -33,7 +33,7 @@ public class AlertaEntrante extends BroadcastReceiver {
 			Toast.makeText(context,
 					"Has salido de " + alarmaActual.getUbicacion(),
 					Toast.LENGTH_SHORT).show();
-			engine.stop_engine(false);
+			engine.stop_engine(false, clave);
 			alarmaActual.setActivada(false);
 		}
 	}
