@@ -38,6 +38,18 @@
 		<item>93</item>
 		<item>102</item>
 	</string-array>
+	
+	<string-array name="numero_alarmas">
+		<item>Escasa (1 alarma)</item>
+		<item>Media (2 alarmas)</item>
+		<item>Alta (3 alarmas)</item>
+	</string-array>
+
+	<string-array name="valores_numero_alarmas">
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+	</string-array>
 
     <string-array name="sonidos">
         <item>Sin especificar</item>

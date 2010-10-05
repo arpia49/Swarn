@@ -13,6 +13,14 @@ public class ListaAlarmas {
 	public static int size(){
 		return listaAlarmas.size();
 	}
+	
+	public static int marcadas(){
+		int total=0;
+		for(int i=0; i<size();i++){
+			if(elementAt(i).getMarcada()==true) total++;
+		}
+		return total;
+	}
 
 	public static void add(Alarma val){
 		listaAlarmas.add(val);

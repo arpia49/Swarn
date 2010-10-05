@@ -379,7 +379,7 @@ public class VistaAlarmas extends Activity {
 		la.setOrientation(1);
 
 		// Creamos la alarma en la vista
-		CheckBox cb = new CheckBox(this);
+		final CheckBox cb = new CheckBox(this);
 		cb.setId(val.getId());
 		cb.setSingleLine(false);
 		cb.setText(val.toString());
@@ -393,14 +393,25 @@ public class VistaAlarmas extends Activity {
 				int v_id = v.getId();
 				Alarma alarmaActual = ListaAlarmas.element(v_id);
 				if (((CheckBox) v).isChecked()) {
-					alarmaActual.setMarcada(true);
-					alarmaActual.setActivada(true);
-					if (!alarmaActual.conUbicacion()) {
-						engine.start_engine(new Evento(alarmaActual.getClave(),
-								alarmaActual.getClaveSonido(), alarmaActual
-										.getMuyFuerte(), actividad), false);
+					if (ListaAlarmas.marcadas() < Integer.parseInt(sp
+							.getString("numAlarmas", "1"))) {
+						alarmaActual.setMarcada(true);
+						alarmaActual.setActivada(true);
+						if (!alarmaActual.conUbicacion()) {
+							engine.start_engine(new Evento(alarmaActual
+									.getClave(), alarmaActual.getClaveSonido(),
+									alarmaActual.getMuyFuerte(), actividad),
+									false);
+						} else {
+							setProximityAlert(alarmaActual);
+						}
 					} else {
-						setProximityAlert(alarmaActual);
+						cb.setChecked(false);
+						Toast
+								.makeText(
+										getApplicationContext(),
+										"Ya tienes el máximo de alertas en funcionamiento",
+										Toast.LENGTH_SHORT).show();
 					}
 				} else {
 					alarmaActual.setMarcada(false);
@@ -408,7 +419,7 @@ public class VistaAlarmas extends Activity {
 					if (alarmaActual.conUbicacion()) {
 						removeProximityAlert(alarmaActual);
 					} else {
-						engine.stop_engine(false,alarmaActual.getClave());
+						engine.stop_engine(false, alarmaActual.getClave());
 					}
 				}
 			}
@@ -492,10 +503,10 @@ public class VistaAlarmas extends Activity {
 		val.setRegistrada(false);
 		Toast.makeText(getApplicationContext(), "Alerta borrada",
 				Toast.LENGTH_SHORT).show();
-		
+
 		if (val.getActivada()) {
 			val.setActivada(false);
-			engine.stop_engine(false,clave);
+			engine.stop_engine(false, clave);
 		}
 	}
 }
