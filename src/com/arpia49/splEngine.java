@@ -2,6 +2,7 @@ package com.arpia49;
 
 import java.math.BigDecimal;
 import java.util.Stack;
+import java.util.Vector;
 
 import android.content.SharedPreferences;
 import android.media.AudioFormat;
@@ -21,12 +22,11 @@ public class splEngine implements Runnable {
 	private static final double P0 = 0.000002;
 	public volatile boolean isRunning = false;
 	public volatile static Stack<Evento> pila;
+	public volatile static Vector <Vector<Integer>> datos;
+	public volatile static Stack<Integer> fechas;
 	private static splEngine instance = null;
 	AudioRecord recordInstance = null;
-	long fecha = 0;
-	int ultimaClave = 0;
 	static SharedPreferences sp = null;
-	int datos[] = new int[319];
 
 	protected splEngine() {
 		// Exists only to defeat instantiation.
@@ -36,6 +36,8 @@ public class splEngine implements Runnable {
 		if (instance == null) {
 			instance = new splEngine();
 			pila = new Stack<Evento>();
+			datos = new Vector <Vector<Integer>>();
+			fechas = new Stack<Integer>();
 		}
 		return instance;
 	}
@@ -53,12 +55,19 @@ public class splEngine implements Runnable {
 			if (!this.isRunning) {
 				this.isRunning = true;
 				int clave = pila.peek().getClaveSonido();
+				Vector<Integer> tmpDatos = new Vector <Integer>();
 				if(clave!=0){
-					String tmp[] =ListaSonidos.element(ListaSonidos.obtenerIdDesdeClave(clave)).getDatos().split(",");
+					String tmp[] = ListaSonidos.element(ListaSonidos.obtenerIdDesdeClave(clave)).getDatos().split(",");
 					for(int i = 0;i<319;i++){
-						datos[i]=Integer.parseInt(tmp[i]);
+						tmpDatos.addElement(Integer.parseInt(tmp[i]));
+					}					
+				}else{
+					for(int i = 0;i<319;i++){
+						tmpDatos.addElement(new Integer (0));
 					}
 				}
+				datos.addElement(tmpDatos);
+				fechas.push(0);
 				Thread t = new Thread(this);
 				t.start();
 			}
@@ -80,17 +89,13 @@ public class splEngine implements Runnable {
 			for(int i=0;i<pila.size();i++){
 				if(claveAlarma==pila.elementAt(i).getClave()){
 					pila.remove(i);
+					datos.remove(i);
 					break;
 				}
 			}
 			if (pila.size() == 0) {
 				this.isRunning = false;
 				recordInstance.stop();
-			}else{
-				String tmp[] =ListaSonidos.element(ListaSonidos.obtenerIdDesdeClave(pila.peek().getClaveSonido())).getDatos().split(",");
-				for(int i = 0;i<319;i++){
-					datos[i]=Integer.parseInt(tmp[i]);
-				}
 			}
 		}else{
 			if(isRunning){
@@ -117,8 +122,7 @@ public class splEngine implements Runnable {
 			while (this.isRunning) {
 				double splValue = 0.0;
 				double rmsValue = 0.0;
-				int comparar = Integer.parseInt(sp.getString("sonidoFuerte",
-						"87"));
+
 				for (int i = 0; i < BUFFSIZE - 1; i++) {
 					tempBuffer[i] = 0;
 				}
@@ -136,32 +140,34 @@ public class splEngine implements Runnable {
 				splValue = round(splValue, 2);
 				splValue = splValue - 80;
 
-				if (pila.peek().getMuyFuerte())
-					comparar = Integer.parseInt(sp.getString("sonidoMuyFuerte",
-							"93"));
-				if (splValue >= comparar) {
-					if (ListaNotificaciones.size() == 0
-							|| ultimaClave != pila.peek().getClave()
-							|| (System.currentTimeMillis() - fecha > 10000)) {
-
-						if(pila.peek().getClaveSonido()==0){
-
-							fecha = System.currentTimeMillis();
-							ultimaClave = pila.peek().getClave();
-							Evento.getHandler().sendEmptyMessage(
-									pila.peek().getClave());
-						}else{
-							int contador = 0;
-							for(int l=0;l<319;l++){
-								if(datos[l]>tempBuffer[l]){
-									contador++;
-								}
-							}
-							if(contador>150){
-								fecha = System.currentTimeMillis();
-								ultimaClave = pila.peek().getClave();
+				for(int m=0; m<pila.size();m++){
+					int comparar = Integer.parseInt(sp.getString("sonidoFuerte",
+					"87"));
+					
+					if (pila.elementAt(m).getMuyFuerte())
+						comparar = Integer.parseInt(sp.getString("sonidoMuyFuerte",
+								"93"));
+					if (splValue >= comparar) {
+						if (ListaNotificaciones.size() == 0
+								|| (System.currentTimeMillis() - fechas.elementAt(m) > 10000)) {
+	
+							if(pila.elementAt(m).getClaveSonido()==0){
+	
+								fechas.setElementAt(m, (int) System.currentTimeMillis());
 								Evento.getHandler().sendEmptyMessage(
-										pila.peek().getClave());
+										pila.elementAt(m).getClave());
+							}else{
+								int contador = 0;
+								for(int l=0;l<319;l++){
+									if(datos.elementAt(m).elementAt(l)>tempBuffer[l]){
+										contador++;
+									}
+								}
+								if(contador>150){
+									fechas.setElementAt(m, (int) System.currentTimeMillis());
+									Evento.getHandler().sendEmptyMessage(
+											pila.elementAt(m).getClave());
+								}
 							}
 						}
 					}

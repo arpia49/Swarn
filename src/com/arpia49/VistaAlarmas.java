@@ -394,7 +394,7 @@ public class VistaAlarmas extends Activity {
 				Alarma alarmaActual = ListaAlarmas.element(v_id);
 				if (((CheckBox) v).isChecked()) {
 					if (ListaAlarmas.marcadas() < Integer.parseInt(sp
-							.getString("numAlarmas", "1"))) {
+							.getString("numeroAlarmas", "1"))) {
 						alarmaActual.setMarcada(true);
 						alarmaActual.setActivada(true);
 						if (!alarmaActual.conUbicacion()) {
