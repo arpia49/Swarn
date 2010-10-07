@@ -23,7 +23,7 @@ public class splEngine implements Runnable {
 	public volatile boolean isRunning = false;
 	public volatile static Stack<Evento> pila;
 	public volatile static Vector <Vector<Integer>> datos;
-	public volatile static Stack<Integer> fechas;
+	public volatile static Stack<Long> fechas;
 	private static splEngine instance = null;
 	AudioRecord recordInstance = null;
 	static SharedPreferences sp = null;
@@ -37,7 +37,7 @@ public class splEngine implements Runnable {
 			instance = new splEngine();
 			pila = new Stack<Evento>();
 			datos = new Vector <Vector<Integer>>();
-			fechas = new Stack<Integer>();
+			fechas = new Stack<Long>();
 		}
 		return instance;
 	}
@@ -54,7 +54,7 @@ public class splEngine implements Runnable {
 			pila.push(evento);
 			if (!this.isRunning) {
 				this.isRunning = true;
-				int clave = pila.peek().getClaveSonido();
+				int clave = evento.getClaveSonido();
 				Vector<Integer> tmpDatos = new Vector <Integer>();
 				if(clave!=0){
 					String tmp[] = ListaSonidos.element(ListaSonidos.obtenerIdDesdeClave(clave)).getDatos().split(",");
@@ -67,7 +67,7 @@ public class splEngine implements Runnable {
 					}
 				}
 				datos.addElement(tmpDatos);
-				fechas.push(0);
+				fechas.push(new Long(0));
 				Thread t = new Thread(this);
 				t.start();
 			}
@@ -153,7 +153,7 @@ public class splEngine implements Runnable {
 	
 							if(pila.elementAt(m).getClaveSonido()==0){
 	
-								fechas.setElementAt(m, (int) System.currentTimeMillis());
+								fechas.setElementAt(System.currentTimeMillis(),m);
 								Evento.getHandler().sendEmptyMessage(
 										pila.elementAt(m).getClave());
 							}else{
@@ -164,7 +164,7 @@ public class splEngine implements Runnable {
 									}
 								}
 								if(contador>150){
-									fechas.setElementAt(m, (int) System.currentTimeMillis());
+									fechas.setElementAt(System.currentTimeMillis(),m);
 									Evento.getHandler().sendEmptyMessage(
 											pila.elementAt(m).getClave());
 								}
