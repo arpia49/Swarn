@@ -89,6 +89,7 @@ public class ListaAlarmas {
 		int total = val.getInt("numeroAlarmas", 0);
 		ultimaClave = val.getInt("alarmaUltimaClave", 0);
 		for(int i = 1; i<=total; i++){
+			@SuppressWarnings("unused")
 			Alarma nuevaAlarma = new Alarma.Builder(
 					val.getString("alarmaNombre"+ i,""),
 					val.getString("alarmaDescripcion"+ i,""),

@@ -27,7 +27,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
-public class VistaAlarmaEditar extends Activity {
+public class ActAlarmaEditar extends Activity {
 
 	public Geocoder gc;
 	LocationManager locationManager;
@@ -37,9 +37,11 @@ public class VistaAlarmaEditar extends Activity {
 	float lat = 0;
 	float lng = 0;
 	int sonido = 0;
+	@SuppressWarnings("unchecked")
 	ArrayAdapter adapter;
 	Spinner sp_sonido;
 
+	@SuppressWarnings("unchecked")
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 

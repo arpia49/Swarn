@@ -62,6 +62,7 @@ public class ListaSonidos {
 		ultimaClave = val.getInt("sonidoUltimaClave", 0);
 		int total = val.getInt("numeroSonidos", 0);
 		for(int i = 1; i<=total; i++){
+			@SuppressWarnings("unused")
 			Sonido nuevoSonido = new Sonido.Builder(
 					val.getString("sonidoNombre"+ i,""),
 					val.getString("sonidoDescripcion"+ i,""),

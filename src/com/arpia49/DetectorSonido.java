@@ -9,18 +9,19 @@ import android.media.AudioRecord;
 import android.media.MediaRecorder;
 
 /**
- * 
- * @author Hashir N A <hashir@mobware4u.com>
- * 
+ * @author  Hashir N A <hashir@mobware4u.com>
  */
 public class DetectorSonido implements Runnable {
 	private static final int FREQUENCY = 8000;
 	private static final int CHANNEL = AudioFormat.CHANNEL_CONFIGURATION_MONO;
 	private static final int ENCODING = AudioFormat.ENCODING_PCM_16BIT;
 	private int BUFFSIZE = 320;
-	private static final double P0 = 0.000002;
 	public volatile boolean isRunning = false;
 	public volatile static Stack<short[]> ruidos;
+	/**
+	 * @uml.property  name="instance"
+	 * @uml.associationEnd  
+	 */
 	private static DetectorSonido instance = null;
 	AudioRecord recordInstance = null;
 	static SharedPreferences sp = null;
@@ -30,6 +31,10 @@ public class DetectorSonido implements Runnable {
 		// Exists only to defeat instantiation.
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="instance"
+	 */
 	public static DetectorSonido getInstance() {
 		if (instance == null) {
 			instance = new DetectorSonido();
@@ -91,8 +96,6 @@ public class DetectorSonido implements Runnable {
 			short[] tempBuffer = new short[BUFFSIZE];
 
 			while (this.isRunning) {
-				double splValue = 0.0;
-				double rmsValue = 0.0;
 
 				for (int i = 0; i < BUFFSIZE - 1; i++) {
 					tempBuffer[i] = 0;

@@ -7,11 +7,12 @@ import android.graphics.drawable.Drawable;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
 
-public class HelloItemizedOverlay extends ItemizedOverlay {
+@SuppressWarnings("unchecked")
+public class DibujoMapa extends ItemizedOverlay {
 
 	private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
 	
-	public HelloItemizedOverlay(Drawable defaultMarker) {
+	public DibujoMapa(Drawable defaultMarker) {
 		super(boundCenterBottom(defaultMarker));
 	}
 

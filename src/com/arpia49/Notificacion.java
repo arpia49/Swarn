@@ -2,15 +2,33 @@ package com.arpia49;
 
 import java.text.SimpleDateFormat;
 
+/**
+ * @author  arpia49
+ */
 public class Notificacion {
 
 	// Sin builder
+	/**
+	 * @uml.property  name="id"
+	 */
 	private int id;
 
 	// Obligatorias
+	/**
+	 * @uml.property  name="fecha"
+	 */
 	private long fecha;
+	/**
+	 * @uml.property  name="nombre"
+	 */
 	private String nombre;
+	/**
+	 * @uml.property  name="ubicacion"
+	 */
 	private String ubicacion;
+	/**
+	 * @uml.property  name="claveAlarma"
+	 */
 	private int claveAlarma;
 
 	public static class Builder {
@@ -46,22 +64,42 @@ public class Notificacion {
 		}
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="id"
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="fecha"
+	 */
 	public long getFecha() {
 		return fecha;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="nombre"
+	 */
 	public String getNombre() {
 		return nombre;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="ubicacion"
+	 */
 	public String getUbicacion() {
 		return ubicacion;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="claveAlarma"
+	 */
 	public int getClaveAlarma() {
 		return claveAlarma;
 	}

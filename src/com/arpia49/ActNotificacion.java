@@ -13,11 +13,18 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
-public class VistaNotificacion extends MapActivity {
+/**
+ * @author  arpia49
+ */
+public class ActNotificacion extends MapActivity {
 
 	List<Overlay> mapOverlays;
 	Drawable drawable;
-	HelloItemizedOverlay itemizedOverlay;
+	/**
+	 * @uml.property  name="itemizedOverlay"
+	 * @uml.associationEnd  
+	 */
+	DibujoMapa dibujo;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -33,15 +40,15 @@ public class VistaNotificacion extends MapActivity {
 		
 		mapOverlays = mapView.getOverlays();
 		drawable = this.getResources().getDrawable(R.drawable.aandroidmarker);
-		itemizedOverlay = new HelloItemizedOverlay(drawable);
+		dibujo = new DibujoMapa(drawable);
 		
 		mapView.setSatellite(true);
 		
 		GeoPoint point = new GeoPoint(lat,lng);
 		OverlayItem overlayitem = new OverlayItem(point, "aaaa", "bbb");
 
-		itemizedOverlay.addOverlay(overlayitem);
-		mapOverlays.add(itemizedOverlay);
+		dibujo.addOverlay(overlayitem);
+		mapOverlays.add(dibujo);
 		
 		mapController.setCenter(point);
 		mapController.setZoom(15);

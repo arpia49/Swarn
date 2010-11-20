@@ -1,14 +1,32 @@
 package com.arpia49;
 
+/**
+ * @author  arpia49
+ */
 public class Sonido {
 
 	// Sin builder
+	/**
+	 * @uml.property  name="id"
+	 */
 	private int id;
+	/**
+	 * @uml.property  name="clave"
+	 */
 	private int clave;
 
 	// Obligatorias
+	/**
+	 * @uml.property  name="nombre"
+	 */
 	private String nombre;
+	/**
+	 * @uml.property  name="descripcion"
+	 */
 	private String descripcion;
+	/**
+	 * @uml.property  name="datos"
+	 */
 	private String datos;
 
 	public static class Builder {
@@ -49,16 +67,28 @@ public class Sonido {
 		Registro.guardarSonido(this);
 	}
 
+	/**
+	 * @param val
+	 * @uml.property  name="id"
+	 */
 	public void setId(int val) {
 		id = val;
 		Registro.guardarSonido(this);
 	}
 
+	/**
+	 * @param val
+	 * @uml.property  name="nombre"
+	 */
 	public void setNombre(String val) {
 		nombre = val;
 		Registro.guardarString("sonidoNombre" + id, val);
 	}
 
+	/**
+	 * @param val
+	 * @uml.property  name="descripcion"
+	 */
 	public void setDescripcion(String val) {
 		descripcion = val;
 		Registro.guardarString("sonidoDescripcion" + id, val);
@@ -72,22 +102,42 @@ public class Sonido {
 		Registro.guardarString("sonidoDescripcion" + id, tempBuffer.toString());
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="id"
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="clave"
+	 */
 	public int getClave() {
 		return clave;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="nombre"
+	 */
 	public String getNombre() {
 		return nombre;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="descripcion"
+	 */
 	public String getDescripcion() {
 		return descripcion;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="datos"
+	 */
 	public String getDatos() {
 		return datos;
 	}

@@ -16,9 +16,9 @@
 	</string-array>
 	
 	<string-array name="umbrales_fuerte">
-		<item>Bajo</item>
-		<item>Medio</item>
-		<item>Alto</item>
+		<item>Más bajo</item>
+		<item>Normal</item>
+		<item>Más alto</item>
 	</string-array>
 
 	<string-array name="valores_umbrales_fuerte">
@@ -28,14 +28,14 @@
 	</string-array>
 	
 	<string-array name="umbrales_muy_fuerte">
-		<item>Medio</item>
-		<item>Alto</item>
-		<item>Muy alto</item>
+		<item>Más bajo</item>
+		<item>Normal</item>
+		<item>Más alto</item>
 	</string-array>
 
 	<string-array name="valores_umbrales_muy_fuerte">
-		<item>84</item>
 		<item>93</item>
+		<item>97</item>
 		<item>102</item>
 	</string-array>
 	

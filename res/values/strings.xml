@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">Lista de alarmas</string>
+	<string name="app_name">Swarn</string>
 	<string name="menu_add_alarma">Añadir alarma</string>
 	<string name="menu_del_alarma">Borrar alarmas</string>
 	<string name="menu_add_sonido">Añadir sonido</string>
@@ -46,10 +46,10 @@
 	<string name="desc_sonora">Opciones de la notificación</string>
 	<string name="sp_radio">Radio para la alarma en metros</string>
 	<string name="tv_tipo">¿Tipo de sonido?</string>
-	<string name="tv_tipo1">Fuerte</string>
-	<string name="tv_tipo2">Muy Fuerte</string>
-	<string name="tv_fuerte">Valor del umbral "Fuerte":</string>
-	<string name="tv_muyFuerte">Valor del umbral "Muy Fuerte":</string>
+	<string name="tv_tipo1">Bajo</string>
+	<string name="tv_tipo2">Alto</string>
+	<string name="tv_fuerte">Valor del umbral "Bajo":</string>
+	<string name="tv_muyFuerte">Valor del umbral "Alto":</string>
 	<string name="ayuda">Haz clic en Menú para ver las opciones.</string>
 	<string name="ayudaNotificacion">Haz clic en la lista para ver el lugar de la alarma oMenú para ver las opciones.</string>
 	<string name="ayudaSonidos">Haz clic en el sonido para borrarlo o en Menú para ver las opciones.</string>

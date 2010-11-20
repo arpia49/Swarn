@@ -12,24 +12,33 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class VistaSonidosRuido extends Activity {
+/**
+ * @author  arpia49
+ */
+public class ActSonidosTimbre extends Activity {
+	/**
+	 * @uml.property  name="progressThread"
+	 * @uml.associationEnd  
+	 */
 	ProgressThread progressThread;
-	DetectorRuido detector;
+	/**
+	 * @uml.property  name="detector"
+	 * @uml.associationEnd  
+	 */
+	DetectorSonido detector;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.ruido_sonido);
+		setContentView(R.layout.timbre_sonido);
 
-		final Button bt = (Button) findViewById(R.id.bt_procesar_ruido);
+		final Button bt = (Button) findViewById(R.id.bt_procesar_sonido);
 
 		bt.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				detector = DetectorRuido.getInstance();
 
+				detector = DetectorSonido.getInstance();
 				showDialog(0);
-
-
 			}
 		});
 	}
@@ -57,9 +66,8 @@ public class VistaSonidosRuido extends Activity {
 			if (msg.getData().getBoolean("fin")) {
 				String tmp = detector.stop_engine();
 				dismissDialog(0);
-
 				Intent outData = new Intent();
-				outData.putExtra("Ruido", tmp);
+				outData.putExtra("Sonido", tmp);
 				setResult(Activity.RESULT_OK, outData);
 				finish();
 			}
@@ -85,8 +93,8 @@ public class VistaSonidosRuido extends Activity {
 				b.putBoolean("fin", true);
 				msg.setData(b);
 				mHandler.sendMessage(msg);
-			
 		}
+
 	}
 
 }

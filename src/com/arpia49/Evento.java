@@ -10,11 +10,20 @@ import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
 
+/**
+ * @author  arpia49
+ */
 public class Evento {
 	private static Context contexto = null;
 	private int claveAlarma;
 	private boolean fuerte;
+	/**
+	 * @uml.property  name="claveSonido"
+	 */
 	private int claveSonido;
+	/**
+	 * @uml.property  name="handler"
+	 */
 	private static Handler handler=null;
     private final int NOTIFICATION_ID = 1;
 
@@ -27,6 +36,7 @@ public class Evento {
 			handler = new Handler() {
 				@Override
 				public void handleMessage(Message msg) {
+					@SuppressWarnings("unused")
 					Notificacion nuevaNotificacion = new Notificacion.Builder(
 							System.currentTimeMillis(),
 							ListaAlarmas.element(msg.what).getNombre(),
@@ -49,15 +59,24 @@ public class Evento {
 		return fuerte;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="claveSonido"
+	 */
 	public int getClaveSonido() {
 		return claveSonido;
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="handler"
+	 */
 	public static Handler getHandler() {
 		return handler;
 	}
 	
-    private void triggerNotification()
+    @SuppressWarnings("static-access")
+	private void triggerNotification()
     {
         CharSequence title = "Timbre 2.0";
         CharSequence message = "Click para ver las notificaciones de alertas";
@@ -67,7 +86,7 @@ public class Evento {
         notification.defaults |= Notification.DEFAULT_VIBRATE;
         notification.defaults |= Notification.DEFAULT_LIGHTS;
 
-        Intent notificationIntent = new Intent(contexto, VistaNotificaciones.class);
+        Intent notificationIntent = new Intent(contexto, ActNotificaciones.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(contexto, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | Notification.FLAG_AUTO_CANCEL);
  
         notification.setLatestEventInfo(contexto, title, message, pendingIntent);

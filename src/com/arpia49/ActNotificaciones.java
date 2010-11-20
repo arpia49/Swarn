@@ -16,7 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class VistaNotificaciones extends ListActivity {
+public class ActNotificaciones extends ListActivity {
 
 	static final private int DEL_NOTIFICACIONES = Menu.FIRST;
 	static final private int COPIAR_NOTIFICACIONES = Menu.FIRST + 1;
@@ -86,7 +86,7 @@ public class VistaNotificaciones extends ListActivity {
 			Alarma actual = ListaAlarmas.obtenerDesdeId(ListaNotificaciones
 					.elementAt((int) id).getClaveAlarma());
 			if (actual.conUbicacion()) {
-				Intent intent = new Intent(this, VistaNotificacion.class);
+				Intent intent = new Intent(this, ActNotificacion.class);
 				intent.putExtra("lat", actual.getLatitud());
 				intent.putExtra("lng", actual.getLongitud());
 				startActivity(intent);

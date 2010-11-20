@@ -25,7 +25,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class VistaAlarmas extends Activity {
+/**
+ * @author  arpia49
+ */
+public class ActAlarmas extends Activity {
 
 	// De los menús
 	public static final int ACT_ADD_ALARMA = 1;
@@ -42,6 +45,10 @@ public class VistaAlarmas extends Activity {
 	static final private int SONIDOS = Menu.FIRST + 4;
 	static final private int CONFIG = Menu.FIRST + 5;
 	static final private int INFO = Menu.FIRST + 6;
+	/**
+	 * @uml.property  name="engine"
+	 * @uml.associationEnd  
+	 */
 	private static splEngine engine = null;
 	public static Activity actividad = null;
 	SharedPreferences sp = null;
@@ -75,8 +82,10 @@ public class VistaAlarmas extends Activity {
 				R.string.menu_lista_notificaciones);
 		MenuItem itemSonidos = menu.add(0, SONIDOS, Menu.NONE,
 				R.string.menu_sonidos);
+		@SuppressWarnings("unused")
 		MenuItem itemConfig = menu.add(0, CONFIG, Menu.NONE,
 				R.string.menu_config);
+		@SuppressWarnings("unused")
 		MenuItem itemInfo = menu.add(0, INFO, Menu.NONE, R.string.menu_info);
 
 		// Assign icons
@@ -105,32 +114,32 @@ public class VistaAlarmas extends Activity {
 		super.onOptionsItemSelected(item);
 		switch (item.getItemId()) {
 		case (ADD_ALARMA): {
-			Intent intent = new Intent(this, VistaAlarmaCrear.class);
+			Intent intent = new Intent(this, ActAlarmaCrear.class);
 			startActivityForResult(intent, ACT_ADD_ALARMA);
 			return true;
 		}
 		case (EDITAR_ALARMA): {
-			Intent intent = new Intent(this, VistaAlarmasEditar.class);
+			Intent intent = new Intent(this, ActAlarmasEditar.class);
 			startActivityForResult(intent, ACT_LISTA_EDITAR_ALARMA);
 			return true;
 		}
 		case (DEL_ALARMA): {
-			Intent intent = new Intent(this, VistaAlarmasBorrar.class);
+			Intent intent = new Intent(this, ActAlarmasBorrar.class);
 			startActivityForResult(intent, ACT_LISTA_DEL_ALARMA);
 			return true;
 		}
 		case (LISTA_ALERTAS): {
-			Intent intent = new Intent(this, VistaNotificaciones.class);
+			Intent intent = new Intent(this, ActNotificaciones.class);
 			startActivityForResult(intent, ACT_LISTA_NOTIFICACIONES);
 			return true;
 		}
 		case (CONFIG): {
-			Intent intent = new Intent(this, VistaConfiguracion.class);
+			Intent intent = new Intent(this, ActConfiguracion.class);
 			startActivityForResult(intent, ACT_CONFIGURACION);
 			return true;
 		}
 		case (SONIDOS): {
-			Intent intent = new Intent(this, VistaSonidos.class);
+			Intent intent = new Intent(this, ActSonidos.class);
 			startActivityForResult(intent, ACT_ADD_SONIDO);
 			return true;
 		}
@@ -205,7 +214,7 @@ public class VistaAlarmas extends Activity {
 			break;
 		case (ACT_LISTA_EDITAR_ALARMA): {
 			if (resCode == Activity.RESULT_OK) {
-				Intent intent = new Intent(this, VistaAlarmaEditar.class);
+				Intent intent = new Intent(this, ActAlarmaEditar.class);
 				intent.putExtra("id", data.getIntExtra("idAlarma", 0) + 1);
 				startActivityForResult(intent, ACT_EDITAR_ALARMA);
 			} else {

@@ -10,11 +10,11 @@ import android.media.AudioRecord;
 import android.media.MediaRecorder;
 
 /**
- * 
- * @author Hashir N A <hashir@mobware4u.com>
- * 
+ * @author  Hashir N A <hashir@mobware4u.com>
  */
 public class splEngine implements Runnable {
+	private static final String BAJO = "84";
+	private static final String ALTO = "97";
 	private static final int FREQUENCY = 8000;
 	private static final int CHANNEL = AudioFormat.CHANNEL_CONFIGURATION_MONO;
 	private static final int ENCODING = AudioFormat.ENCODING_PCM_16BIT;
@@ -24,6 +24,10 @@ public class splEngine implements Runnable {
 	public volatile static Stack<Evento> pila;
 	public volatile static Vector <Vector<Integer>> datos;
 	public volatile static Stack<Long> fechas;
+	/**
+	 * @uml.property  name="instance"
+	 * @uml.associationEnd  
+	 */
 	private static splEngine instance = null;
 	AudioRecord recordInstance = null;
 	static SharedPreferences sp = null;
@@ -32,6 +36,10 @@ public class splEngine implements Runnable {
 		// Exists only to defeat instantiation.
 	}
 
+	/**
+	 * @return
+	 * @uml.property  name="instance"
+	 */
 	public static splEngine getInstance() {
 		if (instance == null) {
 			instance = new splEngine();
@@ -142,11 +150,11 @@ public class splEngine implements Runnable {
 
 				for(int m=0; m<pila.size();m++){
 					int comparar = Integer.parseInt(sp.getString("sonidoFuerte",
-					"87"));
+					BAJO));
 					
 					if (pila.elementAt(m).getMuyFuerte())
 						comparar = Integer.parseInt(sp.getString("sonidoMuyFuerte",
-								"93"));
+								ALTO));
 					if (splValue >= comparar) {
 						if (ListaNotificaciones.size() == 0
 								|| (System.currentTimeMillis() - fechas.elementAt(m) > 10000)) {

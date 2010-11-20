@@ -16,7 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class VistaAlarmasBorrar extends ListActivity {
+public class ActAlarmasBorrar extends ListActivity {
 
 	static final private int DEL_ALARMAS = Menu.FIRST;
 

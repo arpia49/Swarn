@@ -18,7 +18,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class VistaSonidos extends ListActivity {
+/**
+ * @author  arpia49
+ */
+public class ActSonidos extends ListActivity {
 
 	// De los menús
 	public static final int ACT_LISTA_DEL_SONIDO = 1;
@@ -35,6 +38,10 @@ public class VistaSonidos extends ListActivity {
 	ArrayAdapter<String> miArray = null;
 	SharedPreferences sp = null;
 	String[] sonidos = null;
+	/**
+	 * @uml.property  name="engine"
+	 * @uml.associationEnd  
+	 */
 	private static splEngine engine = null;
 
 	@Override
@@ -89,7 +96,7 @@ public class VistaSonidos extends ListActivity {
 		super.onOptionsItemSelected(item);
 		switch (item.getItemId()) {
 		case (ADD_SONIDO): {
-			Intent intent = new Intent(this, VistaSonidosCrear.class);
+			Intent intent = new Intent(this, ActSonidosCrear.class);
 			startActivityForResult(intent, ACT_ADD_SONIDO1);
 			return true;
 		}
@@ -130,7 +137,7 @@ public class VistaSonidos extends ListActivity {
 				Toast.makeText(getApplicationContext(),
 						"Paso 1 de 3 completado", Toast.LENGTH_SHORT).show();
 				engine.stop_engine(true, 0);
-				Intent intent = new Intent(this, VistaSonidosRuido.class);
+				Intent intent = new Intent(this, ActSonidosRuido.class);
 				startActivityForResult(intent, ACT_ADD_SONIDO2);
 			} else {
 				Toast.makeText(getApplicationContext(),
@@ -146,7 +153,7 @@ public class VistaSonidos extends ListActivity {
 				for (int i = 0; i < 319; i++) {
 					tempRuido[i] = Short.parseShort(tempString[i]);
 				}
-				Intent intent = new Intent(this, VistaSonidosTimbre.class);
+				Intent intent = new Intent(this, ActSonidosTimbre.class);
 				startActivityForResult(intent, ACT_ADD_SONIDO3);
 			} else {
 				engine.start_engine(null,true);
@@ -174,6 +181,7 @@ public class VistaSonidos extends ListActivity {
 					sb.append(Short.toString(tempFinal[i]) + ",");
 				}
 
+				@SuppressWarnings("unused")
 				Sonido nuevoSonido = new Sonido.Builder(tempNombre.toString(),
 						tempDescripcion.toString(), sb.toString(), ListaSonidos
 								.siguienteClave()).build();

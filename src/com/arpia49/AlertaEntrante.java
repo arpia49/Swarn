@@ -7,8 +7,15 @@ import android.location.LocationManager;
 import android.os.Handler;
 import android.widget.Toast;
 
+/**
+ * @author  arpia49
+ */
 public class AlertaEntrante extends BroadcastReceiver {
 	public static Handler messageHandler = null;
+	/**
+	 * @uml.property  name="engine"
+	 * @uml.associationEnd  
+	 */
 	protected splEngine engine = null;
 
 	@Override

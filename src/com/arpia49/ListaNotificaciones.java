@@ -54,6 +54,7 @@ public class ListaNotificaciones {
 	public static void inicializar(SharedPreferences val){
 		int total = val.getInt("numeroNotificaciones", 0);
 		for(int i = 1; i<=total; i++){
+			@SuppressWarnings("unused")
 			Notificacion nuevaNotificacion = new Notificacion.Builder(
 					val.getLong("notificacionFecha"+ i,0),
 					val.getString("notificacionNombre"+ i,""),

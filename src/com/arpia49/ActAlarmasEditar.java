@@ -11,7 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class VistaAlarmasEditar extends ListActivity {
+public class ActAlarmasEditar extends ListActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

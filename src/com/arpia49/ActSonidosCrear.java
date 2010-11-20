@@ -9,7 +9,7 @@ import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class VistaSonidosCrear extends Activity {
+public class ActSonidosCrear extends Activity {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
