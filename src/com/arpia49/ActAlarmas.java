@@ -146,7 +146,7 @@ public class ActAlarmas extends Activity {
 		case (INFO): {
 			// Create an VIEW intent
 			Intent myIntent = new Intent("android.intent.action.VIEW", Uri
-					.parse("http://arpia49.com/timbre/help"));
+					.parse("http://arpia49.com/swarn/help"));
 			// Start the activity
 			startActivity(myIntent);
 			return true;
