@@ -15,9 +15,10 @@ public class DetectorSonido implements Runnable {
 	private static final int FREQUENCY = 8000;
 	private static final int CHANNEL = AudioFormat.CHANNEL_CONFIGURATION_MONO;
 	private static final int ENCODING = AudioFormat.ENCODING_PCM_16BIT;
-	private int BUFFSIZE = 320;
+	private int BUFFSIZE = 256;
 	public volatile boolean isRunning = false;
-	public volatile static Stack<short[]> ruidos;
+	public volatile static Stack<short[]> ruidos;	
+	private static final double P0 = 0.000002;
 	/**
 	 * @uml.property  name="instance"
 	 * @uml.associationEnd  
@@ -66,16 +67,70 @@ public class DetectorSonido implements Runnable {
 			this.isRunning = false;
 			recordInstance.stop();
 			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i< BUFFSIZE - 1; i++){
-				short mayor = ruidos.get(0)[i];
-				for (int k = 0; k < ruidos.size(); k++){
-					if(ruidos.get(k)[i]>mayor){
-						mayor=ruidos.get(k)[i];
-					}
+
+			int maxmedia = 0;
+			int maxpos = 0;
+			int raro[] = new int[259];
+			
+			for (int k = 0; k < ruidos.size(); k++){
+	
+			
+				double splValue = 0.0;
+				double rmsValue = 0.0;
+				
+				for (int i = 0; i < BUFFSIZE - 1; i++) {
+					rmsValue += ruidos.get(k)[i] * ruidos.get(k)[i];
+	
 				}
-				sb.append(mayor+",");
+				rmsValue = rmsValue / BUFFSIZE;
+				rmsValue = Math.sqrt(rmsValue);
+	
+				splValue = 20 * Math.log10(rmsValue / P0);
+				splValue = round(splValue, 2);
+				splValue = splValue - 80;
+				
+				if(splValue>maxmedia){
+					maxmedia=(int)splValue;
+					maxpos=k;
+				}
+			
 			}
+			
+			for (int i = 0; i< BUFFSIZE-1; i++){
+				ruidos.get(maxpos)[i]=(short) Math.abs(ruidos.get(maxpos)[i]);
+				sb.append(new Double(ruidos.get(maxpos)[i])+",");
+			}
+
 			valorFinal = sb.toString();
+		    int left   = 0;
+		    int center = 0;
+		    for(int i = 0; i<BUFFSIZE; i++){
+		    	raro[i]=0;
+		        int current = ruidos.get(maxpos)[i];
+
+		        if((left != 0) && (center != 0)){
+		            if(current > center && center < left){
+		                raro[i]=1000;
+		                left = center; center = current;
+		            }else{
+		                left = center; center = current;
+		            }
+		        }else if((left != 0) && (center == 0)){
+		            if(left < current){
+		                raro[i]=1000;
+		                center = current;
+		            }else{
+		                center = current;
+		            }
+		        }else if((left == 0) && (center == 0)){
+		            left = current;
+		        }
+		    }
+
+		    if(left > center){
+                raro[BUFFSIZE - 1]=1000;
+		    }
+		    raro[BUFFSIZE - 1]=1000;
 		}
 		return valorFinal;
 	}

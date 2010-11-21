@@ -18,7 +18,7 @@ public class splEngine implements Runnable {
 	private static final int FREQUENCY = 8000;
 	private static final int CHANNEL = AudioFormat.CHANNEL_CONFIGURATION_MONO;
 	private static final int ENCODING = AudioFormat.ENCODING_PCM_16BIT;
-	private int BUFFSIZE = 320;
+	private int BUFFSIZE = 256;
 	private static final double P0 = 0.000002;
 	public volatile boolean isRunning = false;
 	public volatile static Stack<Evento> pila;
@@ -66,11 +66,11 @@ public class splEngine implements Runnable {
 				Vector<Integer> tmpDatos = new Vector <Integer>();
 				if(clave!=0){
 					String tmp[] = ListaSonidos.element(ListaSonidos.obtenerIdDesdeClave(clave)).getDatos().split(",");
-					for(int i = 0;i<319;i++){
+					for(int i = 0;i<BUFFSIZE-1;i++){
 						tmpDatos.addElement(Integer.parseInt(tmp[i]));
 					}					
 				}else{
-					for(int i = 0;i<319;i++){
+					for(int i = 0;i<BUFFSIZE-1;i++){
 						tmpDatos.addElement(new Integer (0));
 					}
 				}
@@ -166,7 +166,7 @@ public class splEngine implements Runnable {
 										pila.elementAt(m).getClave());
 							}else{
 								int contador = 0;
-								for(int l=0;l<319;l++){
+								for(int l=0;l<BUFFSIZE - 1;l++){
 									if(datos.elementAt(m).elementAt(l)>tempBuffer[l]){
 										contador++;
 									}

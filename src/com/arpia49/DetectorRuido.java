@@ -3,6 +3,9 @@ package com.arpia49;
 import java.math.BigDecimal;
 import java.util.Stack;
 
+import org.hermit.dsp.FFTTransformer;
+import org.hermit.dsp.Window;
+
 import android.content.SharedPreferences;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -15,9 +18,11 @@ public class DetectorRuido implements Runnable {
 	private static final int FREQUENCY = 8000;
 	private static final int CHANNEL = AudioFormat.CHANNEL_CONFIGURATION_MONO;
 	private static final int ENCODING = AudioFormat.ENCODING_PCM_16BIT;
-	private int BUFFSIZE = 320;
+	private int BUFFSIZE = 256;
 	public volatile boolean isRunning = false;
-	public volatile static Stack<short[]> ruidos;
+	public volatile static Stack<short[]> ruidos;	
+	private static final double P0 = 0.000002;
+
 	/**
 	 * @uml.property  name="instance"
 	 * @uml.associationEnd  
@@ -77,16 +82,70 @@ public class DetectorRuido implements Runnable {
 			this.isRunning = false;
 			recordInstance.stop();
 			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i< BUFFSIZE-1; i++){
-				short menor = ruidos.get(0)[i];
-				for (int k = 0; k < ruidos.size(); k++){
-					if(ruidos.get(k)[i]<menor){
-						menor=ruidos.get(k)[i];
-					}
+			int minmedia = 2147483647;
+			int minpos=0;
+			
+			for (int k = 0; k < ruidos.size(); k++){
+	
+			
+				double splValue = 0.0;
+				double rmsValue = 0.0;
+				
+				for (int i = 0; i < BUFFSIZE - 1; i++) {
+					rmsValue += ruidos.get(k)[i] * ruidos.get(k)[i];
+	
 				}
-				sb.append(menor+",");
+				rmsValue = rmsValue / BUFFSIZE;
+				rmsValue = Math.sqrt(rmsValue);
+	
+				splValue = 20 * Math.log10(rmsValue / P0);
+				splValue = round(splValue, 2);
+				splValue = splValue - 80;
+				
+				if(splValue<minmedia){
+					minmedia=(int)splValue;
+					minpos=k;
+				}
+			
 			}
+			
+			for (int i = 0; i< BUFFSIZE-1; i++){
+				sb.append(new Double(Math.abs(ruidos.get(minpos)[i]))+",");
+			}
+
 			valorFinal = sb.toString();
+			
+		    // Fourier Transform calculator we use for calculating the spectrum.
+		    FFTTransformer spectrumAnalyser;
+			
+		    // The selected windowing function.
+		    Window.Function windowFunction = Window.Function.BLACKMAN_HARRIS;
+		    
+		    // The desired histogram averaging window.  1 means no averaging.
+		    int historyLen = 4;
+		    
+		    // Analysed audio spectrum data; history data for each frequency
+		    // in the spectrum; index into the history data; and buffer for
+		    // peak frequencies.
+		    float[] spectrumData;
+		    float[][] spectrumHist;
+		    int spectrumIndex;
+	        spectrumData = new float[BUFFSIZE / 2];
+	        spectrumHist = new float[BUFFSIZE / 2][historyLen];
+
+	        spectrumIndex = 0;
+		    spectrumAnalyser = new FFTTransformer(BUFFSIZE, windowFunction);
+		    
+		    spectrumAnalyser.setInput(ruidos.get(minpos), 0, BUFFSIZE);
+		    spectrumAnalyser.transform();
+
+		    float nuevo[] = new float[BUFFSIZE/2];
+		    float nuevo2[] = new float[BUFFSIZE];
+		    nuevo2 = spectrumAnalyser.getResults(nuevo);
+		    float nuevo3[] = new float[BUFFSIZE/2];
+		    spectrumAnalyser.findKeyFrequencies(nuevo2, nuevo3);
+		    
+	        spectrumIndex++;
 		}
 		return valorFinal;
 	}

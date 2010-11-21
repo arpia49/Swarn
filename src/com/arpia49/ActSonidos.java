@@ -32,8 +32,8 @@ public class ActSonidos extends ListActivity {
 	static final private int DEL_SONIDOS = Menu.FIRST + 1;
 	String tempNombre;
 	String tempDescripcion;
-	short[] tempRuido = new short[319];
-	short[] tempSonido = new short[319];
+	double[] tempRuido = new double[319];
+	double[] tempSonido = new double[319];
 
 	ArrayAdapter<String> miArray = null;
 	SharedPreferences sp = null;
@@ -151,7 +151,7 @@ public class ActSonidos extends ListActivity {
 						"Paso 2 de 3 completado", Toast.LENGTH_SHORT).show();
 				String[] tempString = data.getStringExtra("Ruido").split(",");
 				for (int i = 0; i < 319; i++) {
-					tempRuido[i] = Short.parseShort(tempString[i]);
+					tempRuido[i] = Double.parseDouble(tempString[i]);
 				}
 				Intent intent = new Intent(this, ActSonidosTimbre.class);
 				startActivityForResult(intent, ACT_ADD_SONIDO3);
@@ -166,19 +166,19 @@ public class ActSonidos extends ListActivity {
 			if (resCode == Activity.RESULT_OK) {
 				String[] tempString = data.getStringExtra("Sonido").split(",");
 				for (int i = 0; i < 319; i++) {
-					tempSonido[i] = Short.parseShort(tempString[i]);
+					tempSonido[i] = Double.parseDouble(tempString[i]);
 				}
 
-				short[] tempFinal = new short[319];
+				double[] tempFinal = new double[319];
 				for (int i = 0; i < 319; i++) {
 					if (tempSonido[i] + tempRuido[i] > 0)
-						tempFinal[i] = (short) (0.7 * (tempSonido[i] + tempRuido[i]));
+						tempFinal[i] = (tempSonido[i] - tempRuido[i]);
 				}
 
 				StringBuilder sb = new StringBuilder();
 
 				for (int i = 0; i < 319; i++) {
-					sb.append(Short.toString(tempFinal[i]) + ",");
+					sb.append(Double.toString(tempFinal[i]) + ",");
 				}
 
 				@SuppressWarnings("unused")
