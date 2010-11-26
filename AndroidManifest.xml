@@ -72,17 +72,17 @@
 				<category android:name="android.intent.category.SONIDO" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".ActSonidosRuido" android:label="@string/menu_add_sonido2"
+<!--		<activity android:name=".ActSonidosRuido" android:label="@string/menu_add_sonido2"-->
+<!--			android:configChanges="orientation|keyboardHidden">-->
+<!--			<intent-filter>-->
+<!--				<action android:name="android.intent.action.ADD_SONIDO2" />-->
+<!--				<category android:name="android.intent.category.SONIDO" />-->
+<!--			</intent-filter>-->
+<!--		</activity>-->
+		<activity android:name=".ActSonidosTimbre" android:label="@string/menu_add_sonido2"
 			android:configChanges="orientation|keyboardHidden">
 			<intent-filter>
 				<action android:name="android.intent.action.ADD_SONIDO2" />
-				<category android:name="android.intent.category.SONIDO" />
-			</intent-filter>
-		</activity>
-		<activity android:name=".ActSonidosTimbre" android:label="@string/menu_add_sonido3"
-			android:configChanges="orientation|keyboardHidden">
-			<intent-filter>
-				<action android:name="android.intent.action.ADD_SONIDO3" />
 				<category android:name="android.intent.category.SONIDO" />
 			</intent-filter>
 		</activity>

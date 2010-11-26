@@ -3,6 +3,9 @@ package com.arpia49;
 import java.math.BigDecimal;
 import java.util.Stack;
 
+import org.hermit.dsp.FFTTransformer;
+import org.hermit.dsp.Window;
+
 import android.content.SharedPreferences;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -101,36 +104,34 @@ public class DetectorSonido implements Runnable {
 				sb.append(new Double(ruidos.get(maxpos)[i])+",");
 			}
 
-			valorFinal = sb.toString();
-		    int left   = 0;
-		    int center = 0;
-		    for(int i = 0; i<BUFFSIZE; i++){
-		    	raro[i]=0;
-		        int current = ruidos.get(maxpos)[i];
+		    // Fourier Transform calculator we use for calculating the spectrum.
+		    FFTTransformer spectrumAnalyser;
+			
+		    // The selected windowing function.
+		    Window.Function windowFunction = Window.Function.BLACKMAN_HARRIS;
+		    
+		    // The desired histogram averaging window.  1 means no averaging.
+		    int historyLen = 4;
+		    
+		    // Analysed audio spectrum data; history data for each frequency
+		    // in the spectrum; index into the history data; and buffer for
+		    // peak frequencies.
+		    int spectrumIndex;
 
-		        if((left != 0) && (center != 0)){
-		            if(current > center && center < left){
-		                raro[i]=1000;
-		                left = center; center = current;
-		            }else{
-		                left = center; center = current;
-		            }
-		        }else if((left != 0) && (center == 0)){
-		            if(left < current){
-		                raro[i]=1000;
-		                center = current;
-		            }else{
-		                center = current;
-		            }
-		        }else if((left == 0) && (center == 0)){
-		            left = current;
-		        }
-		    }
+	        spectrumIndex = 0;
+		    spectrumAnalyser = new FFTTransformer(BUFFSIZE, windowFunction);
+		    
+		    spectrumAnalyser.setInput(ruidos.get(maxpos), 0, BUFFSIZE);
+		    spectrumAnalyser.transform();
 
-		    if(left > center){
-                raro[BUFFSIZE - 1]=1000;
-		    }
-		    raro[BUFFSIZE - 1]=1000;
+		    float nuevo[] = new float[BUFFSIZE/2];
+		    float nuevo2[] = new float[BUFFSIZE];
+		    nuevo2 = spectrumAnalyser.getResults(nuevo);
+		    float nuevo3[] = new float[BUFFSIZE/2];
+		    spectrumAnalyser.findKeyFrequencies(nuevo2, nuevo3);
+		    
+	        spectrumIndex++;
+			
 		}
 		return valorFinal;
 	}

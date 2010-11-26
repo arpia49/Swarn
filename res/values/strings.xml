@@ -4,9 +4,8 @@
 	<string name="menu_add_alarma">Añadir alarma</string>
 	<string name="menu_del_alarma">Borrar alarmas</string>
 	<string name="menu_add_sonido">Añadir sonido</string>
-	<string name="menu_add_sonido1">Añadir sonido (paso 1 de 3)</string>
-	<string name="menu_add_sonido2">Añadir sonido (paso 2 de 3)</string>
-	<string name="menu_add_sonido3">Añadir sonido (paso 3 de 3)</string>
+	<string name="menu_add_sonido1">Añadir sonido (paso 1 de 2)</string>
+	<string name="menu_add_sonido2">Añadir sonido (paso 2 de 2)</string>
 	<string name="menu_del_sonidos">Borrar todos los sonidos</string>
 	<string name="menu_edit_alarma">Editar alarma</string>
 	<string name="menu_del_todas_alarmas">Borrar todas alarmas</string>
@@ -34,13 +33,8 @@
 	<string name="tv_sonidoPrueba">Sonido de prueba</string>
 	<string name="tv_lugar">Lugar de la alarma:</string>
 	<string name="tv_radio">Radio de la alarma en metros:</string>
-	<string name="tv_procesar_ruido">El paso 2 consiste en analizar el ruido de fondo,
-		haz clic en el botón \"Procesar Ruido de Fondo\" cuando creas que hay
-		el menor ruido de
-		fondo posible.\nEste proceso tardará unos segundos.</string>
-	<string name="tv_procesar_timbre">El paso 3 consiste en analizar el sonido en
-		concreto,
-		haz clic en el botón \"Procesar Sonido\" y acto seguido haz
+	<string name="tv_procesar_timbre">El paso 2 consiste en analizar el sonido, 
+	haz clic en el botón \"Procesar Sonido\" y acto seguido haz
 		que suene el sonido que quieras detectar.\nEste proceso tardará unos segundos.</string>
 	<string name="desc_locale">¿Utilizar ubicación?</string>
 	<string name="desc_sonora">Opciones de la notificación</string>
