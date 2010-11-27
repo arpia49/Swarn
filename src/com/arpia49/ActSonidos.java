@@ -145,41 +145,9 @@ public class ActSonidos extends ListActivity {
 			}
 		}
 			break;
-//		case (ACT_ADD_SONIDO2): {
-//			if (resCode == Activity.RESULT_OK) {
-//				Toast.makeText(getApplicationContext(),
-//						"Paso 2 de 3 completado", Toast.LENGTH_SHORT).show();
-//				String[] tempString = data.getStringExtra("Ruido").split(",");
-//				for (int i = 0; i < 319; i++) {
-//					tempRuido[i] = Double.parseDouble(tempString[i]);
-//				}
-//				Intent intent = new Intent(this, ActSonidosTimbre.class);
-//				startActivityForResult(intent, ACT_ADD_SONIDO3);
-//			} else {
-//				engine.start_engine(null,true);
-//				Toast.makeText(getApplicationContext(),
-//						"El sonido no se ha creado", Toast.LENGTH_SHORT).show();
-//			}
-//		}
-//			break;
 		case (ACT_ADD_SONIDO2): {
 			if (resCode == Activity.RESULT_OK) {
 				String tempString = data.getStringExtra("Sonido");
-//				for (int i = 0; i < 256; i++) {
-//					tempSonido[i] = Double.parseDouble(tempString[i]);
-//				}
-
-//				double[] tempFinal = new double[256];
-//				for (int i = 0; i < 256; i++) {
-//					if (tempSonido[i] + tempRuido[i] > 0)
-//						tempFinal[i] = (tempSonido[i] - tempRuido[i]);
-//				}
-
-//				StringBuilder sb = new StringBuilder();
-//
-//				for (int i = 0; i < 256; i++) {
-//					sb.append(Double.toString(tempFinal[i]) + ",");
-//				}
 
 				@SuppressWarnings("unused")
 				Sonido nuevoSonido = new Sonido.Builder(tempNombre.toString(),
@@ -246,10 +214,6 @@ public class ActSonidos extends ListActivity {
 											R.layout.lista_con_texto, sonidos);
 									getListView().setAdapter(miArray);
 									miArray.notifyDataSetChanged();
-									// editarAlarma(data, idSobreescribir);
-									// setContentView(R.layout.main);
-									// cargarPosiciones((LinearLayout)
-									// findViewById(R.id.mainLay));
 								}
 							}).setNegativeButton("No",
 							new DialogInterface.OnClickListener() {

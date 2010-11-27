@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.util.Stack;
 import java.util.Vector;
 
+import org.hermit.dsp.FFTTransformer;
+import org.hermit.dsp.Window;
+
 import android.content.SharedPreferences;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
@@ -22,7 +25,7 @@ public class splEngine implements Runnable {
 	private static final double P0 = 0.000002;
 	public volatile boolean isRunning = false;
 	public volatile static Stack<Evento> pila;
-	public volatile static Vector <Vector<Integer>> datos;
+	public volatile static Vector <Vector<Float>> datos;
 	public volatile static Stack<Long> fechas;
 	/**
 	 * @uml.property  name="instance"
@@ -44,7 +47,7 @@ public class splEngine implements Runnable {
 		if (instance == null) {
 			instance = new splEngine();
 			pila = new Stack<Evento>();
-			datos = new Vector <Vector<Integer>>();
+			datos = new Vector <Vector<Float>>();
 			fechas = new Stack<Long>();
 		}
 		return instance;
@@ -63,15 +66,15 @@ public class splEngine implements Runnable {
 			if (!this.isRunning) {
 				this.isRunning = true;
 				int clave = evento.getClaveSonido();
-				Vector<Integer> tmpDatos = new Vector <Integer>();
+				Vector<Float> tmpDatos = new Vector <Float>();
 				if(clave!=0){
 					String tmp[] = ListaSonidos.element(ListaSonidos.obtenerIdDesdeClave(clave)).getDatos().split(",");
-					for(int i = 0;i<BUFFSIZE-1;i++){
-						tmpDatos.addElement(Integer.parseInt(tmp[i]));
+					for(int i = 0;i<(BUFFSIZE/2)-1;i++){
+						tmpDatos.addElement(Float.parseFloat(tmp[i]));
 					}					
 				}else{
-					for(int i = 0;i<BUFFSIZE-1;i++){
-						tmpDatos.addElement(new Integer (0));
+					for(int i = 0;i<(BUFFSIZE/2)-1;i++){
+						tmpDatos.addElement(new Float (0));
 					}
 				}
 				datos.addElement(tmpDatos);
@@ -81,7 +84,7 @@ public class splEngine implements Runnable {
 			}
 		}
 		else{
-			if(!isRunning){
+			if(pila.size()>0 && !isRunning){
 				this.isRunning = true;
 				Thread t = new Thread(this);
 				t.start();
@@ -166,12 +169,40 @@ public class splEngine implements Runnable {
 										pila.elementAt(m).getClave());
 							}else{
 								int contador = 0;
-								for(int l=0;l<BUFFSIZE - 1;l++){
-									if(datos.elementAt(m).elementAt(l)>tempBuffer[l]){
-										contador++;
+								
+							    // Fourier Transform calculator we use for calculating the spectrum.
+							    FFTTransformer spectrumAnalyser;
+								
+							    // The selected windowing function.
+							    Window.Function windowFunction = Window.Function.BLACKMAN_HARRIS;
+							    
+							    // Analysed audio spectrum data; history data for each frequency
+							    // in the spectrum; index into the history data; and buffer for
+							    // peak frequencies.
+							    int spectrumIndex;
+
+						        spectrumIndex = 0;
+							    spectrumAnalyser = new FFTTransformer(BUFFSIZE, windowFunction);
+							    
+							    spectrumAnalyser.setInput(tempBuffer, 0, BUFFSIZE);
+							    spectrumAnalyser.transform();
+
+							    float nuevo[] = new float[BUFFSIZE/2];
+							    float nuevo2[] = new float[BUFFSIZE];
+							    nuevo2 = spectrumAnalyser.getResults(nuevo);
+							    float nuevo3[] = new float[BUFFSIZE/2];
+							    spectrumAnalyser.findKeyFrequencies(nuevo2, nuevo3);
+							    
+						        spectrumIndex++;
+								
+								for(int l=0;l<(BUFFSIZE/2) - 1;l++){
+									if(datos.elementAt(m).elementAt(l)>0 && nuevo3[l]>0){
+										contador=contador+5;
+									}else if(datos.elementAt(m).elementAt(l)>0 || nuevo3[l]>0){
+										contador=contador-5;
 									}
 								}
-								if(contador>150){
+								if(contador>4){
 									fechas.setElementAt(System.currentTimeMillis(),m);
 									Evento.getHandler().sendEmptyMessage(
 											pila.elementAt(m).getClave());

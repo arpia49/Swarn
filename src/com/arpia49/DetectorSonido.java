@@ -73,7 +73,6 @@ public class DetectorSonido implements Runnable {
 
 			int maxmedia = 0;
 			int maxpos = 0;
-			int raro[] = new int[259];
 			
 			for (int k = 0; k < ruidos.size(); k++){
 	
@@ -98,11 +97,6 @@ public class DetectorSonido implements Runnable {
 				}
 			
 			}
-			
-			for (int i = 0; i< BUFFSIZE-1; i++){
-				ruidos.get(maxpos)[i]=(short) Math.abs(ruidos.get(maxpos)[i]);
-				sb.append(new Double(ruidos.get(maxpos)[i])+",");
-			}
 
 		    // Fourier Transform calculator we use for calculating the spectrum.
 		    FFTTransformer spectrumAnalyser;
@@ -110,15 +104,6 @@ public class DetectorSonido implements Runnable {
 		    // The selected windowing function.
 		    Window.Function windowFunction = Window.Function.BLACKMAN_HARRIS;
 		    
-		    // The desired histogram averaging window.  1 means no averaging.
-		    int historyLen = 4;
-		    
-		    // Analysed audio spectrum data; history data for each frequency
-		    // in the spectrum; index into the history data; and buffer for
-		    // peak frequencies.
-		    int spectrumIndex;
-
-	        spectrumIndex = 0;
 		    spectrumAnalyser = new FFTTransformer(BUFFSIZE, windowFunction);
 		    
 		    spectrumAnalyser.setInput(ruidos.get(maxpos), 0, BUFFSIZE);
@@ -130,8 +115,10 @@ public class DetectorSonido implements Runnable {
 		    float nuevo3[] = new float[BUFFSIZE/2];
 		    spectrumAnalyser.findKeyFrequencies(nuevo2, nuevo3);
 		    
-	        spectrumIndex++;
-			
+			for (int i = 0; i< (BUFFSIZE/2)-1; i++){
+				sb.append(new Float(nuevo3[i])+",");
+			}
+			valorFinal = sb.toString();
 		}
 		return valorFinal;
 	}
