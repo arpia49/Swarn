@@ -168,20 +168,14 @@ public class splEngine implements Runnable {
 								Evento.getHandler().sendEmptyMessage(
 										pila.elementAt(m).getClave());
 							}else{
-								int contador = 0;
+								float contador = 0;
 								
 							    // Fourier Transform calculator we use for calculating the spectrum.
 							    FFTTransformer spectrumAnalyser;
 								
 							    // The selected windowing function.
 							    Window.Function windowFunction = Window.Function.BLACKMAN_HARRIS;
-							    
-							    // Analysed audio spectrum data; history data for each frequency
-							    // in the spectrum; index into the history data; and buffer for
-							    // peak frequencies.
-							    int spectrumIndex;
 
-						        spectrumIndex = 0;
 							    spectrumAnalyser = new FFTTransformer(BUFFSIZE, windowFunction);
 							    
 							    spectrumAnalyser.setInput(tempBuffer, 0, BUFFSIZE);
@@ -192,12 +186,22 @@ public class splEngine implements Runnable {
 							    nuevo2 = spectrumAnalyser.getResults(nuevo);
 							    float nuevo3[] = new float[BUFFSIZE/2];
 							    spectrumAnalyser.findKeyFrequencies(nuevo2, nuevo3);
+
+								float a;
+								float b;
 							    
-						        spectrumIndex++;
-								
 								for(int l=0;l<(BUFFSIZE/2) - 1;l++){
-									if(datos.elementAt(m).elementAt(l)>0 && nuevo3[l]>0){
-										contador=contador+5;
+									a=datos.elementAt(m).elementAt(l);
+									b=nuevo3[l];
+									
+									if(a>0 && b>0){
+										if(a>b){
+											contador = contador + 5*b/a;
+										}
+										else{
+											contador = contador + 5*a/b;
+										}
+										contador++;
 									}else if(datos.elementAt(m).elementAt(l)>0 || nuevo3[l]>0){
 										contador=contador-5;
 									}
