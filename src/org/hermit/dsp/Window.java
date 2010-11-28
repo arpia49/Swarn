@@ -18,10 +18,7 @@ package org.hermit.dsp;
 
 
 /**
- * A windowing function for a discrete signal.  This is used to
- * pre-process a signal prior to FFT, in order to improve the frequency
- * response, essentially by eliminating the discontinuities at the ends
- * of a block of samples.
+ * A windowing function for a discrete signal.  This is used to pre-process a signal prior to FFT, in order to improve the frequency response, essentially by eliminating the discontinuities at the ends of a block of samples.
  */
 public final class Window {
 
@@ -30,20 +27,31 @@ public final class Window {
     // ******************************************************************** //
 
     /**
-     * Definitions of the available window functions.
-     */
+	 * Definitions of the available window functions.
+	 */
     public enum Function {
-        /** A simple rectangular window function.  This is equivalent to
-         * doing no windowing. */
+        /**
+		 * @uml.property  name="rECTANGULAR"
+		 * @uml.associationEnd  
+		 */
         RECTANGULAR,
         
-        /** The Blackman-Harris window function. */
+        /**
+		 * @uml.property  name="bLACKMAN_HARRIS"
+		 * @uml.associationEnd  
+		 */
         BLACKMAN_HARRIS,
         
-        /** The Gauss window function. */
+        /**
+		 * @uml.property  name="gAUSS"
+		 * @uml.associationEnd  
+		 */
         GAUSS,
         
-        /** The Weedon-Gauss window function. */
+        /**
+		 * @uml.property  name="wEEDON_GAUSS"
+		 * @uml.associationEnd  
+		 */
         WEEDON_GAUSS,
     }
     
@@ -181,6 +189,10 @@ public final class Window {
     // ******************************************************************** //
 
     // Default window function.
+    /**
+	 * @uml.property  name="dEFAULT_FUNC"
+	 * @uml.associationEnd  
+	 */
     private static final Function DEFAULT_FUNC = Function.BLACKMAN_HARRIS;
     
     // Blackman-Harris coefficients.  These sum to 1.0.
