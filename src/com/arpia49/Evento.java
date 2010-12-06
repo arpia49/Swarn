@@ -41,7 +41,7 @@ public class Evento {
 							System.currentTimeMillis(),
 							ListaAlarmas.element(msg.what).getNombre(),
 							ListaAlarmas.element(msg.what).getUbicacion(),
-							ListaAlarmas.element(msg.what).getClave())
+							msg.what)
 							.build(true);
 					triggerNotification();
 					Toast.makeText(contexto, "¡Alarma detectada!",

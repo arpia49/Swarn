@@ -3,8 +3,8 @@ package com.arpia49;
 import java.math.BigDecimal;
 import java.util.Stack;
 
-import org.hermit.dsp.FFTTransformer;
-import org.hermit.dsp.Window;
+import com.arpia49.utilidades.FFTTransformer;
+import com.arpia49.utilidades.Window;
 
 import android.content.SharedPreferences;
 import android.media.AudioFormat;

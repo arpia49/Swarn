@@ -14,11 +14,10 @@
  */
 
 
-package org.hermit.dsp;
+package com.arpia49.utilidades;
 
-import org.hermit.utils.Bitwise;
 
-import ca.uol.aig.fftpack.RealDoubleFFT;
+
 
 
 /**
