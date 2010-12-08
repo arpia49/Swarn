@@ -57,7 +57,9 @@ public class ActAlarmaCrear extends Activity {
 		criteria.setPowerRequirement(Criteria.POWER_LOW);
 
 		provider = locationManager.getBestProvider(criteria, true);
-		locationManager.requestLocationUpdates(provider, 30000, 100,
+		
+		if(provider!=null)
+			locationManager.requestLocationUpdates(provider, 30000, 100,
 				locationListener);
 
 		sp_sonido = (Spinner) findViewById(R.id.sp_sonido);
