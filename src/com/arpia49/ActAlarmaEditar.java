@@ -57,7 +57,9 @@ public class ActAlarmaEditar extends Activity {
 		criteria.setCostAllowed(true);
 		criteria.setPowerRequirement(Criteria.POWER_LOW);
 		provider = locationManager.getBestProvider(criteria, true);
-		locationManager.requestLocationUpdates(provider, 30000, 100,
+		
+		if(provider!=null)
+			locationManager.requestLocationUpdates(provider, 30000, 100,
 				locationListener);
 		
 
