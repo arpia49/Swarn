@@ -63,22 +63,20 @@ public class splEngine implements Runnable {
 	public void start_engine(Evento evento, boolean unpause) {
 		if(!unpause){
 			pila.push(evento);
+			int clave = evento.getClaveSonido();
+			Vector<Float> tmpDatos = new Vector <Float>();
+			if(clave!=0){
+				String tmp[] = ListaSonidos.element(ListaSonidos.obtenerIdDesdeClave(clave)).getDatos().split(",");
+				for(int i = 0;i<(BUFFSIZE/2)-1;i++){
+					tmpDatos.addElement(Float.parseFloat(tmp[i]));
+				}					
+			}else{
+				tmpDatos=null;
+			}
+			datos.addElement(tmpDatos);
+			fechas.push(new Long(0));
 			if (!this.isRunning) {
 				this.isRunning = true;
-				int clave = evento.getClaveSonido();
-				Vector<Float> tmpDatos = new Vector <Float>();
-				if(clave!=0){
-					String tmp[] = ListaSonidos.element(ListaSonidos.obtenerIdDesdeClave(clave)).getDatos().split(",");
-					for(int i = 0;i<(BUFFSIZE/2)-1;i++){
-						tmpDatos.addElement(Float.parseFloat(tmp[i]));
-					}					
-				}else{
-					for(int i = 0;i<(BUFFSIZE/2)-1;i++){
-						tmpDatos.addElement(new Float (0));
-					}
-				}
-				datos.addElement(tmpDatos);
-				fechas.push(new Long(0));
 				Thread t = new Thread(this);
 				t.start();
 			}
