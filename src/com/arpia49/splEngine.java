@@ -23,7 +23,7 @@ public class splEngine implements Runnable {
 	private static final int ENCODING = AudioFormat.ENCODING_PCM_16BIT;
 	private int BUFFSIZE = 256;
 	private static final double P0 = 0.000002;
-	public volatile boolean isRunning = false;
+	public volatile static boolean isRunning = false;
 	public volatile static Stack<Evento> pila;
 	public volatile static Vector <Vector<Float>> datos;
 	public volatile static Stack<Long> fechas;
@@ -75,15 +75,15 @@ public class splEngine implements Runnable {
 			}
 			datos.addElement(tmpDatos);
 			fechas.push(new Long(0));
-			if (!this.isRunning) {
-				this.isRunning = true;
+			if (!splEngine.isRunning) {
+				splEngine.isRunning = true;
 				Thread t = new Thread(this);
 				t.start();
 			}
 		}
 		else{
 			if(pila.size()>0 && !isRunning){
-				this.isRunning = true;
+				splEngine.isRunning = true;
 				Thread t = new Thread(this);
 				t.start();
 			}
@@ -103,7 +103,7 @@ public class splEngine implements Runnable {
 				}
 			}
 			if (pila.size() == 0) {
-				this.isRunning = false;
+				splEngine.isRunning = false;
 				recordInstance.stop();
 			}
 		}else{
@@ -128,7 +128,7 @@ public class splEngine implements Runnable {
 			recordInstance.startRecording();
 			short[] tempBuffer = new short[BUFFSIZE];
 
-			while (this.isRunning) {
+			while (splEngine.isRunning) {
 				double splValue = 0.0;
 				double rmsValue = 0.0;
 
