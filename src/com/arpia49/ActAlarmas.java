@@ -57,13 +57,13 @@ public class ActAlarmas extends Activity {
 	private static String PROXIMITY_ALERT = "com.arpia49.action.proximityalert";
 
 	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main);
 		actividad = this;
 		Registro.iniciar(actividad);
 		sp = PreferenceManager.getDefaultSharedPreferences(this);
 		engine = splEngine.getInstance();
 		splEngine.setPreferences(sp);
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
 		cargarPosiciones((LinearLayout) findViewById(R.id.mainLay));
 	}
 
