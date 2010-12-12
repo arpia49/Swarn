@@ -11,7 +11,6 @@ import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
@@ -40,6 +39,8 @@ public class ActAlarmaEditar extends Activity {
 	@SuppressWarnings("unchecked")
 	ArrayAdapter adapter;
 	Spinner sp_sonido;
+	EditText et_lugar;
+	CheckBox cb_posicion;
 
 	@SuppressWarnings("unchecked")
 	public void onCreate(Bundle savedInstanceState) {
@@ -56,12 +57,7 @@ public class ActAlarmaEditar extends Activity {
 		criteria.setBearingRequired(false);
 		criteria.setCostAllowed(true);
 		criteria.setPowerRequirement(Criteria.POWER_LOW);
-		provider = locationManager.getBestProvider(criteria, true);
-		
-		if(provider!=null)
-			locationManager.requestLocationUpdates(provider, 30000, 100,
-				locationListener);
-		
+		provider = locationManager.getBestProvider(criteria, true);		
 
 		sp_sonido = (Spinner) findViewById(R.id.sp_sonido);
 		adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item,
@@ -77,7 +73,7 @@ public class ActAlarmaEditar extends Activity {
 		et_descAlarma.setText(alarmaActual.getDescripcion());
 		final EditText et_lugar = (EditText) findViewById(R.id.et_lugar);
 		et_lugar.setText(alarmaActual.getUbicacion());
-		final CheckBox cb_posicion = (CheckBox) findViewById(R.id.cb_posicion);
+		cb_posicion = (CheckBox) findViewById(R.id.cb_posicion);
 		cb_posicion.setChecked(alarmaActual.conUbicacion());
 
 		final RadioButton rb_fuerte = (RadioButton) findViewById(R.id.rb_fuerte);
@@ -144,11 +140,9 @@ public class ActAlarmaEditar extends Activity {
 			}
 		});		
 		
-		et_lugar.setOnFocusChangeListener(new OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus)
-					cb_posicion.setChecked(false);
+		et_lugar.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				cb_posicion.setChecked(false);
 			}
 		});
 
@@ -169,16 +163,21 @@ public class ActAlarmaEditar extends Activity {
 		cb_posicion.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (((CheckBox) v).isChecked()) {
+					String defecto = getString(R.string.et_lugar);
+					String actual = et_lugar.getText().toString();
 					if (et_lugar.getText().toString().compareTo("") == 0) {
 						Toast.makeText(getApplicationContext(),
 								"No hay una dirección especificada",
 								Toast.LENGTH_SHORT).show();
 						((CheckBox) v).setChecked(false);
-					} else {
+					} else if(actual.compareTo(defecto) == 0){
 						try {
-							String temp = et_lugar.getText().toString();
+							et_lugar.setText(updateWithLocation(location));
+						} catch (Exception e) {}
+					}else {
+						try {
 							List<Address> ubicacion = gc.getFromLocationName(
-									temp, 1);
+									et_lugar.getText().toString(), 1);
 							if (ubicacion != null && ubicacion.size() > 0) {
 								et_lugar.setText(ubicacion.get(0)
 										.getAddressLine(0));
@@ -217,18 +216,38 @@ public class ActAlarmaEditar extends Activity {
 		});
 	}
 	
-	private final LocationListener locationListener = new LocationListener() {
-		public void onLocationChanged(Location location) {
-		}
+	private String updateWithLocation(Location location) {
 
-		public void onProviderDisabled(String provider) {
-		}
+		location = locationManager.getLastKnownLocation(provider);
+		StringBuilder sb = new StringBuilder();
+		if (location != null) {
+			lat = (float) location.getLatitude();
+			lng = (float) location.getLongitude();
+			try {
+				List<Address> ubicacion = gc.getFromLocation(lat, lng, 1);
+				if (ubicacion != null && ubicacion.size() > 0) {
+					Address address = ubicacion.get(0);
+					for (int i = 0; i < address.getMaxAddressLineIndex(); i++)
+						sb.append(address.getAddressLine(i));
+				}
+			} catch (IOException e) {
+				final CheckBox cb = (CheckBox) findViewById(R.id.cb_posicion);
 
-		public void onProviderEnabled(String provider) {
-		}
+				cb.setChecked(false);
+				sb.append("Sin ubicación");
+				Toast.makeText(getApplicationContext(),
+						"Ubicación no disponible", Toast.LENGTH_SHORT).show();
+			}
 
-		public void onStatusChanged(String provider, int status, Bundle extras) {
+		} else {
+			lat = 0;
+			lng = 0;
+			cb_posicion.setChecked(false);
+			sb.append("Sin ubicación");
+			Toast.makeText(getApplicationContext(),
+					"Ubicación no disponible", Toast.LENGTH_SHORT).show();
 		}
-	};
+		return (sb.toString());
+	}
 
 }
