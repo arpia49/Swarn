@@ -45,18 +45,8 @@
 				<RadioButton android:text="@string/tv_tipo2" android:id="@+id/rb_muyFuerte"
 					android:layout_width="wrap_content" android:layout_height="wrap_content"></RadioButton>
 			</RadioGroup>
-			<TableLayout android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:layout_alignParentBottom="true" android:stretchColumns="0,1">
-				<TableRow android:layout_width="fill_parent"
-					android:layout_height="wrap_content">
-					<Button android:id="@+id/botonAceptar" android:layout_width="fill_parent"
-						android:layout_height="wrap_content" android:text="@string/aceptar" />
-					<Button android:id="@+id/botonCancelar"
-						android:layout_width="fill_parent" android:layout_height="wrap_content"
-						android:text="@string/cancelar" />
-				</TableRow>
-			</TableLayout>
-</LinearLayout>
+			<Button android:id="@+id/botonAceptar" android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:text="@string/aceptar" />
+		</LinearLayout>
 	</ScrollView>
 </LinearLayout>

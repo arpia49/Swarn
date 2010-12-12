@@ -89,7 +89,6 @@ public class ActAlarmaEditar extends Activity {
 		sp_sonido.setSelection(ListaSonidos.obtenerIdDesdeClave(alarmaActual.getClaveSonido()));
 		
 		Button bt = (Button) findViewById(R.id.botonAceptar);
-		Button bt2 = (Button) findViewById(R.id.botonCancelar);
 		
 		bt.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -113,13 +112,6 @@ public class ActAlarmaEditar extends Activity {
 				outData.putExtra("id", getIntent().getExtras().getInt("id"));
 				outData.putExtra("idSonido", sonido);
 				setResult(Activity.RESULT_OK, outData);
-				finish();
-			}
-		});
-
-		bt2.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				setResult(Activity.RESULT_CANCELED, null);
 				finish();
 			}
 		});

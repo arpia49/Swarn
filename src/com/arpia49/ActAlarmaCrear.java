@@ -11,7 +11,6 @@ import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
@@ -39,6 +38,8 @@ public class ActAlarmaCrear extends Activity {
 	int sonido = 0;
 	ArrayAdapter<String> adapter;
 	Spinner sp_sonido;
+	EditText et_lugar;
+	CheckBox cb_posicion;
 
 	@SuppressWarnings("unchecked")
 	public void onCreate(Bundle savedInstanceState) {
@@ -57,10 +58,6 @@ public class ActAlarmaCrear extends Activity {
 		criteria.setPowerRequirement(Criteria.POWER_LOW);
 
 		provider = locationManager.getBestProvider(criteria, true);
-		
-		if(provider!=null)
-			locationManager.requestLocationUpdates(provider, 30000, 100,
-				locationListener);
 
 		sp_sonido = (Spinner) findViewById(R.id.sp_sonido);
 		adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item,
@@ -71,13 +68,12 @@ public class ActAlarmaCrear extends Activity {
 
 		final EditText et_nombreAlarma = (EditText) findViewById(R.id.et_nombreAlarma);
 		final EditText et_descAlarma = (EditText) findViewById(R.id.et_descAlarma);
-		final EditText et_lugar = (EditText) findViewById(R.id.et_lugar);
-		final CheckBox cb_posicion = (CheckBox) findViewById(R.id.cb_posicion);
+		et_lugar = (EditText) findViewById(R.id.et_lugar);
+		cb_posicion = (CheckBox) findViewById(R.id.cb_posicion);
 
 		final RadioButton rb = (RadioButton) findViewById(R.id.rb_fuerte);
 
 		Button bt = (Button) findViewById(R.id.botonAceptar);
-		Button bt2 = (Button) findViewById(R.id.botonCancelar);
 
 		Thread thread = new Thread(null, doBackgroundThreadProcessing,
 				"Background");
@@ -110,13 +106,6 @@ public class ActAlarmaCrear extends Activity {
 				outData.putExtra("descAlarma", desc_alarma);
 				outData.putExtra("idSonido", sonido);
 				setResult(Activity.RESULT_OK, outData);
-				finish();
-			}
-		});
-
-		bt2.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				setResult(Activity.RESULT_CANCELED, null);
 				finish();
 			}
 		});
@@ -172,12 +161,18 @@ public class ActAlarmaCrear extends Activity {
 		cb_posicion.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (((CheckBox) v).isChecked()) {
+					String defecto = getString(R.string.et_lugar);
+					String actual = et_lugar.getText().toString();
 					if (et_lugar.getText().toString().compareTo("") == 0) {
 						Toast.makeText(getApplicationContext(),
 								"No hay una dirección especificada",
 								Toast.LENGTH_SHORT).show();
 						((CheckBox) v).setChecked(false);
-					} else {
+					} else if(actual.compareTo(defecto) == 0){
+						try {
+							et_lugar.setText(updateWithLocation(location));
+						} catch (Exception e) {}
+					}else {
 						try {
 							List<Address> ubicacion = gc.getFromLocationName(
 									et_lugar.getText().toString(), 1);
@@ -236,6 +231,7 @@ public class ActAlarmaCrear extends Activity {
 				final CheckBox cb = (CheckBox) findViewById(R.id.cb_posicion);
 
 				cb.setChecked(false);
+				sb.append("Sin ubicación");
 				Toast.makeText(getApplicationContext(),
 						"Ubicación no disponible", Toast.LENGTH_SHORT).show();
 			}
@@ -243,31 +239,21 @@ public class ActAlarmaCrear extends Activity {
 		} else {
 			lat = 0;
 			lng = 0;
+			cb_posicion.setChecked(false);
 			sb.append("Sin ubicación");
+			Toast.makeText(getApplicationContext(),
+					"Ubicación no disponible", Toast.LENGTH_SHORT).show();
 		}
 		return (sb.toString());
 	}
 
-	private final LocationListener locationListener = new LocationListener() {
-		public void onLocationChanged(Location location) {
-		}
-
-		public void onProviderDisabled(String provider) {
-		}
-
-		public void onProviderEnabled(String provider) {
-		}
-
-		public void onStatusChanged(String provider, int status, Bundle extras) {
-		}
-	};
-
 	private Runnable doBackgroundThreadProcessing = new Runnable() {
 		public void run() {
-			EditText et_lugar = (EditText) findViewById(R.id.et_lugar);
-			try {
-				et_lugar.setText(updateWithLocation(location));
-			} catch (Exception e) {
+			if (location != null) {
+				try {
+					et_lugar.setText(updateWithLocation(location));
+				} catch (Exception e) {
+				}
 			}
 		}
 	};

@@ -36,8 +36,8 @@ public class Evento {
 			handler = new Handler() {
 				@Override
 				public void handleMessage(Message msg) {
-					@SuppressWarnings("unused")
 					Alarma tmpAlarma = ListaAlarmas.obtenerDesdeClave(msg.what);
+					@SuppressWarnings("unused")
 					Notificacion nuevaNotificacion = new Notificacion.Builder(
 							System.currentTimeMillis(),
 							tmpAlarma.getNombre(),
