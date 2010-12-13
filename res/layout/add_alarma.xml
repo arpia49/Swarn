@@ -22,12 +22,12 @@
 			<ImageView android:src="@drawable/borde"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"
 				android:scaleType="fitXY" />
+			<TextView android:text="@string/tv_lugar" android:id="@+id/tv_lugar"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 			<CheckBox android:id="@+id/cb_posicion"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:text="@string/desc_locale">
 			</CheckBox>
-			<TextView android:text="@string/et_lugar" android:id="@+id/tv_lugar"
-				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 			<EditText android:text="@string/et_lugar" android:id="@+id/et_lugar"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"></EditText>
 			<ImageView android:src="@drawable/borde"

@@ -31,7 +31,7 @@
 	<string name="sp_sonido">Elige un sonido</string>
 	<string name="tv_addSonido">Añadir sonido</string>
 	<string name="tv_sonidoPrueba">Sonido de prueba</string>
-	<string name="tv_lugar">Lugar de la alarma:</string>
+	<string name="tv_lugar">Ubicación:</string>
 	<string name="tv_radio">Radio de la alarma en metros:</string>
 	<string name="tv_procesar_timbre">El paso 2 consiste en analizar el sonido, 
 	haz clic en el botón \"Procesar Sonido\" y acto seguido haz
