@@ -45,7 +45,7 @@ public class Evento {
 							msg.what)
 							.build(true);
 					triggerNotification();
-					Toast.makeText(contexto, "¡Alarma detectada!",
+					Toast.makeText(contexto, "¡Alarma "+ tmpAlarma.getNombre() +" detectada!",
 							Toast.LENGTH_SHORT).show();
 				}
 			};
