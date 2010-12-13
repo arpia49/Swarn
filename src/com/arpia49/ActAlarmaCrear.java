@@ -3,7 +3,6 @@ package com.arpia49;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -40,6 +39,13 @@ public class ActAlarmaCrear extends Activity {
 	Spinner sp_sonido;
 	EditText et_lugar;
 	CheckBox cb_posicion;
+	EditText et_nombreAlarma;
+	EditText et_descAlarma;
+	RadioButton rb;
+	Button bt;
+	Thread thread;
+	String defecto;
+	String actual;
 
 	@SuppressWarnings("unchecked")
 	public void onCreate(Bundle savedInstanceState) {
@@ -66,16 +72,14 @@ public class ActAlarmaCrear extends Activity {
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		sp_sonido.setAdapter(adapter);
 
-		final EditText et_nombreAlarma = (EditText) findViewById(R.id.et_nombreAlarma);
-		final EditText et_descAlarma = (EditText) findViewById(R.id.et_descAlarma);
+		et_nombreAlarma = (EditText) findViewById(R.id.et_nombreAlarma);
+		et_descAlarma = (EditText) findViewById(R.id.et_descAlarma);
 		et_lugar = (EditText) findViewById(R.id.et_lugar);
 		cb_posicion = (CheckBox) findViewById(R.id.cb_posicion);
+		rb = (RadioButton) findViewById(R.id.rb_fuerte);
+		bt = (Button) findViewById(R.id.botonAceptar);
 
-		final RadioButton rb = (RadioButton) findViewById(R.id.rb_fuerte);
-
-		Button bt = (Button) findViewById(R.id.botonAceptar);
-
-		Thread thread = new Thread(null, doBackgroundThreadProcessing,
+		thread = new Thread(null, doBackgroundThreadProcessing,
 				"Background");
 		thread.start();
 
@@ -113,8 +117,8 @@ public class ActAlarmaCrear extends Activity {
 		et_nombreAlarma.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
-				String defecto = getString(R.string.et_nombre);
-				String actual = et_nombreAlarma.getText().toString();
+				defecto = getString(R.string.et_nombre);
+				actual = et_nombreAlarma.getText().toString();
 
 				if (hasFocus && actual.compareTo(defecto) == 0)
 					et_nombreAlarma.setText("");
@@ -127,8 +131,8 @@ public class ActAlarmaCrear extends Activity {
 		et_descAlarma.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
-				String defecto = getString(R.string.et_desc);
-				String actual = et_descAlarma.getText().toString();
+				defecto = getString(R.string.et_desc);
+				actual = et_descAlarma.getText().toString();
 
 				if (hasFocus && actual.compareTo(defecto) == 0)
 					et_descAlarma.setText("");
@@ -147,8 +151,8 @@ public class ActAlarmaCrear extends Activity {
 		et_lugar.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
-				String defecto = getString(R.string.et_lugar);
-				String actual = et_lugar.getText().toString();
+				defecto = getString(R.string.et_lugar);
+				actual = et_lugar.getText().toString();
 
 				if (hasFocus && actual.compareTo(defecto) == 0)
 					et_lugar.setText("");
@@ -161,8 +165,8 @@ public class ActAlarmaCrear extends Activity {
 		cb_posicion.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (((CheckBox) v).isChecked()) {
-					String defecto = getString(R.string.et_lugar);
-					String actual = et_lugar.getText().toString();
+					defecto = getString(R.string.et_lugar);
+					actual = et_lugar.getText().toString();
 					if (et_lugar.getText().toString().compareTo("") == 0) {
 						Toast.makeText(getApplicationContext(),
 								"No hay una dirección especificada",
@@ -228,9 +232,7 @@ public class ActAlarmaCrear extends Activity {
 						sb.append(address.getAddressLine(i));
 				}
 			} catch (IOException e) {
-				final CheckBox cb = (CheckBox) findViewById(R.id.cb_posicion);
-
-				cb.setChecked(false);
+				cb_posicion.setChecked(false);
 				sb.append("Sin ubicación");
 				Toast.makeText(getApplicationContext(),
 						"Ubicación no disponible", Toast.LENGTH_SHORT).show();

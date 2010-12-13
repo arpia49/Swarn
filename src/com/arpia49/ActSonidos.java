@@ -18,9 +18,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-/**
- * @author  arpia49
- */
 public class ActSonidos extends ListActivity {
 
 	// De los menús
@@ -38,11 +35,10 @@ public class ActSonidos extends ListActivity {
 	ArrayAdapter<String> miArray = null;
 	SharedPreferences sp = null;
 	String[] sonidos = null;
-	/**
-	 * @uml.property  name="engine"
-	 * @uml.associationEnd  
-	 */
 	private static splEngine engine = null;
+	int numSonidos;
+	TextView tv;
+	ListView lv;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,17 +46,17 @@ public class ActSonidos extends ListActivity {
 		sp = PreferenceManager.getDefaultSharedPreferences(this);
 		engine = splEngine.getInstance();
 		splEngine.setPreferences(sp);
-		int numSonidos = ListaSonidos.size();
+		numSonidos = ListaSonidos.size();
 		sonidos = new String[numSonidos];
 		for (int i = 0; i < numSonidos; i++) {
 			sonidos[i] = ListaSonidos.elementAt(i).toString();
 		}
-		TextView tv = new TextView(this);
+		tv = new TextView(this);
 		tv.setId(0);
 		tv.setText(getString(R.string.ayudaSonidos));
 		tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
 		tv.setTypeface(Typeface.DEFAULT, 2);
-		ListView lv = getListView();
+		lv = getListView();
 		lv.addHeaderView(tv);
 
 		miArray = new ArrayAdapter<String>(this, R.layout.lista_con_texto,

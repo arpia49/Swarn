@@ -45,10 +45,6 @@ public class ActAlarmas extends Activity {
 	static final private int SONIDOS = Menu.FIRST + 4;
 	static final private int CONFIG = Menu.FIRST + 5;
 	static final private int INFO = Menu.FIRST + 6;
-	/**
-	 * @uml.property  name="engine"
-	 * @uml.associationEnd  
-	 */
 	private static splEngine engine = null;
 	public static Activity actividad = null;
 	SharedPreferences sp = null;

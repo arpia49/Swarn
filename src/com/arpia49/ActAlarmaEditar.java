@@ -3,7 +3,6 @@ package com.arpia49;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -41,6 +40,14 @@ public class ActAlarmaEditar extends Activity {
 	Spinner sp_sonido;
 	EditText et_lugar;
 	CheckBox cb_posicion;
+	Alarma alarmaActual;
+	EditText et_nombreAlarma;
+	EditText et_descAlarma;
+	RadioButton rb_fuerte;
+	RadioButton rb_muyFuerte;
+	Button bt;
+	String defecto;
+	String actual;
 
 	@SuppressWarnings("unchecked")
 	public void onCreate(Bundle savedInstanceState) {
@@ -66,25 +73,21 @@ public class ActAlarmaEditar extends Activity {
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		sp_sonido.setAdapter(adapter);
 		
-		Alarma alarmaActual = ListaAlarmas.element(getIntent().getExtras().getInt("id"));
-		final EditText et_nombreAlarma = (EditText) findViewById(R.id.et_nombreAlarma);
+		alarmaActual = ListaAlarmas.element(getIntent().getExtras().getInt("id"));
+		et_nombreAlarma = (EditText) findViewById(R.id.et_nombreAlarma);
 		et_nombreAlarma.setText(alarmaActual.getNombre());
-		final EditText et_descAlarma = (EditText) findViewById(R.id.et_descAlarma);
+		et_descAlarma = (EditText) findViewById(R.id.et_descAlarma);
 		et_descAlarma.setText(alarmaActual.getDescripcion());
-		final EditText et_lugar = (EditText) findViewById(R.id.et_lugar);
+		et_lugar = (EditText) findViewById(R.id.et_lugar);
 		et_lugar.setText(alarmaActual.getUbicacion());
 		cb_posicion = (CheckBox) findViewById(R.id.cb_posicion);
 		cb_posicion.setChecked(alarmaActual.conUbicacion());
-
-		final RadioButton rb_fuerte = (RadioButton) findViewById(R.id.rb_fuerte);
+		rb_fuerte = (RadioButton) findViewById(R.id.rb_fuerte);
 		rb_fuerte.setChecked(!alarmaActual.getMuyFuerte());
-		
-		final RadioButton rb_muyFuerte = (RadioButton) findViewById(R.id.rb_muyFuerte);
+		rb_muyFuerte = (RadioButton) findViewById(R.id.rb_muyFuerte);
 		rb_muyFuerte.setChecked(alarmaActual.getMuyFuerte());
-		
 		sp_sonido.setSelection(ListaSonidos.obtenerIdDesdeClave(alarmaActual.getClaveSonido()));
-		
-		Button bt = (Button) findViewById(R.id.botonAceptar);
+		bt = (Button) findViewById(R.id.botonAceptar);
 		
 		bt.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -115,8 +118,8 @@ public class ActAlarmaEditar extends Activity {
 		et_nombreAlarma.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
-				String defecto = getString(R.string.et_nombre);
-				String actual = et_nombreAlarma.getText().toString();
+				defecto = getString(R.string.et_nombre);
+				actual = et_nombreAlarma.getText().toString();
 
 				if (hasFocus && actual.compareTo(defecto) == 0)
 					et_nombreAlarma.setText("");
@@ -129,8 +132,8 @@ public class ActAlarmaEditar extends Activity {
 		et_descAlarma.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
-				String defecto = getString(R.string.et_desc);
-				String actual = et_descAlarma.getText().toString();
+				defecto = getString(R.string.et_desc);
+				actual = et_descAlarma.getText().toString();
 
 				if (hasFocus && actual.compareTo(defecto) == 0)
 					et_descAlarma.setText("");
@@ -149,8 +152,8 @@ public class ActAlarmaEditar extends Activity {
 		et_lugar.setOnFocusChangeListener(new OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
-				String defecto = getString(R.string.et_lugar);
-				String actual = et_lugar.getText().toString();
+				defecto = getString(R.string.et_lugar);
+				actual = et_lugar.getText().toString();
 
 				if (hasFocus && actual.compareTo(defecto) == 0)
 					et_lugar.setText("");
@@ -163,8 +166,8 @@ public class ActAlarmaEditar extends Activity {
 		cb_posicion.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (((CheckBox) v).isChecked()) {
-					String defecto = getString(R.string.et_lugar);
-					String actual = et_lugar.getText().toString();
+					defecto = getString(R.string.et_lugar);
+					actual = et_lugar.getText().toString();
 					if (et_lugar.getText().toString().compareTo("") == 0) {
 						Toast.makeText(getApplicationContext(),
 								"No hay una dirección especificada",
@@ -199,8 +202,6 @@ public class ActAlarmaEditar extends Activity {
 				}
 			}
 		});
-		
-
 
 		sp_sonido.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
@@ -231,9 +232,8 @@ public class ActAlarmaEditar extends Activity {
 						sb.append(address.getAddressLine(i));
 				}
 			} catch (IOException e) {
-				final CheckBox cb = (CheckBox) findViewById(R.id.cb_posicion);
 
-				cb.setChecked(false);
+				cb_posicion.setChecked(false);
 				sb.append("Sin ubicación");
 				Toast.makeText(getApplicationContext(),
 						"Ubicación no disponible", Toast.LENGTH_SHORT).show();
@@ -249,5 +249,4 @@ public class ActAlarmaEditar extends Activity {
 		}
 		return (sb.toString());
 	}
-
 }
