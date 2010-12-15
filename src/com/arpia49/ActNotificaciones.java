@@ -1,12 +1,14 @@
 package com.arpia49;
 
-import android.app.Activity;
+import java.io.File;
+import java.io.FileOutputStream;
 import android.app.ListActivity;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -65,17 +67,50 @@ public class ActNotificaciones extends ListActivity {
 		super.onOptionsItemSelected(item);
 		switch (item.getItemId()) {
 		case (ACT_DEL_NOTIFICACIONES): {
-			Intent outData = new Intent();
-			outData.putExtra("todas", true);
-			setResult(Activity.RESULT_OK, outData);
+			ListaNotificaciones.borrar();
+			Toast.makeText(getApplicationContext(),
+					"¡Notificaciones eliminadas!", Toast.LENGTH_SHORT).show();
 			finish();
 		}
+			break;
 		case (ACT_COPIAR_NOTIFICACIONES): {
-			Intent outData = new Intent();
-			outData.putExtra("usb", true);
-			setResult(Activity.RESULT_OK, outData);
+			try {
+				String nombreArchivo = "/notificaciones";
+				File newfile = new File(Environment
+						.getExternalStorageDirectory()
+						+ nombreArchivo + ".html");
+				int i = 1;
+				while (newfile.exists()) {
+					newfile = new File(Environment
+							.getExternalStorageDirectory()
+							+ nombreArchivo + i + ".html");
+					i++;
+				}
+				newfile.createNewFile();
+				FileOutputStream fileos = null;
+				fileos = new FileOutputStream(newfile);
+				StringBuilder str = new StringBuilder();
+				str
+						.append("<html><head><title>Notificaciones timbre</title></head><body><ul>");
+				for (int j = 0; j < ListaNotificaciones.size(); j++) {
+					Notificacion actual = ListaNotificaciones.elementAt(j);
+					str.append("<li>" + actual.toString() + "</li>");
+				}
+				str.append("</ul></body></html>");
+				fileos.write(str.toString().getBytes());
+				fileos.close();
+				Toast.makeText(getApplicationContext(),
+						"¡Notificaciones copiadas con éxito!",
+						Toast.LENGTH_SHORT).show();
+			} catch (Exception e) {
+				e.printStackTrace();
+				Toast.makeText(getApplicationContext(),
+						"Las notificaciones no se han podido copiar.",
+						Toast.LENGTH_SHORT).show();
+			}
 			finish();
 		}
+			break;
 		}
 		return false;
 	}

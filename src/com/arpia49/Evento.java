@@ -10,20 +10,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
 
-/**
- * @author  arpia49
- */
 public class Evento {
 	private static Context contexto = null;
 	private int claveAlarma;
 	private boolean fuerte;
-	/**
-	 * @uml.property  name="claveSonido"
-	 */
 	private int claveSonido;
-	/**
-	 * @uml.property  name="handler"
-	 */
 	private static Handler handler=null;
     private final int NOTIFICATION_ID = 1;
 
@@ -59,19 +50,11 @@ public class Evento {
 	public boolean getMuyFuerte() {
 		return fuerte;
 	}
-
-	/**
-	 * @return
-	 * @uml.property  name="claveSonido"
-	 */
+	
 	public int getClaveSonido() {
 		return claveSonido;
 	}
 
-	/**
-	 * @return
-	 * @uml.property  name="handler"
-	 */
 	public static Handler getHandler() {
 		return handler;
 	}
@@ -79,8 +62,8 @@ public class Evento {
     @SuppressWarnings("static-access")
 	private void triggerNotification()
     {
-        CharSequence title = "Timbre 2.0";
-        CharSequence message = "Click para ver las notificaciones de alertas";
+        CharSequence title = "Swarn";
+        CharSequence message = "Ver las notificaciones de alertas";
  
         NotificationManager notificationManager = (NotificationManager)contexto.getSystemService(contexto.NOTIFICATION_SERVICE);
         Notification notification = new Notification(R.drawable.icon, "¡Alarma detectada!", System.currentTimeMillis());
