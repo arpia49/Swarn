@@ -361,11 +361,11 @@ public class ActAlarmas extends Activity {
 					}
 				} else {
 					alarmaActual.setMarcada(false);
-					alarmaActual.setActivada(false);
 					if (alarmaActual.conUbicacion()) {
 						removeProximityAlert(alarmaActual);
-					} else {
+					} if(alarmaActual.getActivada()==true) {
 						engine.stop_engine(false, alarmaActual.getClave());
+						alarmaActual.setActivada(false);
 					}
 				}
 			}

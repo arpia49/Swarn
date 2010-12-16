@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -43,6 +44,7 @@ public class ActAlarmaEditar extends Activity {
 	Alarma alarmaActual;
 	EditText et_nombreAlarma;
 	EditText et_descAlarma;
+	RadioGroup rg;
 	RadioButton rb_fuerte;
 	RadioButton rb_muyFuerte;
 	Button bt;
@@ -82,13 +84,20 @@ public class ActAlarmaEditar extends Activity {
 		et_lugar.setText(alarmaActual.getUbicacion());
 		cb_posicion = (CheckBox) findViewById(R.id.cb_posicion);
 		cb_posicion.setChecked(alarmaActual.conUbicacion());
+		rg = (RadioGroup) findViewById(R.id.RadioGroup01);
 		rb_fuerte = (RadioButton) findViewById(R.id.rb_fuerte);
-		rb_fuerte.setChecked(!alarmaActual.getMuyFuerte());
 		rb_muyFuerte = (RadioButton) findViewById(R.id.rb_muyFuerte);
-		rb_muyFuerte.setChecked(alarmaActual.getMuyFuerte());
+		rg.clearCheck();
+		if(alarmaActual.getMuyFuerte()){
+			rb_fuerte.setChecked(false);
+			rb_muyFuerte.setChecked(true);
+		}
+		else{
+			rb_fuerte.setChecked(true);
+			rb_muyFuerte.setChecked(false);
+		}
 		sp_sonido.setSelection(ListaSonidos.obtenerIdDesdeClave(alarmaActual.getClaveSonido()));
 		bt = (Button) findViewById(R.id.botonAceptar);
-		
 		bt.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Intent outData = new Intent();
