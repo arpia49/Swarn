@@ -118,7 +118,7 @@ public class ActNotificaciones extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		if (id > -1) {
-			Alarma actual = ListaAlarmas.obtenerDesdeId(ListaNotificaciones
+			Alarma actual = ListaAlarmas.obtenerDesdeClave(ListaNotificaciones
 					.elementAt((int) id).getClaveAlarma());
 			if (actual.conUbicacion()) {
 				Intent intent = new Intent(this, ActNotificacion.class);
