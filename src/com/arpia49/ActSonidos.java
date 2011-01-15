@@ -144,7 +144,34 @@ public class ActSonidos extends ListActivity {
 		case (ACT_ADD_SONIDO2): {
 			if (resCode == Activity.RESULT_OK) {
 				String tempString = data.getStringExtra("Sonido");
+				Boolean sonidoValido = false;
+				String[] tmp = tempString.split(",");
+				for(int i=0; i<tmp.length; i++){
+					if(!tmp[i].equals("0") && !tmp[i].equals("NaN")){
+						sonidoValido = true;
+						break;
+					}
+				}
 
+				if(!sonidoValido){
+					tempNombre = null;
+					tempDescripcion = null;
+					AlertDialog.Builder noReconocible = new AlertDialog.Builder(this);
+					noReconocible.setMessage(
+									"No se ha podido reconocer el sonido.").setCancelable(
+									false).setPositiveButton("Ok",
+									new DialogInterface.OnClickListener() {
+										public void onClick(DialogInterface dialog,
+												int id) {
+											dialog.cancel();
+										}
+									});
+					AlertDialog alert = noReconocible.create();
+					alert.show();
+					engine.start_engine(null,true);
+					break;
+				}
+				
 				@SuppressWarnings("unused")
 				Sonido nuevoSonido = new Sonido.Builder(tempNombre.toString(),
 						tempDescripcion.toString(), tempString, ListaSonidos
