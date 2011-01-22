@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">SwarnNG</string>
+	<string name="act_new_alarm">Add alarm</string>
+
+	<string name="bt_previous">Previous</string>
+	<string name="bt_next">Next</string>
+	<string name="cb_record_sound">¿Record a new sound?</string>
+	<string name="et_description">Test description</string>
+	<string name="et_name">Test name</string>
+	<string name="tv_description">Descripction</string>
+	<string name="tv_info_step1">This the basic alarm info. Name field is mandatory,
+		 while Description field is otional.</string>
+	<string name="tv_info_step2">Use a recorded sound if you want more reliable alarms</string>
+	<string name="tv_name">Name</string>
+	<string name="tv_step1">Step 1: Basic info</string>
+	<string name="tv_step2">Step 2a: Sounds</string>
+</resources>

@@ -4,13 +4,40 @@
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
 	<TextView android:id="@+id/indicaciones" android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:text="@string/ayuda" />
-	<ScrollView android:id="@+id/sv_main" android:layout_width="fill_parent"
-		android:layout_height="fill_parent">
-		<LinearLayout android:id="@+id/mainLay"
-			xmlns:android="http://schemas.android.com/apk/res/android"
-			android:orientation="vertical" android:layout_width="fill_parent"
-			android:layout_height="fill_parent">
-		</LinearLayout>
-	</ScrollView>
+		android:layout_height="wrap_content" android:text="¿Qué deseas hacer?" />
+				<Button
+				android:id="@+id/bt_1"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="Manejar alarmas"
+				android:enabled="false"  />
+			<Button
+				android:id="@+id/bt_add_alarm"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="Crear alarmas" />
+			<Button
+				android:id="@+id/bt_3"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="Borrar alarmas"
+				android:enabled="false"  />
+			<Button
+				android:id="@+id/bt_4"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="Editar alarmas"
+				android:enabled="false"  />
+			<Button
+				android:id="@+id/bt_5"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="Ver notificaciones"
+				android:enabled="false"  />
+			<Button
+				android:id="@+id/bt_6"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="Apagar y salir"
+				android:enabled="false"  />
 </LinearLayout>

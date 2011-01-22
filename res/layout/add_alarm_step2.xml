@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/rl_main"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<TextView
+		style="@style/clasic.title"
+		android:id="@+id/tv_step2"
+		android:text="@string/tv_step2" />
+	<ImageView
+		style="@style/clasic"
+		android:id="@+id/iv_1"
+		android:src="@drawable/borde"
+		android:scaleType="fitXY"
+		android:layout_below="@id/tv_step2" />
+	<TextView
+		style="@style/clasic.info_text"
+		android:id="@+id/tv_info_step2"
+		android:text="@string/tv_info_step2"
+		android:layout_below="@id/iv_1"
+		android:gravity="center_vertical|center_horizontal" />
+	<ImageView
+		style="@style/clasic"
+		android:id="@+id/iv_2"
+		android:src="@drawable/borde"
+		android:scaleType="fitXY"
+		android:layout_below="@id/tv_info_step2" />
+	<CheckBox
+		style="@style/clasic.text"
+		android:id="@+id/cb_record_sound"
+		android:text="@string/cb_record_sound"
+		android:layout_below="@id/iv_2"
+		android:textSize="16sp" />
+	<TableLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:stretchColumns="0,1">
+		<TableRow
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+			<Button
+				android:id="@+id/bt_previous"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/bt_previous" />
+			<Button
+				android:id="@+id/bt_next"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/bt_next"
+				android:enabled="false" />
+		</TableRow>
+	</TableLayout>
+</RelativeLayout>

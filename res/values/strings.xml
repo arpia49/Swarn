@@ -1,52 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">Swarn</string>
-	<string name="menu_add_alarma">Añadir alarma</string>
-	<string name="menu_del_alarma">Borrar alarmas</string>
-	<string name="menu_add_sonido">Añadir sonido</string>
-	<string name="menu_add_sonido1">Añadir sonido (paso 1 de 2)</string>
-	<string name="menu_add_sonido2">Añadir sonido (paso 2 de 2)</string>
-	<string name="menu_del_sonidos">Borrar todos los sonidos</string>
-	<string name="menu_edit_alarma">Editar alarma</string>
-	<string name="menu_del_todas_alarmas">Borrar todas alarmas</string>
-	<string name="menu_del_notificaciones">Borrar notificaciones</string>
-	<string name="menu_copiar_notificaciones">Copiar notificaciones a la SD</string>
-	<string name="menu_lista_notificaciones">Lista de notificaciones</string>
-	<string name="menu_detalle_notificacion">Detalles de la notificación</string>
-	<string name="menu_config">Configuración</string>
-	<string name="menu_sonidos">Sonidos</string>
-	<string name="menu_info">Mostrar ayuda</string>
-	<string name="aceptar">Aceptar</string>
-	<string name="cancelar">Cancelar</string>
-	<string name="bt_sonidos">Configurar sonidos</string>
-	<string name="bt_restaurar">Restaurar valores iniciales</string>
-	<string name="bt_siguiente">Siguiente</string>
-	<string name="bt_procesar_ruido">Procesar Ruido de Fondo</string>
-	<string name="bt_procesar_sonido">Procesar Sonido</string>
-	<string name="tv_nombre">Nombre:</string>
-	<string name="et_nombre">Sin nombre</string>
-	<string name="et_desc">Sin descripción</string>
-	<string name="et_lugar">Sin ubicación</string>
-	<string name="tv_desc">Descripción:</string>
-	<string name="sp_sonido">Elige un sonido</string>
-	<string name="tv_addSonido">Añadir sonido</string>
-	<string name="tv_sonidoPrueba">Sonido de prueba</string>
-	<string name="tv_lugar">Ubicación:</string>
-	<string name="tv_radio">Radio de la alarma en metros:</string>
-	<string name="tv_procesar_timbre">El paso 2 consiste en analizar el sonido, 
-	haz clic en el botón \"Procesar Sonido\" y acto seguido haz
-		que suene el sonido que quieras detectar.\nEste proceso tardará unos segundos.</string>
-	<string name="desc_locale">¿Utilizar ubicación?</string>
-	<string name="desc_sonora">Opciones de la notificación</string>
-	<string name="sp_radio">Radio para la alarma en metros</string>
-	<string name="tv_tipo">¿Tipo de sonido?</string>
-	<string name="tv_tipo1">Bajo</string>
-	<string name="tv_tipo2">Alto</string>
-	<string name="tv_fuerte">Valor del umbral "Bajo":</string>
-	<string name="tv_muyFuerte">Valor del umbral "Alto":</string>
-	<string name="ayuda">Haz clic en Menú para ver las opciones.</string>
-	<string name="ayudaNotificacion">Haz clic en la lista para ver el lugar de la alarma o en Menú para ver las opciones.</string>
-	<string name="ayudaSonidos">Haz clic en el sonido para borrarlo o en Menú para ver las opciones.</string>
-	<string name="ayudaLista">Haz clic en la lista para borrar o en Menú para ver las opciones.</string>
-	<string name="ayudaEditar">Haz clic en la lista para editar.</string>
+	<string name="app_name">SwarnNG</string>
+	<string name="act_new_alarm">Añadir alarma</string>
+	
+
+	<string name="bt_previous">Anterior</string>
+	<string name="bt_next">Siguiente</string>
+	<string name="cb_record_sound">¿Grabar un sonido?</string>
+	<string name="et_description">Sin descripción</string>
+	<string name="et_name">Nombre de ejemplo</string>
+	<string name="tv_description">Descripción</string>
+	<string name="tv_info_step1">Esta es la información básica de la alarma. El
+		campo Nombre es obligatorio mientras que el campo Descripción es
+		opcional.</string>
+	<string name="tv_info_step2">Utilizar un sonido grabado te permite preparar
+		alarmas más fiables</string>
+	<string name="tv_name">Nombre</string>
+	<string name="tv_step1">Paso 1: Información básica</string>
+	<string name="tv_step2">Paso 2a: Sonidos</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.arpia49.utilidades;
+package com.arpia49.SwarnNG.utilidades;
 /**
   * Construct a 1-D complex data sequence.
 */

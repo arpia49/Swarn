@@ -1,97 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.arpia49" android:versionName="0.2.13" android:versionCode="19">
+	package="com.arpia49.SwarnNG"
+	android:versionName="0.3.pre"
+	android:versionCode="20">
 	<application android:icon="@drawable/icon" android:label="@string/app_name">
-		<activity android:name=".ActAlarmas" android:label="@string/app_name"
+		<activity android:name=".ActMain"
+			android:label="@string/app_name"
 			android:configChanges="orientation|keyboardHidden">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".ActAlarmaCrear" android:label="@string/menu_add_alarma"
-			android:configChanges="orientation|keyboardHidden">
+		<activity 
+			android:name=".ActNewAlarm1"
+			android:label="@string/act_new_alarm"
+			android:configChanges="orientation|keyboardHidden"
+			android:theme="@style/vista">
 			<intent-filter>
-				<action android:name="android.intent.action.ADD_ALARMA" />
-				<category android:name="android.intent.category.ALARMAS" />
+				<action android:name="android.intent.action.ADD_NEW_ALARM" />
+				<category android:name="android.intent.category.ALARMS" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".ActAlarmaEditar" android:label="@string/menu_edit_alarma"
-			android:configChanges="orientation|keyboardHidden">
-			<intent-filter>
-				<action android:name="android.intent.action.EDITAR_ALARMA" />
-				<category android:name="android.intent.category.ALARMAS" />
-			</intent-filter>
+		<activity
+			android:name=".ActNewAlarm2"
+			android:label="@string/act_new_alarm"
+			android:configChanges="orientation|keyboardHidden"
+			android:theme="@style/vista">
 		</activity>
-		<activity android:name=".ActAlarmasBorrar" android:label="@string/menu_del_alarma"
-			android:configChanges="orientation|keyboardHidden">
-			<intent-filter>
-				<action android:name="android.intent.action.LISTAR_ALARMAS_BORRAR" />
-				<category android:name="android.intent.category.ALARMAS" />
-			</intent-filter>
-		</activity>
-		<activity android:name=".ActAlarmasEditar" android:label="@string/menu_edit_alarma"
-			android:configChanges="orientation|keyboardHidden">
-			<intent-filter>
-				<action android:name="android.intent.action.LISTAR_ALARMAS_EDITAR" />
-				<category android:name="android.intent.category.ALARMAS" />
-			</intent-filter>
-		</activity>
-		<activity android:name=".ActNotificaciones" android:label="@string/menu_lista_notificaciones"
-			android:configChanges="orientation|keyboardHidden">
-			<intent-filter>
-				<action android:name="android.intent.action.LISTAR_ALERTAS" />
-				<category android:name="android.intent.category.ALERTAS" />
-			</intent-filter>
-		</activity>
-		<activity android:name=".ActNotificacion" android:label="@string/menu_detalle_notificacion"
-			android:configChanges="orientation|keyboardHidden">
-			<intent-filter>
-				<action android:name="android.intent.action.DETALLE_ALERTA" />
-				<category android:name="android.intent.category.ALERTAS" />
-			</intent-filter>
-		</activity>
-		<activity android:name=".ActConfiguracion" android:label="@string/menu_config"
-			android:configChanges="orientation|keyboardHidden">
-			<intent-filter>
-				<action android:name="android.intent.action.CONFIGURACION" />
-				<category android:name="android.intent.category.CONFIGURACION" />
-			</intent-filter>
-		</activity>
-		<activity android:name=".ActSonidos" android:label="@string/menu_sonidos"
-			android:configChanges="orientation|keyboardHidden">
-			<intent-filter>
-				<action android:name="android.intent.action.SONIDOS" />
-				<category android:name="android.intent.category.SONIDO" />
-			</intent-filter>
-		</activity>
-		<activity android:name=".ActSonidosCrear" android:label="@string/menu_add_sonido1"
-			android:configChanges="orientation|keyboardHidden">
-			<intent-filter>
-				<action android:name="android.intent.action.ADD_SONIDO1" />
-				<category android:name="android.intent.category.SONIDO" />
-			</intent-filter>
-		</activity>
-<!--		<activity android:name=".ActSonidosRuido" android:label="@string/menu_add_sonido2"-->
-<!--			android:configChanges="orientation|keyboardHidden">-->
-<!--			<intent-filter>-->
-<!--				<action android:name="android.intent.action.ADD_SONIDO2" />-->
-<!--				<category android:name="android.intent.category.SONIDO" />-->
-<!--			</intent-filter>-->
-<!--		</activity>-->
-		<activity android:name=".ActSonidosTimbre" android:label="@string/menu_add_sonido2"
-			android:configChanges="orientation|keyboardHidden">
-			<intent-filter>
-				<action android:name="android.intent.action.ADD_SONIDO2" />
-				<category android:name="android.intent.category.SONIDO" />
-			</intent-filter>
-		</activity>
-		<uses-library android:name="com.google.android.maps" />
 	</application>
 	<uses-sdk android:minSdkVersion="3" />
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.RECORD_AUDIO" />
-	<uses-permission android:name="android.permission.VIBRATE" />
-	<uses-permission android:name="android.permission.FLASHLIGHT" />
 </manifest> 
